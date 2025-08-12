@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>motionsystem</title>
+        <base href="http://127.0.0.1:80/rw/motionsystem/mechunits/ROB_1/jointtarget/" />
+    </head>
+    <body>
+        <div class="state">
+            <a href="" rel="self" />
+            <ul>
+                <li class="ms-jointtarget" title="ROB_1">
+                    <span class="rax_1">5.22380781173706</span>
+                    <span class="rax_2">-1.79075312614441</span>
+                    <span class="rax_3">-19.8782291412354</span>
+                    <span class="rax_4">1.49119699001312</span>
+                    <span class="rax_5">-14.0570201873779</span>
+                    <span class="rax_6">100.226997375488</span>
+                    <span class="eax_a">0</span>
+                    <span class="eax_b">0</span>
+                    <span class="eax_c">0</span>
+                    <span class="eax_d">0</span>
+                    <span class="eax_e">0</span>
+                    <span class="eax_f">0</span>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
