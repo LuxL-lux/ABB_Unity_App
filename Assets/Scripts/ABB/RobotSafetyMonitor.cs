@@ -9,6 +9,7 @@ using Preliy.Flange;
 
 [AddComponentMenu("ABB/Robot Safety Monitor")]
 [RequireComponent(typeof(Controller))]
+[ExecuteInEditMode]
 public class RobotSafetyMonitor : MonoBehaviour
 {
     [Header("Monitoring Settings")]
@@ -29,6 +30,12 @@ public class RobotSafetyMonitor : MonoBehaviour
     [SerializeField] private float wristSingularityThreshold = 0.98f; // cos(~11°) - stricter for wrist
     [SerializeField] private float shoulderSingularityThreshold = 0.93f; // cos(~22°) - more lenient for shoulder
     
+    [Header("Position Display Options")]
+    [SerializeField] private bool showQuaternionFormat = true;
+    [SerializeField] private bool showJointFormat = true;
+    [SerializeField] private bool logPositionUpdates = false;
+    [SerializeField] private float positionUpdateInterval = 1.0f; // Update every second
+    
     [Header("Status (Read Only)")]
     [SerializeField, ReadOnly] private JointStatus[] jointStatuses = new JointStatus[6];
     [SerializeField, ReadOnly] private bool[] jointWarnings = new bool[6];
@@ -38,6 +45,10 @@ public class RobotSafetyMonitor : MonoBehaviour
     [SerializeField, ReadOnly] private Vector3 currentTCPPosition = Vector3.zero;
     [SerializeField, ReadOnly] private string singularityType = "None"; // Current singularity type
     [SerializeField, ReadOnly] private float[] axisAlignments = new float[0]; // Debug info for axis alignments
+    
+    [Header("RAPID Position Formats")]
+    [SerializeField, ReadOnly] private string currentRobTarget = "";
+    [SerializeField, ReadOnly] private string currentJoinTarget = "";
     
     private Controller flangeController;
     private ABBSafetyLogger safetyLogger;
@@ -49,6 +60,7 @@ public class RobotSafetyMonitor : MonoBehaviour
     private float[] previousJointPositions;
     private float lastSpeedSample = 0f;
     private float lastSingularityCheck = 0f;
+    private float lastPositionUpdate = 0f;
     
     [System.Serializable]
     public class JointStatus
@@ -137,6 +149,16 @@ public class RobotSafetyMonitor : MonoBehaviour
     private void Update()
     {
         if (robot == null) return;
+        
+        // Always update position formats when enabled (works in edit mode too)
+        if ((showQuaternionFormat || showJointFormat) && Time.time - lastPositionUpdate >= positionUpdateInterval)
+        {
+            UpdatePositionFormats();
+            lastPositionUpdate = Time.time;
+        }
+        
+        // Only run monitoring in play mode
+        if (!Application.isPlaying) return;
         
         // Monitor joint limits and positions
         if (monitorJointLimits)
@@ -443,6 +465,144 @@ public class RobotSafetyMonitor : MonoBehaviour
         }
 
         return (minManipulability, detectedType);
+    }
+    
+    private void UpdatePositionFormats()
+    {
+        if (robot?.Joints == null) return;
+        
+        // Get current joint positions directly from robot joints (works in edit mode)
+        float[] jointAngles = new float[6];
+        for (int i = 0; i < Mathf.Min(6, robot.Joints.Count); i++)
+        {
+            jointAngles[i] = robot.Joints[i].Position.Value;
+        }
+        
+        // Get current TCP position and rotation from robot transform
+        Vector3 tcpPos = robot.transform.position;
+        Quaternion tcpRot = robot.transform.rotation;
+        
+        // Try to get TCP from flange/end effector if available
+        var tcp = robot.transform.Find("TCP");
+        if (tcp != null)
+        {
+            tcpPos = tcp.position;
+            tcpRot = tcp.rotation;
+        }
+        else
+        {
+            // Try to get from last joint transform
+            if (robot.Joints.Count > 0)
+            {
+                var lastJoint = robot.Joints[robot.Joints.Count - 1];
+                if (lastJoint?.transform != null)
+                {
+                    tcpPos = lastJoint.transform.position;
+                    tcpRot = lastJoint.transform.rotation;
+                }
+            }
+        }
+        
+        // In play mode, try to get more accurate position from ABB controller data
+        if (Application.isPlaying)
+        {
+            var abbData = GetRobTargetFromController();
+            if (abbData.hasData)
+            {
+                tcpPos = abbData.position;
+                tcpRot = abbData.rotation;
+            }
+        }
+        
+        // Update current TCP position for display
+        currentTCPPosition = tcpPos;
+        
+        // Update JOINTTARGET format
+        if (showJointFormat)
+        {
+            currentJoinTarget = FormatJoinTarget(jointAngles);
+        }
+        
+        // Update ROBTARGET format  
+        if (showQuaternionFormat)
+        {
+            currentRobTarget = FormatRobTarget(tcpPos, tcpRot);
+        }
+        
+        // Log position updates if enabled (only in play mode)
+        if (Application.isPlaying && logPositionUpdates && safetyLogger != null)
+        {
+            string details = "";
+            if (showJointFormat) details += $"JOINTTARGET: {currentJoinTarget}\n";
+            if (showQuaternionFormat) details += $"ROBTARGET: {currentRobTarget}";
+            
+            safetyLogger.LogInfo(ABBSafetyLogger.LogCategory.Position, 
+                "Robot Position Update", 
+                details.TrimEnd());
+        }
+    }
+    
+    private (bool hasData, Vector3 position, Quaternion rotation) GetRobTargetFromController()
+    {
+        // Try to get position data from Controller.cs ABB_Stream_Data
+        try
+        {
+            // Use fully qualified name to access global class
+            var abbStreamDataType = System.Type.GetType("ABB_Stream_Data");
+            if (abbStreamDataType != null)
+            {
+                var positionField = abbStreamDataType.GetField("C_Position", 
+                    System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                var orientationField = abbStreamDataType.GetField("C_Orientation", 
+                    System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                
+                if (positionField != null && orientationField != null)
+                {
+                    double[] pos = (double[])positionField.GetValue(null);
+                    double[] orient = (double[])orientationField.GetValue(null);
+                    
+                    if (pos != null && pos.Length >= 3 && orient != null && orient.Length >= 4)
+                    {
+                        // Convert from ABB coordinate system (mm) to Unity (m)
+                        Vector3 position = new Vector3((float)pos[0] / 1000f, (float)pos[2] / 1000f, (float)pos[1] / 1000f);
+                        Quaternion rotation = new Quaternion((float)orient[0], (float)orient[1], (float)orient[2], (float)orient[3]);
+                        
+                        return (true, position, rotation);
+                    }
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[Robot Safety Monitor] Could not access ABB_Stream_Data: {e.Message}");
+        }
+        
+        return (false, Vector3.zero, Quaternion.identity);
+    }
+    
+    private string FormatJoinTarget(float[] jointAngles)
+    {
+        if (jointAngles == null || jointAngles.Length < 6) return "JOINTTARGET: Invalid joint data";
+        
+        // RAPID JOINTTARGET format: [[j1,j2,j3,j4,j5,j6],[external_axis]]
+        // Use InvariantCulture to ensure periods for decimal separators
+        return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+            "[[{0:F2},{1:F2},{2:F2},{3:F2},{4:F2},{5:F2}],[9E9,9E9,9E9,9E9,9E9,9E9]]",
+            jointAngles[0], jointAngles[1], jointAngles[2], jointAngles[3], jointAngles[4], jointAngles[5]);
+    }
+    
+    private string FormatRobTarget(Vector3 position, Quaternion rotation)
+    {
+        // Convert to ABB coordinate system (Unity Y->Z, Z->Y) and mm
+        float x = position.x * 1000f;
+        float y = position.z * 1000f;  
+        float z = position.y * 1000f;
+        
+        // RAPID ROBTARGET format: [[x,y,z],[q1,q2,q3,q4],[confdata],[external_axis]]
+        // Use InvariantCulture to ensure periods for decimal separators
+        return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+            "[[{0:F2},{1:F2},{2:F2}],[{3:F6},{4:F6},{5:F6},{6:F6}],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]]",
+            x, y, z, rotation.x, rotation.y, rotation.z, rotation.w);
     }
 
     

@@ -1,0 +1,300 @@
+MODULE GripperTest
+    !***************************************************
+    ! STEP 2: GRIPPER CONTROL TEST - USING JOINTTARGETS
+    ! Test gripper open/close functionality with joint positions
+    !***************************************************
+    
+    !=====================================
+    ! I/O SIGNALS - MODIFY THESE FOR YOUR GRIPPER
+    !=====================================
+    ! Replace DO_01 and DO_02 with your actual gripper signal names
+    ! Example: DO_Gripper_Open, DO_Gripper_Close, etc.
+    
+    ! Find your signals in: Controller → Configuration → I/O System → Signal List
+    
+    !=====================================
+    ! JOINT POSITIONS - TEACH THESE WITH YOUR ROBOT
+    !=====================================
+    ! Format: [[j1, j2, j3, j4, j5, j6], [external_axes]]
+    ! All joint angles in DEGREES
+    
+    ! Home position - safe starting position
+    CONST jointtarget jt_home := [[-165, 0, 0, 0, 90, 0], [9E9, 9E9, 9E9, 9E9, 9E9, 9E9]];
+    
+    ! Test position 1 - above shelf 1 area (pickup)
+    CONST jointtarget jt_shelf1_approach := [[96.896, -10.322, 45.949,  13.099, -36.126, -10.611], [9E9, 9E9, 9E9, 9E9, 9E9, 9E9]];
+    CONST jointtarget jt_shelf1_pick := [[95.306, 5.667, 30.647, 10.27, -36.543,-8.25], [9E9, 9E9, 9E9, 9E9, 9E9, 9E9]];
+    
+    ! Test position 2 - machine area
+    CONST jointtarget jt_machine_approach := [[-50.242, 34.087, 0.276, -59.425, -53.364, 45.077], [9E9, 9E9, 9E9, 9E9, 9E9, 9E9]];
+    CONST jointtarget jt_machine_place := [[-41.76, 51.651, -21.655, -57.534, -47.092, 46.728], [9E9, 9E9, 9E9, 9E9, 9E9, 9E9]];
+    
+    ! Test position 3 - shelf 2 area (dropoff)
+    CONST jointtarget jt_shelf2_approach := [[-113.413,12.89,39.854,26.437, -55.731, -15.638], [9E9, 9E9, 9E9, 9E9, 9E9, 9E9]];
+    CONST jointtarget jt_shelf2_place := [[-117.169, 24.07,24.245,23.312, -50.724, -15.259], [9E9, 9E9, 9E9, 9E9, 9E9, 9E9]];
+    
+    !=====================================
+    ! SPEED SETTINGS
+    !=====================================
+    CONST speeddata v_fast := v1000;     ! Fast joint movements
+    CONST speeddata v_medium := v500;    ! Medium speed
+    CONST speeddata v_slow := v200;      ! Slow precise movements
+    
+    CONST zonedata z_smooth := z50;      ! Smooth movements
+    CONST zonedata z_precise := fine;    ! Precise stops
+    
+    !=====================================
+    ! TIMING CONSTANTS
+    !=====================================
+    CONST num grip_time := 1.0;         ! Time for gripper operation
+    CONST num observe_time := 1.5;      ! Time to observe movement
+    
+    !=====================================
+    ! MAIN TEST PROGRAM
+    !=====================================
+    PROC main()
+        TPWrite "Starting gripper test with joint targets";
+        
+        ! Initialize - move to home position
+        initialize_robot;
+        
+        ! Test basic gripper functions
+        test_gripper_basic;
+        
+        ! Test complete pick and place sequence
+        test_full_pick_place_sequence;
+        
+        ! Return home
+        TPWrite "Test complete - returning to home";
+        MoveAbsJ jt_home, v_medium, z_smooth, tool0;
+        
+        TPWrite "All tests completed successfully!";
+    ENDPROC
+    
+    !=====================================
+    ! ROBOT INITIALIZATION
+    !=====================================
+    PROC initialize_robot()
+        TPWrite "Initializing robot to home position";
+        
+        ! Move to home position
+        MoveAbsJ jt_home, v_medium, z_smooth, tool0;
+        
+        ! Initialize gripper (open)
+        open_gripper;
+        WaitTime grip_time;
+        
+        TPWrite "Robot initialized and ready";
+    ENDPROC
+    
+    !=====================================
+    ! BASIC GRIPPER TEST
+    !=====================================
+    PROC test_gripper_basic()
+        TPWrite "=== TESTING BASIC GRIPPER FUNCTIONS ===";
+        
+        ! Test open gripper
+        TPWrite "Testing gripper OPEN";
+        open_gripper;
+        WaitTime observe_time;
+        
+        ! Test close gripper
+        TPWrite "Testing gripper CLOSE";
+        close_gripper;
+        WaitTime observe_time;
+        
+        ! Test multiple cycles
+        TPWrite "Testing 3 open/close cycles";
+        FOR i FROM 1 TO 3 DO
+            TPWrite "Cycle " + NumToStr(i, 0) + "/3";
+            open_gripper;
+            WaitTime grip_time;
+            close_gripper;
+            WaitTime grip_time;
+        ENDFOR
+        
+        ! Leave gripper open for pick test
+        open_gripper;
+        TPWrite "Basic gripper test completed";
+    ENDPROC
+    
+    !=====================================
+    ! FULL PICK AND PLACE SEQUENCE TEST
+    !=====================================
+    PROC test_full_pick_place_sequence()
+        TPWrite "=== TESTING FULL PICK AND PLACE SEQUENCE ===";
+        
+        ! Step 1: Pick from shelf 1
+        pick_from_shelf1;
+        
+        ! Step 2: Place in machine
+        place_in_machine;
+        
+        ! Step 3: Simulate machine cycle
+        simulate_machine_cycle;
+        
+        ! Step 4: Pick from machine
+        pick_from_machine;
+        
+        ! Step 5: Place on shelf 2
+        place_on_shelf2;
+        
+        TPWrite "Full pick and place sequence completed";
+    ENDPROC
+    
+    !=====================================
+    ! PICK FROM SHELF 1
+    !=====================================
+    PROC pick_from_shelf1()
+        TPWrite "--- PICKING FROM SHELF 1 ---";
+        
+        ! Move to approach position
+        TPWrite "Moving to shelf 1 approach position";
+        MoveAbsJ jt_shelf1_approach, v_fast, z_smooth, tool0;
+        
+        ! Open gripper
+        TPWrite "Opening gripper";
+        open_gripper;
+        WaitTime grip_time;
+        
+        ! Move to pick position
+        TPWrite "Moving to pick position";
+        MoveAbsJ jt_shelf1_pick, v_slow, z_precise, tool0;
+        
+        ! Close gripper on part
+        TPWrite "Closing gripper on part";
+        close_gripper;
+        WaitTime grip_time;
+        
+        ! Retract to approach position
+        TPWrite "Retracting with part";
+        MoveAbsJ jt_shelf1_approach, v_slow, z_smooth, tool0;
+        
+        TPWrite "Part picked from shelf 1";
+    ENDPROC
+    
+    !=====================================
+    ! PLACE IN MACHINE
+    !=====================================
+    PROC place_in_machine()
+        TPWrite "--- PLACING IN MACHINE ---";
+        
+        ! Move to machine approach
+        TPWrite "Moving to machine approach";
+        MoveAbsJ jt_machine_approach, v_fast, z_smooth, tool0;
+        
+        ! Move to place position
+        TPWrite "Moving to place position";
+        MoveAbsJ jt_machine_place, v_slow, z_precise, tool0;
+        
+        ! Open gripper to release part
+        TPWrite "Releasing part in machine";
+        open_gripper;
+        WaitTime grip_time;
+        
+        ! Retract from machine
+        TPWrite "Retracting from machine";
+        MoveAbsJ jt_machine_approach, v_slow, z_smooth, tool0;
+        
+        TPWrite "Part placed in machine";
+    ENDPROC
+    
+    !=====================================
+    ! SIMULATE MACHINE CYCLE
+    !=====================================
+    PROC simulate_machine_cycle()
+        TPWrite "--- MACHINE PROCESSING PART ---";
+        
+        ! Move to safe waiting position (home)
+        TPWrite "Moving to safe position during machine cycle";
+        MoveAbsJ jt_home, v_medium, z_smooth, tool0;
+        
+        ! Simulate machine processing time
+        TPWrite "Waiting for machine cycle (5 seconds)";
+        FOR i FROM 5 TO 1 STEP -1 DO
+            TPWrite "Machine processing... " + NumToStr(i, 0) + " seconds remaining";
+            WaitTime 1.0;
+        ENDFOR
+        
+        TPWrite "Machine cycle completed";
+    ENDPROC
+    
+    !=====================================
+    ! PICK FROM MACHINE
+    !=====================================
+    PROC pick_from_machine()
+        TPWrite "--- PICKING PROCESSED PART FROM MACHINE ---";
+        
+        ! Move to machine approach
+        TPWrite "Moving to machine approach";
+        MoveAbsJ jt_machine_approach, v_fast, z_smooth, tool0;
+        
+        ! Open gripper
+        TPWrite "Opening gripper";
+        open_gripper;
+        WaitTime grip_time;
+        
+        ! Move to pick position
+        TPWrite "Moving to pick processed part";
+        MoveAbsJ jt_machine_place, v_slow, z_precise, tool0;
+        
+        ! Close gripper on processed part
+        TPWrite "Gripping processed part";
+        close_gripper;
+        WaitTime grip_time;
+        
+        ! Retract from machine
+        TPWrite "Retracting with processed part";
+        MoveAbsJ jt_machine_approach, v_slow, z_smooth, tool0;
+        
+        TPWrite "Processed part retrieved from machine";
+    ENDPROC
+    
+    !=====================================
+    ! PLACE ON SHELF 2
+    !=====================================
+    PROC place_on_shelf2()
+        TPWrite "--- PLACING ON SHELF 2 ---";
+        
+        ! Move to shelf 2 approach
+        TPWrite "Moving to shelf 2 approach";
+        MoveAbsJ jt_shelf2_approach, v_fast, z_smooth, tool0;
+        
+        ! Move to place position
+        TPWrite "Moving to place position";
+        MoveAbsJ jt_shelf2_place, v_slow, z_precise, tool0;
+        
+        ! Open gripper to place part
+        TPWrite "Placing part on shelf 2";
+        open_gripper;
+        WaitTime grip_time;
+        
+        ! Retract from shelf
+        TPWrite "Retracting from shelf 2";
+        MoveAbsJ jt_shelf2_approach, v_slow, z_smooth, tool0;
+        
+        TPWrite "Part placed on shelf 2";
+    ENDPROC
+    
+    !=====================================
+    ! GRIPPER CONTROL FUNCTIONS
+    !=====================================
+    PROC open_gripper()
+        ! CHANGE DO_01 and DO_02 to your actual signal names!
+        SetDO DO_GripperOpen, 1;  ! Gripper open signal
+        SetDO DO_GripperClose, 0;  ! Gripper close signal
+        
+        ! Optional: Add status message
+        ! TPWrite "Gripper opened";
+    ENDPROC
+    
+    PROC close_gripper()
+        ! CHANGE DO_01 and DO_02 to your actual signal names!
+        SetDO DO_GripperOpen, 0;  ! Gripper open signal
+        SetDO DO_GripperClose, 1;  ! Gripper close signal
+        
+        ! Optional: Add status message
+        ! TPWrite "Gripper closed";
+    ENDPROC
+    
+ENDMODULE

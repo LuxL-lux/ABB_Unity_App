@@ -36,6 +36,11 @@ public class ABBRobotWebServicesController : MonoBehaviour
     [SerializeField] private bool showPerformanceMetrics = true;
     [SerializeField] private bool logJointUpdates = false;
     
+    [Header("I/O Signal Monitoring")]
+    [SerializeField] private bool monitorIOSignals = true;
+    [SerializeField] private float ioPollingInterval = 0.5f;
+    [SerializeField] private List<IOSignalDefinition> ioSignalsToMonitor = new List<IOSignalDefinition>();
+    
     [Header("Status (Read Only)")]
     [SerializeField, ReadOnly] private ConnectionStatus connectionStatus = ConnectionStatus.Disconnected;
     [SerializeField, ReadOnly] private bool isUsingWebSocket = false;
@@ -74,6 +79,10 @@ public class ABBRobotWebServicesController : MonoBehaviour
     // RAPID program status monitoring
     private DateTime lastRapidStatusUpdate = DateTime.MinValue;
     private readonly TimeSpan rapidStatusUpdateInterval = TimeSpan.FromSeconds(2); // Update every 2 seconds
+    
+    // I/O signal monitoring
+    private DateTime lastIOPoll = DateTime.MinValue;
+    private readonly Dictionary<string, bool> ioSignalStates = new Dictionary<string, bool>();
     
     // Joint limit monitoring
     private readonly float[] jointLimitWarningThreshold = { 95f, 95f, 95f, 95f, 95f, 95f }; // 95% of max range
@@ -122,6 +131,8 @@ public class ABBRobotWebServicesController : MonoBehaviour
     public event Action<string> OnError;
     public event Action<string> OnRapidStatusChanged;
     public event Action<int, bool> OnJointLimitWarning; // jointIndex, isWarning
+    public event Action<string, bool> OnGripperSignalReceived; // signalName, signalState
+    public event Action<string, bool> OnIOSignalChanged; // signalName, newState
     
     private void Awake()
     {
@@ -160,6 +171,13 @@ public class ABBRobotWebServicesController : MonoBehaviour
         {
             _ = UpdateRapidProgramStatusAsync();
             lastRapidStatusUpdate = DateTime.Now;
+        }
+        
+        // Poll I/O signals periodically
+        if (IsConnected && monitorIOSignals && DateTime.Now - lastIOPoll > TimeSpan.FromSeconds(ioPollingInterval))
+        {
+            _ = PollIOSignalsAsync();
+            lastIOPoll = DateTime.Now;
         }
     }
     
@@ -655,6 +673,158 @@ public class ABBRobotWebServicesController : MonoBehaviour
     internal int PollingIntervalMs => pollingIntervalMs;
     internal bool UseWebSocket => useWebSocketWhenAvailable;
     internal bool ShowPerformanceMetrics => showPerformanceMetrics;
+    
+    [Serializable]
+    public class IOSignalDefinition
+    {
+        [SerializeField] public string signalName = "";
+        [SerializeField] public string ioNetwork = "Local";
+        [SerializeField] public string ioDevice = "DRV_1";
+        [SerializeField] public IOSignalType signalType = IOSignalType.DigitalOutput;
+        [SerializeField] public bool isGripperSignal = false;
+        [SerializeField] public string description = "";
+    }
+    
+    public enum IOSignalType
+    {
+        DigitalInput,
+        DigitalOutput,
+        AnalogInput,
+        AnalogOutput
+    }
+    
+    private async Task PollIOSignalsAsync()
+    {
+        if (ioSignalsToMonitor.Count == 0) return;
+        
+        try
+        {
+            using (var client = CreateHttpClient())
+            {
+                foreach (var signalDef in ioSignalsToMonitor)
+                {
+                    if (string.IsNullOrEmpty(signalDef.signalName)) continue;
+                    
+                    string url = $"http://{ipAddress}:{port}/rw/iosystem/signals/{signalDef.ioNetwork}/{signalDef.ioDevice}/{signalDef.signalName}";
+                    
+                    var response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string content = await response.Content.ReadAsStringAsync();
+                        bool currentState = ParseIOSignalState(content, signalDef.signalType);
+                        
+                        // Check if state changed
+                        bool stateChanged = false;
+                        if (ioSignalStates.ContainsKey(signalDef.signalName))
+                        {
+                            stateChanged = ioSignalStates[signalDef.signalName] != currentState;
+                        }
+                        else
+                        {
+                            stateChanged = true; // First time reading this signal
+                        }
+                        
+                        ioSignalStates[signalDef.signalName] = currentState;
+                        
+                        if (stateChanged)
+                        {
+                            if (enableDebugLogging)
+                            {
+                                LogInfo($"I/O Signal changed: {signalDef.signalName} = {currentState}");
+                            }
+                            
+                            if (safetyLogger != null)
+                            {
+                                safetyLogger.LogInfo(ABBSafetyLogger.LogCategory.RWS,
+                                    "I/O Signal State Change",
+                                    $"Signal: {signalDef.signalName}, State: {currentState}, Type: {signalDef.signalType}");
+                            }
+                            
+                            OnIOSignalChanged?.Invoke(signalDef.signalName, currentState);
+                            
+                            if (signalDef.isGripperSignal)
+                            {
+                                OnGripperSignalReceived?.Invoke(signalDef.signalName, currentState);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (enableDebugLogging)
+                        {
+                            LogWarning($"Failed to read I/O signal {signalDef.signalName}: {response.StatusCode}");
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            if (enableDebugLogging)
+            {
+                LogError($"I/O polling failed: {e.Message}");
+            }
+        }
+    }
+    
+    private bool ParseIOSignalState(string xmlResponse, IOSignalType signalType)
+    {
+        try
+        {
+            if (signalType == IOSignalType.DigitalInput || signalType == IOSignalType.DigitalOutput)
+            {
+                string searchPattern = "<lvalue>";
+                int startIndex = xmlResponse.IndexOf(searchPattern);
+                if (startIndex >= 0)
+                {
+                    startIndex += searchPattern.Length;
+                    int endIndex = xmlResponse.IndexOf("</lvalue>", startIndex);
+                    if (endIndex > startIndex)
+                    {
+                        string value = xmlResponse.Substring(startIndex, endIndex - startIndex).Trim();
+                        return value == "1" || value.ToLower() == "true";
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            if (enableDebugLogging)
+            {
+                LogWarning($"Failed to parse I/O signal state: {e.Message}");
+            }
+        }
+        
+        return false;
+    }
+    
+    [ContextMenu("Add Sample Gripper Signals")]
+    public void AddSampleGripperSignals()
+    {
+        ioSignalsToMonitor.Clear();
+        
+        ioSignalsToMonitor.Add(new IOSignalDefinition
+        {
+            signalName = "DO_GripperOpen",
+            ioNetwork = "Local",
+            ioDevice = "DRV_1",
+            signalType = IOSignalType.DigitalOutput,
+            isGripperSignal = true,
+            description = "Gripper open command"
+        });
+        
+        ioSignalsToMonitor.Add(new IOSignalDefinition
+        {
+            signalName = "DO_GripperClose",
+            ioNetwork = "Local",
+            ioDevice = "DRV_1",
+            signalType = IOSignalType.DigitalOutput,
+            isGripperSignal = true,
+            description = "Gripper close command"
+        });
+        
+        LogInfo("Sample gripper signals added to monitor list");
+    }
 }
 
 // Custom ReadOnly attribute for inspector

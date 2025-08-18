@@ -11,9 +11,10 @@ public class RobotCollisionDetector : MonoBehaviour
 {
     [Header("Detection Settings")]
     [SerializeField] private LayerMask collisionLayers = -1;
-    [SerializeField] private bool detectContinuousCollisions = true;
+    public LayerMask CollisionLayers => collisionLayers;
+    [SerializeField] private bool detectContinuousCollisions = false;
     [SerializeField] private float collisionCooldown = 0.5f;
-    [SerializeField] private bool visualizeCollisions = true;
+    [SerializeField] private bool visualizeCollisions = false;
     
     [Header("Robot Parts to Monitor")]
     [SerializeField] private List<Transform> robotLinks = new List<Transform>();
@@ -70,81 +71,141 @@ public class RobotCollisionDetector : MonoBehaviour
     {
         robotLinks.Clear();
         
-        // Find all transforms with "link" or "joint" in name
-        Transform[] allChildren = GetComponentsInChildren<Transform>();
-        foreach (var child in allChildren)
+        // Find all Frame components - these represent the kinematic chain
+        Frame[] frames = GetComponentsInChildren<Frame>();
+        
+        // Sort frames by hierarchy depth to establish parent-child relationships
+        System.Array.Sort(frames, (a, b) => GetHierarchyDepth(a.transform).CompareTo(GetHierarchyDepth(b.transform)));
+        
+        foreach (var frame in frames)
         {
-            string nameLower = child.name.ToLower();
-            if (nameLower.Contains("link") || nameLower.Contains("joint") || 
-                nameLower.Contains("base") || nameLower.Contains("flange"))
+            robotLinks.Add(frame.transform);
+        }
+        
+        // Also find Tool components (end effector/toolhead)
+        Tool[] tools = GetComponentsInChildren<Tool>();
+        foreach (var tool in tools)
+        {
+            robotLinks.Add(tool.transform);
+        }
+        
+    }
+    
+    private int GetHierarchyDepth(Transform transform)
+    {
+        int depth = 0;
+        Transform current = transform;
+        while (current.parent != null)
+        {
+            depth++;
+            current = current.parent;
+        }
+        return depth;
+    }
+    
+    private MeshRenderer[] GetMeshesForFrame(Transform frameTransform)
+    {
+        List<MeshRenderer> frameMeshes = new List<MeshRenderer>();
+        
+        // Get all mesh renderers under this frame
+        MeshRenderer[] allMeshes = frameTransform.GetComponentsInChildren<MeshRenderer>();
+        
+        // Filter out meshes that belong to child frames
+        Frame[] childFrames = frameTransform.GetComponentsInChildren<Frame>();
+        
+        foreach (var mesh in allMeshes)
+        {
+            bool belongsToChildFrame = false;
+            
+            // Check if this mesh belongs to a child frame
+            foreach (var childFrame in childFrames)
             {
-                robotLinks.Add(child);
+                if (childFrame.transform == frameTransform) continue; // Skip self
+                
+                if (IsChildOf(mesh.transform, childFrame.transform))
+                {
+                    belongsToChildFrame = true;
+                    break;
+                }
+            }
+            
+            if (!belongsToChildFrame)
+            {
+                frameMeshes.Add(mesh);
             }
         }
         
-        // Also include any objects with MeshRenderer (robot parts usually have meshes)
-        MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
-        foreach (var renderer in meshRenderers)
+        return frameMeshes.ToArray();
+    }
+    
+    private bool IsChildOf(Transform child, Transform parent)
+    {
+        Transform current = child.parent;
+        while (current != null)
         {
-            if (!robotLinks.Contains(renderer.transform))
-            {
-                robotLinks.Add(renderer.transform);
-            }
+            if (current == parent) return true;
+            current = current.parent;
         }
+        return false;
+    }
+    
+    private Collider CreateColliderForMesh(MeshRenderer meshRenderer)
+    {
+        MeshCollider meshCollider = meshRenderer.gameObject.AddComponent<MeshCollider>();
+        meshCollider.convex = true;
+        meshCollider.isTrigger = true;
+        return meshCollider;
     }
     
     private void SetupCollisionDetection()
     {
-        // Setup ignore list for adjacent robot parts
-        SetupIgnoreList();
-        
         foreach (var robotPart in robotLinks)
         {
             if (robotPart == null) continue;
             
             List<Collider> colliders = new List<Collider>();
             
-            // Get existing colliders
-            Collider[] existingColliders = robotPart.GetComponents<Collider>();
+            // Find mesh renderers that belong to this Frame but not to child Frames
+            MeshRenderer[] meshes = GetMeshesForFrame(robotPart);
             
             if (useExistingCollidersOnly)
             {
-                // Only use existing colliders - don't add new ones
-                if (existingColliders.Length == 0)
+                // Only use existing colliders on the mesh objects
+                foreach (var mesh in meshes)
                 {
-                    Debug.LogWarning($"[Robot Collision] No colliders found on {robotPart.name} - skipping collision detection for this part");
+                    Collider[] existingColliders = mesh.GetComponents<Collider>();
+                    colliders.AddRange(existingColliders);
+                }
+                
+                if (colliders.Count == 0)
+                {
+                    Debug.LogWarning($"[Robot Collision] No colliders found for frame {robotPart.name} - skipping collision detection");
                     continue;
                 }
-                colliders.AddRange(existingColliders);
             }
             else
             {
-                // Use existing or create new ones
-                colliders.AddRange(existingColliders);
-                
-                // Add collider if none exists
-                if (existingColliders.Length == 0)
+                // Add colliders to mesh objects
+                foreach (var mesh in meshes)
                 {
-                    // Try to add appropriate collider based on mesh
-                    MeshRenderer meshRenderer = robotPart.GetComponent<MeshRenderer>();
-                    if (meshRenderer != null)
+                    Collider[] existingColliders = mesh.GetComponents<Collider>();
+                    if (existingColliders.Length > 0)
                     {
-                        MeshCollider meshCollider = robotPart.gameObject.AddComponent<MeshCollider>();
-                        meshCollider.convex = true; // Required for trigger detection
-                        meshCollider.isTrigger = true; // Use as trigger to detect collisions without physics
-                        colliders.Add(meshCollider);
-                        
-                        Debug.Log($"[Robot Collision] Added MeshCollider to {robotPart.name}");
+                        colliders.AddRange(existingColliders);
                     }
                     else
                     {
-                        // Only add box collider if specifically requested
-                        Debug.LogWarning($"[Robot Collision] No mesh found on {robotPart.name} - consider adding colliders manually");
+                        // Create appropriate collider for the mesh
+                        Collider newCollider = CreateColliderForMesh(mesh);
+                        if (newCollider != null)
+                        {
+                            colliders.Add(newCollider);
+                        }
                     }
                 }
             }
             
-            // Setup collision detection on colliders
+            // Setup collision detection on all colliders for this frame
             foreach (var collider in colliders)
             {
                 // Ensure colliders are triggers for detection
@@ -165,8 +226,8 @@ public class RobotCollisionDetector : MonoBehaviour
             robotColliders[robotPart] = colliders;
         }
         
-        // Setup collision ignoring between adjacent parts
-        SetupPhysicsIgnoring();
+        // Setup collision ignoring between adjacent frames
+        SetupAdjacentFrameIgnoring();
     }
     
     private void SetupIgnoreList()
@@ -183,22 +244,30 @@ public class RobotCollisionDetector : MonoBehaviour
         }
     }
     
-    private void SetupPhysicsIgnoring()
+    private void SetupAdjacentFrameIgnoring()
     {
-        // Ignore collisions between adjacent robot parts to prevent false positives
-        foreach (string ignorePair in ignoreCollisionBetweenParts)
+        // Dynamically ignore collisions between adjacent frames in the kinematic chain
+        Frame[] frames = GetComponentsInChildren<Frame>();
+        
+        // Sort by hierarchy depth to establish parent-child order
+        System.Array.Sort(frames, (a, b) => GetHierarchyDepth(a.transform).CompareTo(GetHierarchyDepth(b.transform)));
+        
+        
+        // Ignore collisions between consecutive frames in the chain
+        for (int i = 0; i < frames.Length - 1; i++)
         {
-            string[] parts = ignorePair.Split(',');
-            if (parts.Length != 2) continue;
+            Transform currentFrame = frames[i].transform;
+            Transform nextFrame = frames[i + 1].transform;
             
-            Transform part1 = GetRobotPartByName(parts[0].Trim());
-            Transform part2 = GetRobotPartByName(parts[1].Trim());
             
-            if (part1 != null && part2 != null)
-            {
-                IgnoreCollisionsBetweenParts(part1, part2);
-            }
+            // For now, ignore the direct child check and just ignore between consecutive frames
+            IgnoreCollisionsBetweenParts(currentFrame, nextFrame);
         }
+    }
+    
+    private bool IsDirectChild(Transform child, Transform parent)
+    {
+        return child.parent == parent;
     }
     
     private Transform GetRobotPartByName(string partName)
@@ -227,7 +296,6 @@ public class RobotCollisionDetector : MonoBehaviour
                 if (col1 != null && col2 != null)
                 {
                     Physics.IgnoreCollision(col1, col2, true);
-                    Debug.Log($"[Robot Collision] Ignoring collisions between {part1.name} and {part2.name}");
                 }
             }
         }
@@ -272,13 +340,15 @@ public class RobotCollisionDetector : MonoBehaviour
         // Log collision
         if (safetyLogger != null)
         {
-            safetyLogger.LogCollision(robotPartName, hitObjectName, collisionPoint);
-            
             if (isCritical)
             {
                 safetyLogger.LogCritical(ABBSafetyLogger.LogCategory.Collision,
                     $"CRITICAL COLLISION: {robotPartName} -> {hitObjectName}",
                     $"Position: {collisionPoint}");
+            }
+            else
+            {
+                safetyLogger.LogCollision(robotPartName, hitObjectName, collisionPoint);
             }
         }
         
@@ -471,7 +541,12 @@ public class RobotPartCollisionDetector : MonoBehaviour
     {
         if (parentDetector != null)
         {
-            parentDetector.OnRobotPartCollision(partName, other);
+            // Check if we should detect collision with this layer
+            int otherLayer = 1 << other.gameObject.layer;
+            if ((parentDetector.CollisionLayers.value & otherLayer) != 0)
+            {
+                parentDetector.OnRobotPartCollision(partName, other);
+            }
         }
     }
 }

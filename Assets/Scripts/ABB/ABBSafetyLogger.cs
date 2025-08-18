@@ -27,6 +27,11 @@ public class ABBSafetyLogger : MonoBehaviour
     [SerializeField] private bool logSingularities = true;
     [SerializeField] private bool logPositionData = true;
     
+    [Header("Position Format Logging")]
+    [SerializeField] private bool includeQuaternionInLogs = true;
+    [SerializeField] private bool includeJointAnglesInLogs = true;
+    [SerializeField] private bool includeRAPIDFormatsInLogs = false;
+    
     [Header("Status")]
     [SerializeField, ReadOnly] private string currentLogFile = "";
     [SerializeField, ReadOnly] private int logEntriesWritten = 0;
@@ -64,7 +69,10 @@ public class ABBSafetyLogger : MonoBehaviour
         public string message;
         public string details;
         public Vector3 robotPosition;
+        public Quaternion robotOrientation;
         public float[] jointAngles;
+        public string robTargetFormat;
+        public string joinTargetFormat;
         public RAPIDContext rapidContext;
     }
     
@@ -292,21 +300,78 @@ public class ABBSafetyLogger : MonoBehaviour
         // Try to get current robot position and joint angles
         var controller = FindFirstObjectByType<Controller>();
         var abbController = FindFirstObjectByType<ABBRobotWebServicesController>();
+        var safetyMonitor = FindFirstObjectByType<RobotSafetyMonitor>();
         
         if (controller != null)
         {
-            // Get TCP position
+            // Get TCP position and orientation
             var mechanicalGroup = controller.MechanicalGroup;
             if (mechanicalGroup?.Robot != null)
             {
                 entry.robotPosition = mechanicalGroup.Robot.transform.position;
+                entry.robotOrientation = mechanicalGroup.Robot.transform.rotation;
+                
+                // Get joint angles from robot joints
+                if (mechanicalGroup.Robot.Joints != null && includeJointAnglesInLogs)
+                {
+                    entry.jointAngles = new float[mechanicalGroup.Robot.Joints.Count];
+                    for (int i = 0; i < mechanicalGroup.Robot.Joints.Count; i++)
+                    {
+                        entry.jointAngles[i] = mechanicalGroup.Robot.Joints[i].Position.Value;
+                    }
+                }
             }
             
             // Get joint angles from ABB controller if available
-            if (abbController != null && abbController.IsConnected)
+            if (abbController != null && abbController.IsConnected && includeJointAnglesInLogs)
             {
                 entry.jointAngles = abbController.JointAngles;
             }
+        }
+        
+        // Try to get more accurate position data from ABB_Stream_Data
+        if (includeQuaternionInLogs || includeRAPIDFormatsInLogs)
+        {
+            try
+            {
+                // Use fully qualified name to access global class
+                var abbStreamDataType = System.Type.GetType("ABB_Stream_Data");
+                if (abbStreamDataType != null)
+                {
+                    var positionField = abbStreamDataType.GetField("C_Position", 
+                        System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                    var orientationField = abbStreamDataType.GetField("C_Orientation", 
+                        System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                    
+                    if (positionField != null && orientationField != null)
+                    {
+                        double[] pos = (double[])positionField.GetValue(null);
+                        double[] orient = (double[])orientationField.GetValue(null);
+                        
+                        if (pos != null && pos.Length >= 3 && orient != null && orient.Length >= 4)
+                        {
+                            // Use ABB data for more accurate position
+                            entry.robotPosition = new Vector3((float)pos[0] / 1000f, (float)pos[2] / 1000f, (float)pos[1] / 1000f);
+                            entry.robotOrientation = new Quaternion((float)orient[0], (float)orient[1], (float)orient[2], (float)orient[3]);
+                        }
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                // Silently fail if ABB_Stream_Data is not available
+            }
+        }
+        
+        // Generate RAPID format strings if requested
+        if (includeRAPIDFormatsInLogs)
+        {
+            if (entry.jointAngles != null && entry.jointAngles.Length >= 6)
+            {
+                entry.joinTargetFormat = FormatJoinTarget(entry.jointAngles);
+            }
+            
+            entry.robTargetFormat = FormatRobTarget(entry.robotPosition, entry.robotOrientation);
         }
         
         // Get RAPID context from ABB controller
@@ -316,6 +381,31 @@ public class ABBSafetyLogger : MonoBehaviour
         }
         
         return entry;
+    }
+    
+    private string FormatJoinTarget(float[] jointAngles)
+    {
+        if (jointAngles == null || jointAngles.Length < 6) return "JOINTTARGET: Invalid joint data";
+        
+        // RAPID JOINTTARGET format: [[j1,j2,j3,j4,j5,j6],[external_axis]]
+        // Use InvariantCulture to ensure periods for decimal separators
+        return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+            "[[{0:F2},{1:F2},{2:F2},{3:F2},{4:F2},{5:F2}],[9E9,9E9,9E9,9E9,9E9,9E9]]",
+            jointAngles[0], jointAngles[1], jointAngles[2], jointAngles[3], jointAngles[4], jointAngles[5]);
+    }
+    
+    private string FormatRobTarget(Vector3 position, Quaternion rotation)
+    {
+        // Convert to ABB coordinate system (Unity Y->Z, Z->Y) and mm
+        float x = position.x * 1000f;
+        float y = position.z * 1000f;  
+        float z = position.y * 1000f;
+        
+        // RAPID ROBTARGET format: [[x,y,z],[q1,q2,q3,q4],[confdata],[external_axis]]
+        // Use InvariantCulture to ensure periods for decimal separators
+        return string.Format(System.Globalization.CultureInfo.InvariantCulture,
+            "[[{0:F2},{1:F2},{2:F2}],[{3:F6},{4:F6},{5:F6},{6:F6}],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]]",
+            x, y, z, rotation.x, rotation.y, rotation.z, rotation.w);
     }
     
     private RAPIDContext GetCurrentRAPIDContext(ABBRobotWebServicesController abbController)
@@ -533,10 +623,14 @@ public class ABBSafetyLogger : MonoBehaviour
         if (!string.IsNullOrEmpty(entry.details))
             sb.AppendLine($"  Details: {entry.details}");
         
-        if (entry.robotPosition != Vector3.zero)
+        if (entry.robotPosition != Vector3.zero && includeQuaternionInLogs)
+        {
             sb.AppendLine($"  Robot Position: {entry.robotPosition}");
+            if (entry.robotOrientation != Quaternion.identity)
+                sb.AppendLine($"  Robot Orientation: {entry.robotOrientation}");
+        }
         
-        if (entry.jointAngles != null && entry.jointAngles.Length > 0)
+        if (entry.jointAngles != null && entry.jointAngles.Length > 0 && includeJointAnglesInLogs)
         {
             sb.Append("  Joint Angles: [");
             for (int i = 0; i < entry.jointAngles.Length; i++)
@@ -545,6 +639,15 @@ public class ABBSafetyLogger : MonoBehaviour
                 if (i < entry.jointAngles.Length - 1) sb.Append(", ");
             }
             sb.AppendLine("]");
+        }
+        
+        // Add RAPID format strings if enabled
+        if (includeRAPIDFormatsInLogs)
+        {
+            if (!string.IsNullOrEmpty(entry.joinTargetFormat))
+                sb.AppendLine($"  JOINTTARGET: {entry.joinTargetFormat}");
+            if (!string.IsNullOrEmpty(entry.robTargetFormat))
+                sb.AppendLine($"  ROBTARGET: {entry.robTargetFormat}");
         }
         
         // Add RAPID context if available

@@ -20,13 +20,13 @@ public class SchunkGripperController : MonoBehaviour
     [Header("Current State")]
     [SerializeField] private float currentOpenAmount = 0f; // 0 = closed, 1 = fully open
     [SerializeField] private bool isMoving = false;
-    [SerializeField] private bool isUnderABBControl = false;
+    [SerializeField] private bool isUnderRWSControl = false;
     
     private Vector3 finger1StartPos;
     private Vector3 finger2StartPos;
     private Tool toolComponent;
     private Gripper gripperComponent;
-    private ABBToolController abbToolController;
+    private ABBRobotWebServicesController abbRWSController;
     
     private void Start()
     {
@@ -46,19 +46,19 @@ public class SchunkGripperController : MonoBehaviour
             gripperComponent = gameObject.AddComponent<Gripper>();
         }
         
-        // Find ABB Tool Controller (usually on robot root)
-        abbToolController = FindFirstObjectByType<ABBToolController>();
-        if (abbToolController != null)
+        // Find ABB RWS Controller (usually on robot root)
+        abbRWSController = FindFirstObjectByType<ABBRobotWebServicesController>();
+        if (abbRWSController != null)
         {
-            // Subscribe to gripper state changes from ABB controller
-            abbToolController.OnGripperStateChanged += OnABBGripperStateChanged;
+            // Subscribe to gripper state changes from RWS controller
+            abbRWSController.OnGripperSignalReceived += OnRWSGripperSignalReceived;
         }
     }
     
     private void Update()
     {
-        // Handle manual control via inspector slider (only when not under ABB control)
-        if (!isUnderABBControl && !isMoving)
+        // Handle manual control via inspector slider (only when not under RWS control)
+        if (!isUnderRWSControl && !isMoving)
         {
             if (Mathf.Abs(manualGripperPosition - currentOpenAmount) > 0.01f)
             {
@@ -93,21 +93,21 @@ public class SchunkGripperController : MonoBehaviour
     [ContextMenu("Manual: Open Gripper")]
     public void ManualOpenGripper()
     {
-        isUnderABBControl = false;
+        isUnderRWSControl = false;
         if (!isMoving) StartCoroutine(MoveGripper(1f));
     }
     
     [ContextMenu("Manual: Close Gripper")]
     public void ManualCloseGripper()
     {
-        isUnderABBControl = false;
+        isUnderRWSControl = false;
         if (!isMoving) StartCoroutine(MoveGripper(0f));
     }
     
     [ContextMenu("Manual: Half Open")]
     public void ManualHalfOpen()
     {
-        isUnderABBControl = false;
+        isUnderRWSControl = false;
         SetGripperPosition(0.5f);
     }
     
@@ -137,30 +137,34 @@ public class SchunkGripperController : MonoBehaviour
     public bool IsMoving => isMoving;
     public float OpenAmount => currentOpenAmount;
     
-    // ABB Tool Controller integration
-    private void OnABBGripperStateChanged(bool isOpen)
+    // RWS I/O Signal integration
+    private void OnRWSGripperSignalReceived(string signalName, bool signalState)
     {
-        Debug.Log($"[Schunk Gripper] ABB API command: {(isOpen ? "Open" : "Close")} gripper");
+        Debug.Log($"[Schunk Gripper] RWS I/O Signal received: {signalName} = {signalState}");
         
-        // Switch to ABB control mode and animate gripper
-        isUnderABBControl = true;
+        // Switch to RWS control mode and animate gripper based on signal
+        isUnderRWSControl = true;
         
-        if (isOpen)
+        // Interpret signal - typically high signal means action
+        if (signalState)
         {
-            if (!isMoving) StartCoroutine(MoveGripper(1f)); // Open
-        }
-        else
-        {
-            if (!isMoving) StartCoroutine(MoveGripper(0f)); // Close
+            if (signalName.ToLower().Contains("open"))
+            {
+                if (!isMoving) StartCoroutine(MoveGripper(1f)); // Open
+            }
+            else if (signalName.ToLower().Contains("close") || signalName.ToLower().Contains("grip"))
+            {
+                if (!isMoving) StartCoroutine(MoveGripper(0f)); // Close
+            }
         }
     }
     
     private void OnDestroy()
     {
         // Unsubscribe from events
-        if (abbToolController != null)
+        if (abbRWSController != null)
         {
-            abbToolController.OnGripperStateChanged -= OnABBGripperStateChanged;
+            abbRWSController.OnGripperSignalReceived -= OnRWSGripperSignalReceived;
         }
     }
 }

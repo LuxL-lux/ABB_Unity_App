@@ -32,7 +32,7 @@ public class GripperProcessValidator : MonoBehaviour
     [SerializeField, ReadOnly] private bool processValid = true;
     
     private ABBSafetyLogger safetyLogger;
-    private ABBToolController toolController;
+    private ABBRobotWebServicesController rwsController;
     private SchunkGripperController gripperController;
     private Gripper flangeGripper;
     
@@ -91,7 +91,7 @@ public class GripperProcessValidator : MonoBehaviour
     {
         // Get references
         safetyLogger = ABBSafetyLogger.Instance;
-        toolController = FindFirstObjectByType<ABBToolController>();
+        rwsController = FindFirstObjectByType<ABBRobotWebServicesController>();
         gripperController = FindFirstObjectByType<SchunkGripperController>();
         
         // Find Flange gripper component
@@ -101,11 +101,11 @@ public class GripperProcessValidator : MonoBehaviour
         }
         
         // Subscribe to events
-        if (toolController != null)
+        if (rwsController != null)
         {
-            toolController.OnGripperStateChanged += OnGripperStateChanged;
-            toolController.OnToolCommandExecuted += OnToolCommandExecuted;
-            toolController.OnToolError += OnToolError;
+            rwsController.OnGripperSignalReceived += OnGripperSignalReceived;
+            rwsController.OnIOSignalChanged += OnIOSignalChanged;
+            rwsController.OnError += OnRWSError;
         }
         
         if (safetyLogger != null)
@@ -132,11 +132,15 @@ public class GripperProcessValidator : MonoBehaviour
         }
     }
     
-    private void OnGripperStateChanged(bool isOpen)
+    private void OnGripperSignalReceived(string signalName, bool signalState)
     {
-        if (isOpen)
+        // Interpret gripper signal
+        bool isOpenSignal = signalName.ToLower().Contains("open");
+        bool isCloseSignal = signalName.ToLower().Contains("close") || signalName.ToLower().Contains("grip");
+        
+        if (signalState && isOpenSignal)
         {
-            // Gripper opened
+            // Gripper open command received
             if (currentStep?.type == ProcessStepType.OpeningGripper)
             {
                 CompleteProcessStep(true);
@@ -148,9 +152,9 @@ public class GripperProcessValidator : MonoBehaviour
                 ValidateObjectRelease();
             }
         }
-        else
+        else if (signalState && isCloseSignal)
         {
-            // Gripper closed
+            // Gripper close command received
             if (currentStep?.type == ProcessStepType.ClosingGripper)
             {
                 CompleteProcessStep(true);
@@ -160,22 +164,24 @@ public class GripperProcessValidator : MonoBehaviour
         }
     }
     
-    private void OnToolCommandExecuted(string command)
+    private void OnIOSignalChanged(string signalName, bool signalState)
     {
         if (safetyLogger != null)
         {
-            safetyLogger.LogGripperOperation(command, true, grippedObjectName);
+            safetyLogger.LogInfo(ABBSafetyLogger.LogCategory.Gripper,
+                "I/O Signal Changed",
+                $"Signal: {signalName}, State: {signalState}, Object: {grippedObjectName}");
         }
     }
     
-    private void OnToolError(string error)
+    private void OnRWSError(string error)
     {
         if (safetyLogger != null)
         {
-            safetyLogger.LogGripperOperation("Error", false, error);
+            safetyLogger.LogGripperOperation("RWS Error", false, error);
         }
         
-        ProcessValidationFailed($"Tool error: {error}");
+        ProcessValidationFailed($"RWS error: {error}");
     }
     
     private void StartProcessStep(ProcessStepType stepType)
@@ -497,11 +503,11 @@ public class GripperProcessValidator : MonoBehaviour
     private void OnDestroy()
     {
         // Unsubscribe from events
-        if (toolController != null)
+        if (rwsController != null)
         {
-            toolController.OnGripperStateChanged -= OnGripperStateChanged;
-            toolController.OnToolCommandExecuted -= OnToolCommandExecuted;
-            toolController.OnToolError -= OnToolError;
+            rwsController.OnGripperSignalReceived -= OnGripperSignalReceived;
+            rwsController.OnIOSignalChanged -= OnIOSignalChanged;
+            rwsController.OnError -= OnRWSError;
         }
     }
     
