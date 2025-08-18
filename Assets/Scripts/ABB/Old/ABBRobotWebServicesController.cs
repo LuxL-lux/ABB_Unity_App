@@ -14,10 +14,11 @@ using System.Text;
 using System.Diagnostics;
 using UnityEngine;
 using Preliy.Flange;
+using ABB.RWS;
 
 [AddComponentMenu("ABB/ABB Robot Web Services Controller")]
 [RequireComponent(typeof(Controller))]
-public class ABBRobotWebServicesController : MonoBehaviour
+public class ABBRobotWebServicesController : MonoBehaviour, IRWSController
 {
     [Header("Connection Settings")]
     [SerializeField] private string ipAddress = "127.0.0.1";
@@ -31,15 +32,10 @@ public class ABBRobotWebServicesController : MonoBehaviour
     [SerializeField] private bool useWebSocketWhenAvailable = true;
     [SerializeField] private bool autoStartOnEnable = true;
     
-    [Header("Debug Settings")]
-    [SerializeField] private bool enableDebugLogging = true;
-    [SerializeField] private bool showPerformanceMetrics = true;
-    [SerializeField] private bool logJointUpdates = false;
-    
     [Header("I/O Signal Monitoring")]
     [SerializeField] private bool monitorIOSignals = true;
     [SerializeField] private float ioPollingInterval = 0.5f;
-    [SerializeField] private List<IOSignalDefinition> ioSignalsToMonitor = new List<IOSignalDefinition>();
+    [SerializeField] private List<ABB.RWS.IOSignalDefinition> ioSignalsToMonitor = new List<ABB.RWS.IOSignalDefinition>();
     
     [Header("Status (Read Only)")]
     [SerializeField, ReadOnly] private ConnectionStatus connectionStatus = ConnectionStatus.Disconnected;
@@ -54,6 +50,9 @@ public class ABBRobotWebServicesController : MonoBehaviour
     [SerializeField, ReadOnly] private string executionState = "Unknown";
     [SerializeField, ReadOnly] private string operationMode = "Unknown";
     [SerializeField, ReadOnly] private string controllerState = "Unknown";
+    [SerializeField, ReadOnly] private string rapidTaskType = "Unknown";
+    [SerializeField, ReadOnly] private bool rapidTaskActive = false;
+    [SerializeField, ReadOnly] private string programPointer = "Unknown";
     
     [Header("Joint Limit Monitoring (Read Only)")]
     [SerializeField, ReadOnly] private bool[] jointLimitWarnings = new bool[6];
@@ -61,6 +60,11 @@ public class ABBRobotWebServicesController : MonoBehaviour
     [SerializeField, ReadOnly] private float[] jointMinLimits = new float[6];
     [SerializeField, ReadOnly] private float[] jointMaxLimits = new float[6];
     [SerializeField, ReadOnly] private string jointLimitStatus = "OK";
+    
+    [Header("Debug Settings")]
+    [SerializeField] private bool enableDebugLogging = true;
+    [SerializeField] private bool showPerformanceMetrics = true;
+    [SerializeField] private bool logJointUpdates = false;
     
     // Flange Controller Integration
     private Controller flangeController;
@@ -78,7 +82,8 @@ public class ABBRobotWebServicesController : MonoBehaviour
     
     // RAPID program status monitoring
     private DateTime lastRapidStatusUpdate = DateTime.MinValue;
-    private readonly TimeSpan rapidStatusUpdateInterval = TimeSpan.FromSeconds(2); // Update every 2 seconds
+    private readonly TimeSpan rapidStatusUpdateInterval = TimeSpan.FromSeconds(1.5f); // Update every 1.5 seconds
+    private bool rapidStatusInitialized = false;
     
     // I/O signal monitoring
     private DateTime lastIOPoll = DateTime.MinValue;
@@ -103,6 +108,9 @@ public class ABBRobotWebServicesController : MonoBehaviour
     public string CurrentProgramName => currentProgramName;
     public string ExecutionState => executionState;
     public string OperationMode => operationMode;
+    public string RapidTaskType => rapidTaskType;
+    public bool RapidTaskActive => rapidTaskActive;
+    public string ProgramPointer => programPointer;
     public float[] JointAngles 
     {
         get 
@@ -116,6 +124,12 @@ public class ABBRobotWebServicesController : MonoBehaviour
     
     // RAPID program status properties
     public string ControllerState => controllerState;
+    
+    // Get formatted RAPID context for error logging
+    public string GetRapidContext()
+    {
+        return $"Program: {currentProgramName}, State: {executionState}, Mode: {operationMode}, Controller: {controllerState}, Active: {rapidTaskActive}";
+    }
     
     // Joint limit properties
     public bool[] JointLimitWarnings => (bool[])jointLimitWarnings.Clone();
@@ -265,7 +279,7 @@ public class ABBRobotWebServicesController : MonoBehaviour
         return client;
     }
     
-    internal void OnConnectionEstablished(bool usingWebSocket)
+    public void OnConnectionEstablished(bool usingWebSocket)
     {
         connectionStatus = ConnectionStatus.Connected;
         isUsingWebSocket = usingWebSocket;
@@ -283,18 +297,19 @@ public class ABBRobotWebServicesController : MonoBehaviour
         OnConnected?.Invoke();
     }
     
-    internal void OnConnectionLost(string error = "")
+    public void OnConnectionLost(string error = "")
     {
         connectionStatus = ConnectionStatus.Error;
         lastErrorMessage = error;
         isUsingWebSocket = false;
         
-        // Log connection loss
+        // Log connection loss with RAPID context
         if (safetyLogger != null)
         {
+            string context = rapidStatusInitialized ? $", RAPID Context: {GetRapidContext()}" : "";
             safetyLogger.LogError(ABBSafetyLogger.LogCategory.RWS, 
                 "RWS Connection lost", 
-                $"Error: {error}, Target: {ipAddress}:{port}");
+                $"Error: {error}, Target: {ipAddress}:{port}{context}");
         }
         
         LogError($"Connection lost: {error}");
@@ -302,7 +317,7 @@ public class ABBRobotWebServicesController : MonoBehaviour
         OnError?.Invoke(error);
     }
     
-    internal void OnDataReceived(double[] jointData)
+    public void OnDataReceived(double[] jointData)
     {
         if (jointData == null || jointData.Length < 6) return;
         
@@ -445,32 +460,53 @@ public class ABBRobotWebServicesController : MonoBehaviour
         {
             using (var client = CreateHttpClient())
             {
-                // Get multiple status endpoints in parallel
-                var tasks = new Task<string>[]
+                // Get RAPID status endpoints using correct RWS API URLs
+                var tasks = new Task<(string data, string endpoint)>[]
                 {
-                    GetRapidDataAsync(client, "/rw/rapid/tasks"), // Task list
-                    GetRapidDataAsync(client, "/rw/panel/ctrlstate"), // Controller state
-                    GetRapidDataAsync(client, "/rw/panel/opmode"), // Operation mode
-                    GetRapidDataAsync(client, $"/rw/rapid/tasks/{taskName}") // Specific task info
+                    GetRapidDataWithEndpointAsync(client, $"/rw/rapid/tasks/{taskName}"), // Specific task state
+                    GetRapidDataWithEndpointAsync(client, "/rw/panel/ctrlstate"), // Controller state
+                    GetRapidDataWithEndpointAsync(client, "/rw/panel/opmode"), // Operation mode  
+                    GetRapidDataWithEndpointAsync(client, $"/rw/rapid/tasks/{taskName}/pcp"), // Program pointer
+                    GetRapidDataWithEndpointAsync(client, "/rw/rapid/execution") // Global execution state
                 };
                 
                 var results = await Task.WhenAll(tasks);
                 
-                // Parse results
-                ParseRapidStatus(results[0], results[1], results[2], results[3]);
+                // Parse results with better error context
+                ParseRapidStatusImproved(results);
+                
+                if (!rapidStatusInitialized)
+                {
+                    rapidStatusInitialized = true;
+                    LogInfo("RAPID status monitoring initialized successfully");
+                    
+                    if (safetyLogger != null)
+                    {
+                        safetyLogger.LogInfo(ABBSafetyLogger.LogCategory.RWS,
+                            "RAPID Status Initialized",
+                            GetRapidContext());
+                    }
+                }
             }
         }
         catch (Exception e)
         {
-            // Don't spam errors for status updates
             if (enableDebugLogging)
             {
                 LogWarning($"Failed to update RAPID status: {e.Message}");
             }
+            
+            // Log RAPID monitoring errors to safety logger
+            if (safetyLogger != null)
+            {
+                safetyLogger.LogWarning(ABBSafetyLogger.LogCategory.RWS,
+                    "RAPID Status Update Failed", 
+                    $"Error: {e.Message}, Target: {ipAddress}:{port}");
+            }
         }
     }
     
-    private async Task<string> GetRapidDataAsync(HttpClient client, string endpoint)
+    private async Task<(string data, string endpoint)> GetRapidDataWithEndpointAsync(HttpClient client, string endpoint)
     {
         try
         {
@@ -478,7 +514,15 @@ public class ABBRobotWebServicesController : MonoBehaviour
             var response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadAsStringAsync();
+                string data = await response.Content.ReadAsStringAsync();
+                return (data, endpoint);
+            }
+            else
+            {
+                if (enableDebugLogging)
+                {
+                    LogWarning($"RWS API returned {response.StatusCode} for {endpoint}");
+                }
             }
         }
         catch (Exception e)
@@ -488,10 +532,10 @@ public class ABBRobotWebServicesController : MonoBehaviour
                 LogWarning($"Failed to get data from {endpoint}: {e.Message}");
             }
         }
-        return "";
+        return ("", endpoint);
     }
     
-    private void ParseRapidStatus(string tasksData, string ctrlStateData, string opModeData, string taskData)
+    private void ParseRapidStatusImproved((string data, string endpoint)[] results)
     {
         try
         {
@@ -499,41 +543,79 @@ public class ABBRobotWebServicesController : MonoBehaviour
             string newExecutionState = "Unknown";
             string newOperationMode = "Unknown";
             string newControllerState = "Unknown";
+            string newRapidTaskType = "Unknown";
+            bool newRapidTaskActive = false;
+            string newProgramPointer = "Unknown";
             
-            // Parse controller state
-            if (!string.IsNullOrEmpty(ctrlStateData))
+            foreach (var (data, endpoint) in results)
             {
-                if (ctrlStateData.Contains("ctrlstate"))
+                if (string.IsNullOrEmpty(data)) continue;
+                
+                try
                 {
-                    // Extract controller state from response
-                    newControllerState = ExtractValueFromResponse(ctrlStateData, "ctrlstate");
+                    if (endpoint.Contains("/ctrlstate"))
+                    {
+                        // Parse controller state from panel endpoint
+                        newControllerState = ExtractValueFromResponse(data, "ctrlstate") ?? 
+                                           ExtractXmlValue(data, "ctrlstate") ?? 
+                                           ExtractClassValue(data, "pnl-ctrlstate-ev") ?? "Unknown";
+                    }
+                    else if (endpoint.Contains("/opmode"))
+                    {
+                        // Parse operation mode from panel endpoint  
+                        newOperationMode = ExtractValueFromResponse(data, "opmode") ?? 
+                                         ExtractXmlValue(data, "opmode") ?? 
+                                         ExtractClassValue(data, "pnl-opmode-ev") ?? "Unknown";
+                    }
+                    else if (endpoint.Contains($"/tasks/{taskName}") && !endpoint.Contains("/pcp"))
+                    {
+                        // Specific task information
+                        newExecutionState = ExtractValueFromResponse(data, "excstate") ?? ExtractXmlValue(data, "excstate") ?? "Unknown";
+                        newProgramName = ExtractValueFromResponse(data, "name") ?? ExtractXmlValue(data, "name") ?? "Unknown";
+                        newRapidTaskType = ExtractValueFromResponse(data, "type") ?? ExtractXmlValue(data, "type") ?? "Unknown";
+                        newRapidTaskActive = ExtractBoolValueFromResponse(data, "active");
+                    }
+                    else if (endpoint.Contains("/pcp"))
+                    {
+                        // Program counter/pointer information
+                        newProgramPointer = ExtractValueFromResponse(data, "routine") ?? ExtractXmlValue(data, "routine") ?? "Unknown";
+                        if (newProgramPointer == "Unknown")
+                        {
+                            // Try to get module and routine info
+                            string module = ExtractValueFromResponse(data, "module") ?? ExtractXmlValue(data, "module");
+                            string routine = ExtractValueFromResponse(data, "routine") ?? ExtractXmlValue(data, "routine");
+                            if (!string.IsNullOrEmpty(module) && !string.IsNullOrEmpty(routine))
+                            {
+                                newProgramPointer = $"{module}.{routine}";
+                            }
+                        }
+                    }
+                    else if (endpoint.Contains("/execution"))
+                    {
+                        // Global execution state
+                        string globalExecState = ExtractValueFromResponse(data, "ctrlexecstate") ?? ExtractXmlValue(data, "ctrlexecstate");
+                        if (!string.IsNullOrEmpty(globalExecState) && globalExecState != "Unknown")
+                        {
+                            // Use global state if task-specific state is unknown
+                            if (newExecutionState == "Unknown")
+                            {
+                                newExecutionState = globalExecState;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (enableDebugLogging)
+                    {
+                        LogWarning($"Failed to parse data from {endpoint}: {ex.Message}");
+                    }
                 }
             }
             
-            // Parse operation mode
-            if (!string.IsNullOrEmpty(opModeData))
-            {
-                if (opModeData.Contains("opmode"))
-                {
-                    newOperationMode = ExtractValueFromResponse(opModeData, "opmode");
-                }
-            }
-            
-            // Parse task information
-            if (!string.IsNullOrEmpty(taskData))
-            {
-                if (taskData.Contains("excstate"))
-                {
-                    newExecutionState = ExtractValueFromResponse(taskData, "excstate");
-                }
-                if (taskData.Contains("name"))
-                {
-                    newProgramName = ExtractValueFromResponse(taskData, "name");
-                }
-            }
-            
-            // Update status if changed
+            // Update status if changed and log changes
             bool statusChanged = false;
+            
             if (newProgramName != currentProgramName)
             {
                 currentProgramName = newProgramName;
@@ -554,12 +636,35 @@ public class ABBRobotWebServicesController : MonoBehaviour
                 controllerState = newControllerState;
                 statusChanged = true;
             }
+            if (newRapidTaskType != rapidTaskType)
+            {
+                rapidTaskType = newRapidTaskType;
+                statusChanged = true;
+            }
+            if (newRapidTaskActive != rapidTaskActive)
+            {
+                rapidTaskActive = newRapidTaskActive;
+                statusChanged = true;
+            }
+            if (newProgramPointer != programPointer)
+            {
+                programPointer = newProgramPointer;
+                statusChanged = true;
+            }
             
             if (statusChanged)
             {
-                string statusMessage = $"Program: {currentProgramName}, State: {executionState}, Mode: {operationMode}, Controller: {controllerState}";
-                LogInfo($"RAPID Status: {statusMessage}");
+                string statusMessage = GetRapidContext();
+                LogInfo($"RAPID Status Update: {statusMessage}");
                 OnRapidStatusChanged?.Invoke(statusMessage);
+                
+                // Log status change to safety logger
+                if (safetyLogger != null)
+                {
+                    safetyLogger.LogInfo(ABBSafetyLogger.LogCategory.RWS,
+                        "RAPID Status Changed",
+                        $"{statusMessage}, Pointer: {programPointer}");
+                }
             }
         }
         catch (Exception e)
@@ -575,12 +680,12 @@ public class ABBRobotWebServicesController : MonoBehaviour
     {
         try
         {
-            // Simple extraction for common patterns
-            string searchPattern = $"{key}\":\"";
-            int startIndex = response.IndexOf(searchPattern);
+            // Try JSON pattern first (RWS sometimes returns JSON)
+            string jsonPattern = $"\"{key}\":\"";
+            int startIndex = response.IndexOf(jsonPattern);
             if (startIndex >= 0)
             {
-                startIndex += searchPattern.Length;
+                startIndex += jsonPattern.Length;
                 int endIndex = response.IndexOf('"', startIndex);
                 if (endIndex > startIndex)
                 {
@@ -589,13 +694,43 @@ public class ABBRobotWebServicesController : MonoBehaviour
             }
             
             // Try XML pattern
-            searchPattern = $"<{key}>";
-            string endPattern = $"</{key}>";
-            startIndex = response.IndexOf(searchPattern);
+            return ExtractXmlValue(response, key);
+        }
+        catch (Exception e)
+        {
+            if (enableDebugLogging)
+            {
+                LogWarning($"Failed to extract {key} from response: {e.Message}");
+            }
+        }
+        return null;
+    }
+    
+    private string ExtractXmlValue(string response, string key)
+    {
+        try
+        {
+            // Standard XML tags
+            string startTag = $"<{key}>";
+            string endTag = $"</{key}>";
+            int startIndex = response.IndexOf(startTag);
             if (startIndex >= 0)
             {
-                startIndex += searchPattern.Length;
-                int endIndex = response.IndexOf(endPattern, startIndex);
+                startIndex += startTag.Length;
+                int endIndex = response.IndexOf(endTag, startIndex);
+                if (endIndex > startIndex)
+                {
+                    return response.Substring(startIndex, endIndex - startIndex).Trim();
+                }
+            }
+            
+            // Try with attributes (common in RWS responses)
+            string attrPattern = $"{key}=\"";
+            startIndex = response.IndexOf(attrPattern);
+            if (startIndex >= 0)
+            {
+                startIndex += attrPattern.Length;
+                int endIndex = response.IndexOf('"', startIndex);
                 if (endIndex > startIndex)
                 {
                     return response.Substring(startIndex, endIndex - startIndex).Trim();
@@ -606,10 +741,67 @@ public class ABBRobotWebServicesController : MonoBehaviour
         {
             if (enableDebugLogging)
             {
-                LogWarning($"Failed to extract {key} from response: {e.Message}");
+                LogWarning($"Failed to extract XML value {key}: {e.Message}");
             }
         }
-        return "Unknown";
+        return null;
+    }
+    
+    private bool ExtractBoolValueFromResponse(string response, string key)
+    {
+        string value = ExtractValueFromResponse(response, key) ?? ExtractXmlValue(response, key);
+        if (string.IsNullOrEmpty(value)) return false;
+        
+        return value.ToLower() == "true" || value == "1" || value.ToLower() == "on";
+    }
+    
+    private string ExtractClassValue(string response, string className)
+    {
+        try
+        {
+            // Look for elements with specific class (common in RWS panel responses)
+            string classPattern = $"class='{className}'";
+            int startIndex = response.IndexOf(classPattern);
+            if (startIndex >= 0)
+            {
+                // Find the next > to get to the content
+                int contentStart = response.IndexOf('>', startIndex);
+                if (contentStart >= 0)
+                {
+                    contentStart++;
+                    int contentEnd = response.IndexOf('<', contentStart);
+                    if (contentEnd > contentStart)
+                    {
+                        return response.Substring(contentStart, contentEnd - contentStart).Trim();
+                    }
+                }
+            }
+            
+            // Also try with single quotes
+            classPattern = $"class='{className}'";
+            startIndex = response.IndexOf(classPattern);
+            if (startIndex >= 0)
+            {
+                int contentStart = response.IndexOf('>', startIndex);
+                if (contentStart >= 0)
+                {
+                    contentStart++;
+                    int contentEnd = response.IndexOf('<', contentStart);
+                    if (contentEnd > contentStart)
+                    {
+                        return response.Substring(contentStart, contentEnd - contentStart).Trim();
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            if (enableDebugLogging)
+            {
+                LogWarning($"Failed to extract class value {className}: {e.Message}");
+            }
+        }
+        return null;
     }
     
     private void UpdatePerformanceMetrics()
@@ -626,7 +818,7 @@ public class ABBRobotWebServicesController : MonoBehaviour
         totalUpdatesReceived++;
     }
     
-    internal void OnConnectionStopped()
+    public void OnConnectionStopped()
     {
         connectionStatus = ConnectionStatus.Disconnected;
         isUsingWebSocket = false;
@@ -664,34 +856,15 @@ public class ABBRobotWebServicesController : MonoBehaviour
         if (string.IsNullOrEmpty(taskName)) taskName = "T_ROB1";
     }
     
-    // Properties for internal access by ABBDataStream
-    internal string IPAddress => ipAddress;
-    internal int Port => port;
-    internal string Username => username;
-    internal string Password => password;
-    internal string TaskName => taskName;
-    internal int PollingIntervalMs => pollingIntervalMs;
-    internal bool UseWebSocket => useWebSocketWhenAvailable;
-    internal bool ShowPerformanceMetrics => showPerformanceMetrics;
-    
-    [Serializable]
-    public class IOSignalDefinition
-    {
-        [SerializeField] public string signalName = "";
-        [SerializeField] public string ioNetwork = "Local";
-        [SerializeField] public string ioDevice = "DRV_1";
-        [SerializeField] public IOSignalType signalType = IOSignalType.DigitalOutput;
-        [SerializeField] public bool isGripperSignal = false;
-        [SerializeField] public string description = "";
-    }
-    
-    public enum IOSignalType
-    {
-        DigitalInput,
-        DigitalOutput,
-        AnalogInput,
-        AnalogOutput
-    }
+    // IRWSController implementation - public for interface
+    public string IPAddress => ipAddress;
+    public int Port => port;
+    public string Username => username;
+    public string Password => password;
+    public string TaskName => taskName;
+    public int PollingIntervalMs => pollingIntervalMs;
+    public bool UseWebSocket => useWebSocketWhenAvailable;
+    public bool ShowPerformanceMetrics => showPerformanceMetrics;
     
     private async Task PollIOSignalsAsync()
     {
@@ -735,9 +908,10 @@ public class ABBRobotWebServicesController : MonoBehaviour
                             
                             if (safetyLogger != null)
                             {
+                                string rapidContext = rapidStatusInitialized ? $", RAPID: {GetRapidContext()}" : "";
                                 safetyLogger.LogInfo(ABBSafetyLogger.LogCategory.RWS,
                                     "I/O Signal State Change",
-                                    $"Signal: {signalDef.signalName}, State: {currentState}, Type: {signalDef.signalType}");
+                                    $"Signal: {signalDef.signalName}, State: {currentState}, Type: {signalDef.signalType}{rapidContext}");
                             }
                             
                             OnIOSignalChanged?.Invoke(signalDef.signalName, currentState);
@@ -767,11 +941,11 @@ public class ABBRobotWebServicesController : MonoBehaviour
         }
     }
     
-    private bool ParseIOSignalState(string xmlResponse, IOSignalType signalType)
+    private bool ParseIOSignalState(string xmlResponse, ABB.RWS.IOSignalType signalType)
     {
         try
         {
-            if (signalType == IOSignalType.DigitalInput || signalType == IOSignalType.DigitalOutput)
+            if (signalType == ABB.RWS.IOSignalType.DigitalInput || signalType == ABB.RWS.IOSignalType.DigitalOutput)
             {
                 string searchPattern = "<lvalue>";
                 int startIndex = xmlResponse.IndexOf(searchPattern);
@@ -799,33 +973,52 @@ public class ABBRobotWebServicesController : MonoBehaviour
     }
     
     [ContextMenu("Add Sample Gripper Signals")]
-    public void AddSampleGripperSignals()
+    public void AddGripperSignal()
     {
         ioSignalsToMonitor.Clear();
         
-        ioSignalsToMonitor.Add(new IOSignalDefinition
+        ioSignalsToMonitor.Add(new ABB.RWS.IOSignalDefinition
         {
             signalName = "DO_GripperOpen",
             ioNetwork = "Local",
             ioDevice = "DRV_1",
-            signalType = IOSignalType.DigitalOutput,
+            signalType = ABB.RWS.IOSignalType.DigitalOutput,
             isGripperSignal = true,
             description = "Gripper open command"
         });
         
-        ioSignalsToMonitor.Add(new IOSignalDefinition
+        ioSignalsToMonitor.Add(new ABB.RWS.IOSignalDefinition
         {
             signalName = "DO_GripperClose",
             ioNetwork = "Local",
             ioDevice = "DRV_1",
-            signalType = IOSignalType.DigitalOutput,
+            signalType = ABB.RWS.IOSignalType.DigitalOutput,
             isGripperSignal = true,
             description = "Gripper close command"
         });
         
         LogInfo("Sample gripper signals added to monitor list");
     }
+    
+    [ContextMenu("Test RAPID Status")]
+    public async void TestRapidStatus()
+    {
+        if (!IsConnected)
+        {
+            LogWarning("Cannot test RAPID status: Not connected to robot controller");
+            return;
+        }
+        
+        LogInfo("Testing RAPID status endpoints...");
+        await UpdateRapidProgramStatusAsync();
+        
+        LogInfo($"RAPID Status Test Results:");
+        LogInfo($"Current Context: {GetRapidContext()}");
+        LogInfo($"Program Pointer: {programPointer}");
+    }
 }
+
+// IOSignalDefinition and IOSignalType moved to ABB.RWS namespace
 
 // Custom ReadOnly attribute for inspector
 public class ReadOnlyAttribute : PropertyAttribute { }

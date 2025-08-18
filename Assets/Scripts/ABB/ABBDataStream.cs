@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 internal class ABBDataStream
 {
-    private readonly ABBRobotWebServicesController controller;
+    private readonly IRWSController controller;
     private CancellationTokenSource cancellationTokenSource;
     private HttpClient httpClient;
     private ClientWebSocket webSocket;
@@ -36,7 +36,7 @@ internal class ABBDataStream
     private long totalRequestCount = 0;
     private long successfulRequestCount = 0;
     
-    public ABBDataStream(ABBRobotWebServicesController controller)
+    public ABBDataStream(IRWSController controller)
     {
         this.controller = controller ?? throw new ArgumentNullException(nameof(controller));
         

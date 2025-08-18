@@ -2388,7 +2388,7 @@ Transform:
   m_GameObject: {fileID: 1036684814}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2563,7 +2563,7 @@ Transform:
   m_GameObject: {fileID: 1096936195}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.04, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6564,9 +6564,9 @@ GameObject:
   - component: {fileID: 8862533932727204965}
   - component: {fileID: 1289395368}
   - component: {fileID: 8862533932727204970}
-  - component: {fileID: 8862533932727204966}
   - component: {fileID: 8862533932727204969}
   - component: {fileID: 8862533932727204968}
+  - component: {fileID: 8862533932727204971}
   m_Layer: 0
   m_Name: ABB IRB 6700 235
   m_TagString: Untagged
@@ -16098,62 +16098,6 @@ MonoBehaviour:
     _linearAcc: 15
     _rotationSpeed: 180
     _rotationAcc: 1000
---- !u!114 &8862533932727204966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208597800256411322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69794c96703e22c47ae05893326d4d7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ipAddress: 127.0.0.1
-  port: 80
-  username: Default User
-  password: robotics
-  taskName: T_ROB1
-  pollingIntervalMs: 10
-  useWebSocketWhenAvailable: 1
-  autoStartOnEnable: 0
-  enableDebugLogging: 1
-  showPerformanceMetrics: 1
-  logJointUpdates: 0
-  connectionStatus: 0
-  isUsingWebSocket: 0
-  updateFrequencyHz: 0
-  lastUpdateTimestamp: 0
-  totalUpdatesReceived: 0
-  lastErrorMessage: 
-  currentProgramName: Unknown
-  executionState: Unknown
-  operationMode: Unknown
-  controllerState: Unknown
-  jointLimitWarnings: 000000000000
-  jointLimitPercentages:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  jointMinLimits:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  jointMaxLimits:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  jointLimitStatus: OK
 --- !u!114 &8862533932727204968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16244,7 +16188,7 @@ MonoBehaviour:
   positionUpdateInterval: 1
   jointStatuses:
   - name: Joint_1
-    currentPosition: -170
+    currentPosition: 151.326
     currentSpeed: 0
     currentAcceleration: 0
     limitMin: -170
@@ -16256,7 +16200,7 @@ MonoBehaviour:
     isWarning: 0
     isCritical: 0
   - name: Joint_2
-    currentPosition: -0.425
+    currentPosition: -14.236
     currentSpeed: 0
     currentAcceleration: 0
     limitMin: -65
@@ -16268,7 +16212,7 @@ MonoBehaviour:
     isWarning: 0
     isCritical: 0
   - name: Joint_3
-    currentPosition: 16.794
+    currentPosition: 48.494
     currentSpeed: 0
     currentAcceleration: 0
     limitMin: -180
@@ -16280,7 +16224,7 @@ MonoBehaviour:
     isWarning: 0
     isCritical: 0
   - name: Joint_4
-    currentPosition: 0
+    currentPosition: 51.405
     currentSpeed: 0
     currentAcceleration: 0
     limitMin: -300
@@ -16292,7 +16236,7 @@ MonoBehaviour:
     isWarning: 0
     isCritical: 0
   - name: Joint_5
-    currentPosition: -16.368
+    currentPosition: -46.197
     currentSpeed: 0
     currentAcceleration: 0
     limitMin: -120
@@ -16304,7 +16248,7 @@ MonoBehaviour:
     isWarning: 0
     isCritical: 0
   - name: Joint_6
-    currentPosition: 0
+    currentPosition: 38.502
     currentSpeed: 0
     currentAcceleration: 0
     limitMin: -370
@@ -16324,6 +16268,65 @@ MonoBehaviour:
   axisAlignments: []
   currentRobTarget: '[[-854.45,-1150.91,1373.66],[0.233590,0.095909,-0.673945,-0.694288],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]]'
   currentJoinTarget: '[[151.33,-14.24,48.49,51.41,-46.20,38.50],[9E9,9E9,9E9,9E9,9E9,9E9]]'
+--- !u!114 &8862533932727204971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208597800256411322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69794c96703e22c47ae05893326d4d7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ipAddress: 127.0.0.1
+  port: 80
+  username: Default User
+  password: robotics
+  taskName: T_ROB1
+  pollingIntervalMs: 100
+  useWebSocketWhenAvailable: 1
+  autoStartOnEnable: 1
+  enableDebugLogging: 1
+  showPerformanceMetrics: 1
+  logJointUpdates: 0
+  monitorIOSignals: 1
+  ioPollingInterval: 0.5
+  ioSignalsToMonitor: []
+  connectionStatus: 0
+  isUsingWebSocket: 0
+  updateFrequencyHz: 0
+  lastUpdateTimestamp: 0
+  totalUpdatesReceived: 0
+  lastErrorMessage: 
+  currentProgramName: Unknown
+  executionState: Unknown
+  operationMode: Unknown
+  controllerState: Unknown
+  jointLimitWarnings: 000000000000
+  jointLimitPercentages:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  jointMinLimits:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  jointMaxLimits:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  jointLimitStatus: OK
 --- !u!33 &8867322562868257563
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -16764,10 +16767,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  manualGripperPosition: 1
-  currentOpenAmount: 1
+  manualGripperPosition: 0
+  currentOpenAmount: 0
   isMoving: 0
-  isUnderABBControl: 0
+  isUnderRWSControl: 0
 --- !u!33 &9091693453719831012
 MeshFilter:
   m_ObjectHideFlags: 0

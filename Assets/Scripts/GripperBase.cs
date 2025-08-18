@@ -20,13 +20,12 @@ public class SchunkGripperController : MonoBehaviour
     [Header("Current State")]
     [SerializeField] private float currentOpenAmount = 0f; // 0 = closed, 1 = fully open
     [SerializeField] private bool isMoving = false;
-    [SerializeField] private bool isUnderRWSControl = false;
     
     private Vector3 finger1StartPos;
     private Vector3 finger2StartPos;
     private Tool toolComponent;
     private Gripper gripperComponent;
-    private ABBRobotWebServicesController abbRWSController;
+    private ABBRobotWebServicesControllerModular abbRWSController;
     
     private void Start()
     {
@@ -47,7 +46,7 @@ public class SchunkGripperController : MonoBehaviour
         }
         
         // Find ABB RWS Controller (usually on robot root)
-        abbRWSController = FindFirstObjectByType<ABBRobotWebServicesController>();
+        abbRWSController = FindFirstObjectByType<ABBRobotWebServicesControllerModular>();
         if (abbRWSController != null)
         {
             // Subscribe to gripper state changes from RWS controller
@@ -58,7 +57,7 @@ public class SchunkGripperController : MonoBehaviour
     private void Update()
     {
         // Handle manual control via inspector slider (only when not under RWS control)
-        if (!isUnderRWSControl && !isMoving)
+        if (!isMoving)
         {
             if (Mathf.Abs(manualGripperPosition - currentOpenAmount) > 0.01f)
             {
@@ -93,21 +92,18 @@ public class SchunkGripperController : MonoBehaviour
     [ContextMenu("Manual: Open Gripper")]
     public void ManualOpenGripper()
     {
-        isUnderRWSControl = false;
         if (!isMoving) StartCoroutine(MoveGripper(1f));
     }
     
     [ContextMenu("Manual: Close Gripper")]
     public void ManualCloseGripper()
     {
-        isUnderRWSControl = false;
         if (!isMoving) StartCoroutine(MoveGripper(0f));
     }
     
     [ContextMenu("Manual: Half Open")]
     public void ManualHalfOpen()
     {
-        isUnderRWSControl = false;
         SetGripperPosition(0.5f);
     }
     
@@ -141,21 +137,11 @@ public class SchunkGripperController : MonoBehaviour
     private void OnRWSGripperSignalReceived(string signalName, bool signalState)
     {
         Debug.Log($"[Schunk Gripper] RWS I/O Signal received: {signalName} = {signalState}");
-        
-        // Switch to RWS control mode and animate gripper based on signal
-        isUnderRWSControl = true;
-        
-        // Interpret signal - typically high signal means action
-        if (signalState)
-        {
-            if (signalName.ToLower().Contains("open"))
-            {
-                if (!isMoving) StartCoroutine(MoveGripper(1f)); // Open
-            }
-            else if (signalName.ToLower().Contains("close") || signalName.ToLower().Contains("grip"))
-            {
-                if (!isMoving) StartCoroutine(MoveGripper(0f)); // Close
-            }
+
+        if (signalState == true) {
+            StartCoroutine(MoveGripper(1f));
+        } else {
+            StartCoroutine(MoveGripper(0f));
         }
     }
     

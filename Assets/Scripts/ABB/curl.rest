@@ -1,0 +1,1 @@
+curl -u "Default User":robotics -H "Content-Type: application/x-www-form-urlencoded;v=2.0" -X POST -d "resources=1&1=/rw/rapid/tasks/T_ROB1;taskchange&1-p=0" "https://127.0.0.1/subscription"

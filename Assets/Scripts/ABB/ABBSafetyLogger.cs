@@ -41,6 +41,11 @@ public class ABBSafetyLogger : MonoBehaviour
     private readonly Queue<LogEntry> logQueue = new Queue<LogEntry>();
     private readonly object logLock = new object();
     
+    // Cached component references (main thread only)
+    private Controller cachedController;
+    private ABBRobotWebServicesController cachedAbbController;
+    private RobotSafetyMonitor cachedSafetyMonitor;
+    
     public enum LogLevel
     {
         Info,
@@ -112,12 +117,30 @@ public class ABBSafetyLogger : MonoBehaviour
         
         sessionStartTime = DateTime.Now;
         InitializeLogging();
+        
+        // Cache component references on main thread
+        CacheComponentReferences();
     }
     
     private void Start()
     {
         LogInfo(LogCategory.System, "ABB Safety Logger initialized", 
                $"Session started at {sessionStartTime:yyyy-MM-dd HH:mm:ss}");
+    }
+    
+    private void CacheComponentReferences()
+    {
+        // Cache references on main thread to avoid FindObjectsByType calls from background threads
+        try
+        {
+            cachedController = FindFirstObjectByType<Controller>();
+            cachedAbbController = FindFirstObjectByType<ABBRobotWebServicesController>();
+            cachedSafetyMonitor = FindFirstObjectByType<RobotSafetyMonitor>();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[ABB Safety Logger] Failed to cache component references: {e.Message}");
+        }
     }
     
     private void InitializeLogging()
@@ -297,10 +320,10 @@ public class ABBSafetyLogger : MonoBehaviour
             details = details
         };
         
-        // Try to get current robot position and joint angles
-        var controller = FindFirstObjectByType<Controller>();
-        var abbController = FindFirstObjectByType<ABBRobotWebServicesController>();
-        var safetyMonitor = FindFirstObjectByType<RobotSafetyMonitor>();
+        // Use cached component references to avoid main thread calls
+        var controller = cachedController;
+        var abbController = cachedAbbController;
+        var safetyMonitor = cachedSafetyMonitor;
         
         if (controller != null)
         {
