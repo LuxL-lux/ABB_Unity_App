@@ -1,7 +1,13 @@
 using UnityEngine;
 using Preliy.Flange;
 using Preliy.Flange.Common;
+using RobotSystem.Core;
 
+/// <summary>
+/// Controls the Schunk gripper visualization based on the RobotState.
+/// Automatically subscribes to RobotManager state updates and responds to GripperOpen changes.
+/// Also supports manual control via inspector slider when not receiving robot state updates.
+/// </summary>
 public class SchunkGripperController : MonoBehaviour
 {
     [Header("Gripper Configuration")]
@@ -25,7 +31,8 @@ public class SchunkGripperController : MonoBehaviour
     private Vector3 finger2StartPos;
     private Tool toolComponent;
     private Gripper gripperComponent;
-    private ABBRobotWebServicesControllerModular abbRWSController;
+    private RobotManager robotManager;
+    private bool lastGripperState = false;
     
     private void Start()
     {
@@ -45,12 +52,27 @@ public class SchunkGripperController : MonoBehaviour
             gripperComponent = gameObject.AddComponent<Gripper>();
         }
         
-        // Find ABB RWS Controller (usually on robot root)
-        abbRWSController = FindFirstObjectByType<ABBRobotWebServicesControllerModular>();
-        if (abbRWSController != null)
+        // Find Robot Manager to access robot state
+        robotManager = FindFirstObjectByType<RobotManager>();
+        if (robotManager != null)
         {
-            // Subscribe to gripper state changes from RWS controller
-            abbRWSController.OnGripperSignalReceived += OnRWSGripperSignalReceived;
+            // Subscribe to robot state changes using the public event
+            robotManager.OnStateUpdated += OnRobotStateUpdated;
+            
+            // Initialize gripper to current robot state
+            var currentState = robotManager.GetCurrentState();
+            if (currentState != null)
+            {
+                lastGripperState = currentState.GripperOpen;
+                // Set initial position without animation
+                SetGripperPosition(lastGripperState ? 1f : 0f);
+                manualGripperPosition = lastGripperState ? 1f : 0f;
+                Debug.Log($"[Schunk Gripper] Initialized to robot state: {(lastGripperState ? "OPEN" : "CLOSED")}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[Schunk Gripper] RobotManager not found. Gripper will not respond to robot state changes.");
         }
     }
     
@@ -133,24 +155,35 @@ public class SchunkGripperController : MonoBehaviour
     public bool IsMoving => isMoving;
     public float OpenAmount => currentOpenAmount;
     
-    // RWS I/O Signal integration
-    private void OnRWSGripperSignalReceived(string signalName, bool signalState)
+    // Robot State integration
+    private void OnRobotStateUpdated(RobotState state)
     {
-        Debug.Log($"[Schunk Gripper] RWS I/O Signal received: {signalName} = {signalState}");
-
-        if (signalState == true) {
-            StartCoroutine(MoveGripper(1f));
-        } else {
-            StartCoroutine(MoveGripper(0f));
+        if (state == null || isMoving) return;
+        
+        // Check if gripper state has changed
+        bool currentGripperOpen = state.GripperOpen;
+        
+        if (currentGripperOpen != lastGripperState)
+        {
+            lastGripperState = currentGripperOpen;
+            
+            // Determine target position based on state
+            float targetPosition = currentGripperOpen ? 1f : 0f;
+            
+            // Only move if not already at the target position
+            if (Mathf.Abs(currentOpenAmount - targetPosition) > 0.01f)
+            {
+                StartCoroutine(MoveGripper(targetPosition));
+            }
         }
     }
     
     private void OnDestroy()
     {
         // Unsubscribe from events
-        if (abbRWSController != null)
+        if (robotManager != null)
         {
-            abbRWSController.OnGripperSignalReceived -= OnRWSGripperSignalReceived;
+            robotManager.OnStateUpdated -= OnRobotStateUpdated;
         }
     }
 }

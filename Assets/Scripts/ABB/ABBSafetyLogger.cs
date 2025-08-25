@@ -238,8 +238,11 @@ public class ABBSafetyLogger : MonoBehaviour
     {
         if (!logCollisions) return;
         
+        // Get current robot TCP position in RAPID format
+        string currentRobTarget = GetCurrentRobotTarget();
+        
         string message = $"Collision detected: {robotPart} -> {hitObject}";
-        string details = $"Position: {position}\nTime: {Time.time:F2}s";
+        string details = $"Collision Position: {position}\nCurrent TCP: {currentRobTarget}\nTime: {Time.time:F2}s";
         
         var entry = CreateLogEntry(LogLevel.Warning, LogCategory.Collision, message, details);
         entry.robotPosition = position;
@@ -420,15 +423,15 @@ public class ABBSafetyLogger : MonoBehaviour
     private string FormatRobTarget(Vector3 position, Quaternion rotation)
     {
         // Convert to ABB coordinate system (Unity Y->Z, Z->Y) and mm
-        float x = position.x * 1000f;
-        float y = position.z * 1000f;  
+        float x = position.z * 1000f;
+        float y = position.x * 1000f;  
         float z = position.y * 1000f;
         
         // RAPID ROBTARGET format: [[x,y,z],[q1,q2,q3,q4],[confdata],[external_axis]]
         // Use InvariantCulture to ensure periods for decimal separators
         return string.Format(System.Globalization.CultureInfo.InvariantCulture,
             "[[{0:F2},{1:F2},{2:F2}],[{3:F6},{4:F6},{5:F6},{6:F6}],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]]",
-            x, y, z, rotation.x, rotation.y, rotation.z, rotation.w);
+            x, y, z, rotation.x, rotation.z, rotation.y, rotation.w);
     }
     
     private RAPIDContext GetCurrentRAPIDContext(ABBRobotWebServicesController abbController)
@@ -729,5 +732,75 @@ public class ABBSafetyLogger : MonoBehaviour
         LogInfo(LogCategory.System, "Test log entry", "This is a test from context menu");
         LogWarning(LogCategory.Collision, "Test collision", "Simulated collision for testing");
         LogError(LogCategory.RWS, "Test RWS error", "Simulated RWS error for testing");
+    }
+    
+    /// <summary>
+    /// Gets the current robot TCP position as a RAPID robtarget string using Flange data
+    /// </summary>
+    public string GetCurrentRobotTarget()
+    {
+        try
+        {
+            if (cachedController != null && cachedController.PoseObserver != null)
+            {
+                // Use the Flange CartesianTarget system to get proper TCP data
+                Matrix4x4 tcpMatrix = cachedController.PoseObserver.ToolCenterPointWorld.Value;
+                
+                // Extract position and rotation from the transformation matrix
+                Vector3 position = new Vector3(tcpMatrix.m03, tcpMatrix.m13, tcpMatrix.m23);
+                Quaternion rotation = tcpMatrix.rotation;
+                
+                // Use the same coordinate conversion as RobotSafetyMonitor
+                float x = position.z * 1000f;      // Unity Z -> RAPID X
+                float y = position.x * 1000f * -1; // Unity X -> RAPID Y (inverted)
+                float z = position.y * 1000f;      // Unity Y -> RAPID Z
+                
+                // Get current configuration from the controller
+                var config = cachedController.Configuration.Value;
+                
+                // RAPID quaternion order: q1=w, q2=x, q3=y, q4=z
+                // RAPID robtarget format: [[x,y,z],[q1,q2,q3,q4],[cf1,cf4,cf6,cfx],[external_axes]]
+                return $"[[{x:F2},{y:F2},{z:F2}],[{rotation.w:F6},{rotation.x:F6},{rotation.y:F6},{rotation.z:F6}],[{config.Turn1},{config.Turn4},{config.Turn6},{config.Index}],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]";
+            }
+        }
+        catch (System.Exception e)
+        {
+            return $"Error getting robot target: {e.Message}";
+        }
+        
+        return "Robot target not available";
+    }
+    
+    /// <summary>
+    /// Gets current joint angles from the controller using Flange JointTarget
+    /// </summary>
+    public string GetCurrentJointAngles()
+    {
+        try
+        {
+            if (cachedController != null && cachedController.MechanicalGroup != null)
+            {
+                var jointState = cachedController.MechanicalGroup.JointState;
+                var angles = new System.Text.StringBuilder();
+                angles.Append("[");
+                
+                // Access robot joint angles using the correct RobJoint property
+                for (int i = 0; i < 6; i++) // Standard 6-axis robot
+                {
+                    if (i > 0) angles.Append(",");
+                    float angleInDegrees = jointState.RobJoint[i] * Mathf.Rad2Deg;
+                    angles.Append($"{angleInDegrees:F2}");
+                }
+                
+                angles.Append("]");
+                return angles.ToString();
+            }
+        }
+        catch (System.Exception e)
+        {
+            return $"Error getting joint angles: {e.Message}";
+        }
+        
+        return "Joint angles not available";
     }
 }

@@ -1,8 +1,3 @@
-/****************************************************************************
-ABB Robot Web Services Data Stream Implementation
-MIT License
-****************************************************************************/
-
 using System;
 using System.Collections.Generic;
 using System.Threading;

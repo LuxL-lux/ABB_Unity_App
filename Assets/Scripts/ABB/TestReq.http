@@ -1,1 +1,0 @@
-curl -u "Default User:robotics" -d "lvalue=1" -X OPTIONS "http://127.0.0.1/subscription" -H "Accept: application/xml"

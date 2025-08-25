@@ -44,7 +44,7 @@ public class RobotSafetyMonitor : MonoBehaviour
     [SerializeField, ReadOnly] private bool inSingularity = false;
     [SerializeField, ReadOnly] private Vector3 currentTCPPosition = Vector3.zero;
     [SerializeField, ReadOnly] private string singularityType = "None"; // Current singularity type
-    [SerializeField, ReadOnly] private float[] axisAlignments = new float[0]; // Debug info for axis alignments
+    [SerializeField, ReadOnly] private float[] axisAlignments = new float[0];
     
     [Header("RAPID Position Formats")]
     [SerializeField, ReadOnly] private string currentRobTarget = "";
@@ -346,9 +346,9 @@ public class RobotSafetyMonitor : MonoBehaviour
         if (robot.Joints == null || robot.Joints.Count < 6) 
             return (1.0f, "None");
 
-        // Get rotation axes (Z-axis) for each joint in world coordinates
-        Vector3[] jointAxes = new Vector3[robot.Joints.Count];
-        axisAlignments = new float[robot.Joints.Count * (robot.Joints.Count - 1) / 2]; // For debug display
+        // Get rotation axes (Z) for each joint in world coordinates
+        Vector3[] jointAxes = new Vector3[robot.Joints.Count]; // Count Axes
+        axisAlignments = new float[robot.Joints.Count * (robot.Joints.Count - 1) / 2]; //
         
         for (int i = 0; i < robot.Joints.Count; i++)
         {
@@ -356,8 +356,7 @@ public class RobotSafetyMonitor : MonoBehaviour
             var joint = robot.Joints[i];
             if (joint?.transform != null)
             {
-                // Use the Z-axis as rotation axis (standard robotics convention)
-                jointAxes[i] = joint.transform.TransformDirection(Vector3.forward).normalized;
+                jointAxes[i] = joint.transform.TransformDirection(Vector3.forward).normalized; // Get normalized Transform for each Joint
             }
             else
             {
@@ -373,7 +372,7 @@ public class RobotSafetyMonitor : MonoBehaviour
         // Wrist singularity: Check alignment of wrist joints (4, 5, 6) - indices 3, 4, 5
         if (robot.Joints.Count >= 6)
         {
-            // Joint 4 and Joint 6 axes alignment (classic wrist singularity)
+            // Joint 4 and Joint 6 axes alignment (wrist singularity)
             float dot46 = Mathf.Abs(Vector3.Dot(jointAxes[3], jointAxes[5]));
             axisAlignments[alignmentIndex++] = dot46;
             
@@ -594,15 +593,31 @@ public class RobotSafetyMonitor : MonoBehaviour
     private string FormatRobTarget(Vector3 position, Quaternion rotation)
     {
         // Convert to ABB coordinate system (Unity Y->Z, Z->Y) and mm
-        float x = position.x * 1000f;
-        float y = position.z * 1000f;  
+        float x = position.z * 1000f;
+        float y = position.x * 1000f * -1;  
         float z = position.y * 1000f;
         
-        // RAPID ROBTARGET format: [[x,y,z],[q1,q2,q3,q4],[confdata],[external_axis]]
-        // Use InvariantCulture to ensure periods for decimal separators
+        // Get configuration data from controller if available
+        string configData = "[0,0,0,0]";
+        try
+        {
+            var controller = FindFirstObjectByType<Controller>();
+            if (controller != null)
+            {
+                var config = controller.Configuration.Value;
+                configData = $"[{config.Turn1},{config.Turn4},{config.Turn6},{config.Index}]";
+            }
+        }
+        catch
+        {
+            // Use default config if controller not available
+        }
+        
+        // RAPID ROBTARGET format: [[x,y,z],[q1,q2,q3,q4],[cf1,cf4,cf6,cfx],[external_axis]]
+        // RAPID quaternion order: q1=w, q2=x, q3=y, q4=z
         return string.Format(System.Globalization.CultureInfo.InvariantCulture,
-            "[[{0:F2},{1:F2},{2:F2}],[{3:F6},{4:F6},{5:F6},{6:F6}],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]]",
-            x, y, z, rotation.x, rotation.y, rotation.z, rotation.w);
+            "[[{0:F2},{1:F2},{2:F2}],[{3:F6},{4:F6},{5:F6},{6:F6}],{7},[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]",
+            x, y, z, rotation.w, rotation.x, rotation.y, rotation.z, configData);
     }
 
     
