@@ -4,7 +4,9 @@
       "WebFetch(domain:developercenter.robotstudio.com)",
       "WebFetch(domain:github.com)",
       "WebSearch",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git checkout:*)",
+      "WebFetch(domain:library.e.abb.com)"
     ],
     "deny": [],
     "ask": []

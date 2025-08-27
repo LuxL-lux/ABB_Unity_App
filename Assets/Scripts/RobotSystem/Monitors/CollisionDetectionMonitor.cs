@@ -14,16 +14,30 @@ namespace RobotSystem.Safety
     {
         [Header("Collision Detection Settings")]
         [SerializeField] private LayerMask collisionLayers = -1;
-        public LayerMask CollisionLayers => collisionLayers;
+        [SerializeField] private bool excludeProcessFlowLayer = true;
+        public LayerMask CollisionLayers => GetFilteredCollisionLayers();
         [SerializeField] private bool useExistingCollidersOnly = false;
         [SerializeField] private float cooldownTime = 1.0f;
-        [SerializeField] private List<string> criticalCollisionTags = new List<string> { "Safety_Fence", "Human", "Critical" };
+        [SerializeField] private List<string> criticalCollisionTags = new List<string> { "Machine", "Obstacles" };
         
         [Header("Robot Links")]
         [SerializeField] private List<Transform> robotLinks = new List<Transform>();
         [SerializeField] private bool autoFindRobotParts = true;
         
+        [Header("Debug Settings")]
+        [SerializeField] private bool debugLogging = false;
+        
         public string MonitorName => "Collision Detector";
+        
+        private void DebugLog(string message)
+        {
+            if (debugLogging) Debug.Log(message);
+        }
+        
+        private void DebugLogWarning(string message)
+        {
+            if (debugLogging) Debug.LogWarning(message);
+        }
         public bool IsActive { get; private set; } = true;
         
         public event Action<SafetyEvent> OnSafetyEventDetected;
@@ -48,7 +62,7 @@ namespace RobotSystem.Safety
             SetupCollisionDetection();
             
             isInitialized = true;
-            Debug.Log($"[{MonitorName}] Pre-initialized with {robotLinks.Count} robot links");
+            DebugLog($"[{MonitorName}] Pre-initialized with {robotLinks.Count} robot links");
         }
         
         public void Initialize()
@@ -60,22 +74,14 @@ namespace RobotSystem.Safety
             }
             else
             {
-                Debug.Log($"[{MonitorName}] Initialization confirmed - {robotLinks.Count} robot links ready");
+                DebugLog($"[{MonitorName}] Initialization confirmed - {robotLinks.Count} robot links ready");
             }
         }
         
         public void UpdateState(RobotState state)
         {
-            if (!IsActive || state == null) return;
-            
-            // Update state in all cached collision detector components (thread-safe)
-            foreach (var detector in cachedDetectors)
-            {
-                if (detector != null)
-                {
-                    detector.UpdateState(state);
-                }
-            }
+            // No action needed - collision detection is purely event-driven through Unity triggers
+            // The safety manager already has the current robot state when creating safety events
         }
         
         public void SetActive(bool active)
@@ -204,7 +210,7 @@ namespace RobotSystem.Safety
                     
                     if (colliders.Count == 0)
                     {
-                        Debug.LogWarning($"[{MonitorName}] No colliders found for frame {robotPart.name} - skipping collision detection");
+                        DebugLogWarning($"[{MonitorName}] No colliders found for frame {robotPart.name} - skipping collision detection");
                         continue;
                     }
                 }
@@ -315,13 +321,19 @@ namespace RobotSystem.Safety
             return false;
         }
         
-        public void OnRobotPartCollision(string robotPartName, Collider hitCollider, RobotState state)
+        public void OnRobotPartCollision(string robotPartName, Collider hitCollider)
         {
             // Safety check for null collider
             if (hitCollider == null)
             {
-                Debug.LogWarning($"[{MonitorName}] Null collider detected for part: {robotPartName}");
+                DebugLogWarning($"[{MonitorName}] Null collider detected for part: {robotPartName}");
                 return;
+            }
+            
+            // Check if this is a gripped workobject/part - ignore collision if gripped
+            if (IsGrippedPart(hitCollider))
+            {
+                return; // Don't report collision with gripped parts
             }
             
             string hitObjectName = hitCollider.gameObject.name;
@@ -353,7 +365,7 @@ namespace RobotSystem.Safety
                 distance = Vector3.Distance(transform.position, collisionPoint)
             };
             
-            // Create safety event
+            // Create safety event - safety manager will provide robot state
             var eventType = isCritical ? SafetyEventType.Critical : SafetyEventType.Warning;
             var description = isCritical ? 
                 $"CRITICAL COLLISION: {robotPartName} -> {hitObjectName}" :
@@ -363,7 +375,7 @@ namespace RobotSystem.Safety
                 MonitorName,
                 eventType,
                 description,
-                state
+                null // Safety manager will provide robot state
             );
             
             // Add collision-specific data
@@ -408,6 +420,33 @@ namespace RobotSystem.Safety
             return false;
         }
         
+        /// <summary>
+        /// Check if the colliding object is a part that's currently gripped by the robot
+        /// </summary>
+        private bool IsGrippedPart(Collider hitCollider)
+        {
+            // Check if the collider has a Part component
+            var part = hitCollider.GetComponent<RobotSystem.Core.Part>();
+            if (part == null) return false;
+            
+            // Find gripper and check if it's gripping this part
+            var gripper = FindFirstObjectByType<Preliy.Flange.Common.Gripper>();
+            if (gripper == null || !gripper.Gripped) return false;
+            
+            // Check if this part is a child of the gripper (indicating it's gripped)
+            Transform current = hitCollider.transform;
+            while (current != null)
+            {
+                if (current == gripper.transform)
+                {
+                    return true;
+                }
+                current = current.parent;
+            }
+            
+            return false;
+        }
+        
         private void HandleNewCollision(CollisionInfo collision, RobotState state)
         {
             // Legacy method - now handled by OnRobotPartCollision
@@ -435,6 +474,23 @@ namespace RobotSystem.Safety
                 Gizmos.DrawSphere(collision.collisionPoint, 0.02f);
             }
         }
+        
+        /// <summary>
+        /// Get collision layers with ProcessFlow layer excluded if enabled
+        /// </summary>
+        private LayerMask GetFilteredCollisionLayers()
+        {
+            LayerMask filteredLayers = collisionLayers;
+            
+            if (excludeProcessFlowLayer)
+            {
+                // Remove ProcessFlow layer (31) from collision detection
+                int processFlowLayer = 31;
+                filteredLayers &= ~(1 << processFlowLayer);
+            }
+            
+            return filteredLayers;
+        }
     }
     
     // Helper component for individual robot parts
@@ -442,7 +498,6 @@ namespace RobotSystem.Safety
     {
         private CollisionDetectionMonitor parentDetector;
         private string partName;
-        private RobotState cachedState;
         
         public void Initialize(CollisionDetectionMonitor parent, string name)
         {
@@ -450,20 +505,15 @@ namespace RobotSystem.Safety
             partName = name;
         }
         
-        public void UpdateState(RobotState state)
-        {
-            cachedState = state;
-        }
-        
         private void OnTriggerEnter(Collider other)
         {
-            if (parentDetector != null && cachedState != null)
+            if (parentDetector != null)
             {
                 // Check if we should detect collision with this layer
                 int otherLayer = 1 << other.gameObject.layer;
                 if ((parentDetector.CollisionLayers.value & otherLayer) != 0)
                 {
-                    parentDetector.OnRobotPartCollision(partName, other, cachedState);
+                    parentDetector.OnRobotPartCollision(partName, other);
                 }
             }
         }

@@ -14,12 +14,17 @@ namespace RobotSystem.Core
         [Header("Logging Settings")]
         [SerializeField] private bool enableJsonLogging = true;
         [SerializeField] private bool logOnlyWhenProgramRunning = true;
-        [SerializeField] private string logDirectory = "SafetyLogs";
+        [SerializeField] private string logDirectory = "Logs";
         [SerializeField] private SafetyEventType minimumLogLevel = SafetyEventType.Warning;
         
         private List<IRobotSafetyMonitor> safetyMonitors = new List<IRobotSafetyMonitor>();
         private RobotManager robotManager;
-        private RobotState lastKnownState;
+        
+        // Safety event collection for program-based logging
+        private List<SafetyEvent> currentProgramSafetyEvents = new List<SafetyEvent>();
+        private string currentProgramName = "";
+        private DateTime programStartTime;
+        private bool isProgramCurrentlyRunning = false;
         
         public event Action<SafetyEvent> OnSafetyEventDetected;
         
@@ -27,24 +32,27 @@ namespace RobotSystem.Core
         {
             InitializeSafetyMonitors();
             
-            // Find and subscribe to robot manager
+            // Find robot manager for state access and program tracking
             robotManager = FindFirstObjectByType<RobotManager>();
             if (robotManager != null)
             {
-                robotManager.OnStateUpdated += OnRobotStateUpdated;
+                // Subscribe to motor state changes for program tracking
+                robotManager.OnMotorStateChanged += OnMotorStateChanged;
             }
             else
             {
-                Debug.LogWarning("[Safety Manager] RobotManager not found. Safety monitors will not receive state updates.");
+                Debug.LogWarning("[Safety Manager] RobotManager not found. Robot state will not be available for safety events.");
             }
             
-            // Ensure log directory exists
+            // Ensure log directory exists in project folder
             if (enableJsonLogging)
             {
-                string fullLogPath = Path.Combine(Application.persistentDataPath, logDirectory);
+                string projectPath = Directory.GetParent(Application.dataPath).FullName;
+                string fullLogPath = Path.Combine(projectPath, logDirectory);
                 if (!Directory.Exists(fullLogPath))
                 {
                     Directory.CreateDirectory(fullLogPath);
+                    Debug.Log($"[Safety Manager] Created log directory: {fullLogPath}");
                 }
             }
         }
@@ -64,8 +72,6 @@ namespace RobotSystem.Core
                         monitor.Initialize();
                         monitor.OnSafetyEventDetected += OnSafetyEventOccurred;
                         safetyMonitors.Add(monitor);
-                        
-                        Debug.Log($"[Safety Manager] Initialized safety monitor: {monitor.MonitorName}");
                     }
                     catch (Exception e)
                     {
@@ -77,41 +83,52 @@ namespace RobotSystem.Core
                     Debug.LogWarning($"[Safety Manager] Component {component.name} does not implement IRobotSafetyMonitor interface");
                 }
             }
-            
-            Debug.Log($"[Safety Manager] Initialized {safetyMonitors.Count} safety monitors");
         }
         
-        private void OnRobotStateUpdated(RobotState state)
+        private void OnMotorStateChanged(string oldState, string newState)
         {
-            lastKnownState = state;
-            
-            foreach (var monitor in safetyMonitors)
+            // Check for program start/stop based on motor state
+            if (newState.ToLower() == "running")
             {
-                if (monitor.IsActive)
+                // Get current module name from robot state when program starts
+                var currentState = robotManager?.GetCurrentState();
+                string moduleName = currentState?.currentModule;
+                
+                if (!string.IsNullOrEmpty(moduleName) && !isProgramCurrentlyRunning)
                 {
-                    try
-                    {
-                        monitor.UpdateState(state);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError($"[Safety Manager] Error updating monitor {monitor.MonitorName}: {e.Message}");
-                    }
+                    StartProgramLogging(moduleName);
                 }
+            }
+            else if (newState.ToLower() == "stopped" && isProgramCurrentlyRunning)
+            {
+                // Program stopped
+                StopProgramLogging();
             }
         }
         
+        
         private void OnSafetyEventOccurred(SafetyEvent safetyEvent)
         {
+            // Get current robot state from robot manager
+            if (safetyEvent.robotStateSnapshot == null && robotManager != null)
+            {
+                var currentState = robotManager.GetCurrentState();
+                if (currentState != null)
+                {
+                    safetyEvent.robotStateSnapshot = new RobotStateSnapshot(currentState);
+                }
+            }
+            
             OnSafetyEventDetected?.Invoke(safetyEvent);
             
-            bool shouldLogToJson = enableJsonLogging && 
-                                 safetyEvent.eventType >= minimumLogLevel &&
-                                 (!logOnlyWhenProgramRunning || safetyEvent.robotStateSnapshot.isProgramRunning);
+            bool shouldCollectEvent = enableJsonLogging && 
+                                    safetyEvent.eventType >= minimumLogLevel &&
+                                    (safetyEvent.robotStateSnapshot == null || !logOnlyWhenProgramRunning || safetyEvent.robotStateSnapshot.isProgramRunning);
             
-            if (shouldLogToJson)
+            if (shouldCollectEvent)
             {
-                LogSafetyEventToFile(safetyEvent);
+                // Collect safety event for program-based logging
+                CollectSafetyEvent(safetyEvent);
             }
             else
             {
@@ -119,22 +136,75 @@ namespace RobotSystem.Core
             }
         }
         
-        private void LogSafetyEventToFile(SafetyEvent safetyEvent)
+        
+        private void StartProgramLogging(string programName)
+        {
+            isProgramCurrentlyRunning = true;
+            currentProgramName = programName;
+            programStartTime = DateTime.Now;
+            currentProgramSafetyEvents.Clear();
+            
+            Debug.Log($"[Safety Manager] Program started - collecting safety events for: {programName}");
+        }
+        
+        private void StopProgramLogging()
+        {
+            Debug.Log($"[Safety Manager] Program stopped: {currentProgramName} (motor state = stopped)");
+            
+            if (isProgramCurrentlyRunning && currentProgramSafetyEvents.Count > 0)
+            {
+                SaveCollectedSafetyEvents();
+            }
+            else if (isProgramCurrentlyRunning)
+            {
+                Debug.Log($"[Safety Manager] No safety events collected for program: {currentProgramName}");
+            }
+            
+            isProgramCurrentlyRunning = false;
+            currentProgramName = "";
+            currentProgramSafetyEvents.Clear();
+        }
+        
+        private void CollectSafetyEvent(SafetyEvent safetyEvent)
+        {
+            if (isProgramCurrentlyRunning)
+            {
+                currentProgramSafetyEvents.Add(safetyEvent);
+                Debug.Log($"[Safety Manager] Collected {safetyEvent.eventType} from {safetyEvent.monitorName} ({currentProgramSafetyEvents.Count} events total)");
+            }
+            else
+            {
+                // Log individual events when no program is running
+                LogSafetyEventToConsole(safetyEvent);
+            }
+        }
+        
+        private void SaveCollectedSafetyEvents()
         {
             try
             {
-                string fileName = $"Safety_{safetyEvent.monitorName}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.json";
-                string fullPath = Path.Combine(Application.persistentDataPath, logDirectory, fileName);
+                var programLog = new ProgramSafetyLog
+                {
+                    programName = currentProgramName,
+                    startTime = programStartTime,
+                    endTime = DateTime.Now,
+                    duration = DateTime.Now - programStartTime,
+                    totalSafetyEvents = currentProgramSafetyEvents.Count,
+                    safetyEvents = currentProgramSafetyEvents.ToArray()
+                };
                 
-                string jsonContent = safetyEvent.ToJson();
+                string fileName = $"SafetyLog_{currentProgramName.Replace(".", "_")}_{programStartTime:yyyyMMdd_HHmmss}.json";
+                string projectPath = Directory.GetParent(Application.dataPath).FullName;
+                string fullPath = Path.Combine(projectPath, logDirectory, fileName);
+                
+                string jsonContent = JsonUtility.ToJson(programLog, true);
                 File.WriteAllText(fullPath, jsonContent);
                 
-                Debug.Log($"[Safety Manager] {safetyEvent.eventType} - {safetyEvent.monitorName}: {safetyEvent.description} [Logged to: {fileName}]");
+                Debug.Log($"[Safety Manager] Saved program safety log: {fileName} ({currentProgramSafetyEvents.Count} events)");
             }
             catch (Exception e)
             {
-                Debug.LogError($"[Safety Manager] Failed to log safety event to file: {e.Message}");
-                LogSafetyEventToConsole(safetyEvent);
+                Debug.LogError($"[Safety Manager] Failed to save program safety log: {e.Message}");
             }
         }
         
@@ -174,9 +244,17 @@ namespace RobotSystem.Core
         
         void OnDestroy()
         {
+            // Unsubscribe from robot manager
             if (robotManager != null)
             {
-                robotManager.OnStateUpdated -= OnRobotStateUpdated;
+                robotManager.OnMotorStateChanged -= OnMotorStateChanged;
+            }
+            
+            // Save any pending program log before shutdown
+            if (isProgramCurrentlyRunning && currentProgramSafetyEvents.Count > 0)
+            {
+                Debug.Log("[Safety Manager] Saving program log before shutdown");
+                SaveCollectedSafetyEvents();
             }
             
             foreach (var monitor in safetyMonitors)
@@ -192,5 +270,19 @@ namespace RobotSystem.Core
                 }
             }
         }
+    }
+    
+    [Serializable]
+    public class ProgramSafetyLog
+    {
+        [Header("Program Information")]
+        public string programName = "";
+        public DateTime startTime;
+        public DateTime endTime;
+        public TimeSpan duration;
+        public int totalSafetyEvents = 0;
+        
+        [Header("Safety Events")]
+        public SafetyEvent[] safetyEvents = new SafetyEvent[0];
     }
 }

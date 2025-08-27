@@ -101,13 +101,18 @@ public class SchunkGripperController : MonoBehaviour
             finger2.localPosition = finger2StartPos - Vector3.right * distance * 0.5f;
         }
         
-        if (openAmount < 0.1f && gripperComponent != null)
+        // Only grip when gripper is actually closed and fingers are in contact position
+        // Only release when gripper is sufficiently open
+        if (gripperComponent != null)
         {
-            gripperComponent.Grip(true);
-        }
-        else if (openAmount > 0.8f && gripperComponent != null)
-        {
-            gripperComponent.Grip(false);
+            if (openAmount < 0.05f && !gripperComponent.Gripped) // Very closed and not already gripped
+            {
+                gripperComponent.Grip(true);
+            }
+            else if (openAmount > 0.3f && gripperComponent.Gripped) // Sufficiently open and currently gripped
+            {
+                gripperComponent.Grip(false);
+            }
         }
     }
     

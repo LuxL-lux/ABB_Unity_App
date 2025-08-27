@@ -34,10 +34,10 @@ namespace RobotSystem.ABB.RWS
             var subscriptions = new List<SubscriptionData>
             {
                 new SubscriptionData(1, "/rw/iosystem/signals/Local/DRV_1/DO_GripperOpen;state", 2), //High Prio for IOSgnals
-                new SubscriptionData(2, "/rw/rapid/execution;ctrlexecstate", 2),
-                new SubscriptionData(3, "/rw/rapid/tasks/T_ROB1/pcp;programpointerchange", 2),
-                new SubscriptionData(4, "/rw/panel/ctrl-state", 2),
-                new SubscriptionData(5, "/rw/rapid/execution;rapidexeccycle", 2),
+                new SubscriptionData(2, "/rw/rapid/execution;ctrlexecstate", 1),
+                new SubscriptionData(3, "/rw/rapid/tasks/T_ROB1/pcp;programpointerchange", 1),
+                new SubscriptionData(4, "/rw/panel/ctrl-state", 1),
+                new SubscriptionData(5, "/rw/rapid/execution;rapidexeccycle", 1),
             };
 
             StringBuilder sb = new StringBuilder();

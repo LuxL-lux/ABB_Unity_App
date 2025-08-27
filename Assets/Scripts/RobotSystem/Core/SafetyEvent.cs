@@ -19,7 +19,7 @@ namespace RobotSystem.Core
         public RobotStateSnapshot robotStateSnapshot;
         
         [Header("Event Specific Data")]
-        [SerializeField] private string eventDataJson = "{}";
+        public object eventData = null;
         
         public SafetyEvent(string monitorName, SafetyEventType eventType, string description, RobotState currentState)
         {
@@ -27,7 +27,7 @@ namespace RobotSystem.Core
             this.eventType = eventType;
             this.description = description;
             this.timestamp = DateTime.Now;
-            this.robotStateSnapshot = new RobotStateSnapshot(currentState);
+            this.robotStateSnapshot = currentState != null ? new RobotStateSnapshot(currentState) : null;
         }
         
         /// <summary>
@@ -35,15 +35,7 @@ namespace RobotSystem.Core
         /// </summary>
         public void SetEventData<T>(T data)
         {
-            try
-            {
-                eventDataJson = JsonUtility.ToJson(data);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"[Safety Event] Failed to serialize event data: {e.Message}");
-                eventDataJson = "{}";
-            }
+            eventData = data;
         }
         
         /// <summary>
@@ -53,7 +45,7 @@ namespace RobotSystem.Core
         {
             try
             {
-                return JsonUtility.FromJson<T>(eventDataJson);
+                return eventData is T ? (T)eventData : new T();
             }
             catch
             {

@@ -10,6 +10,10 @@ namespace RobotSystem.Core
         // Public event for external components to subscribe to state updates
         public event Action<RobotState> OnStateUpdated;
         
+        // Specific change events for targeted subscriptions
+        public event Action<string, string> OnMotorStateChanged; // (oldState, newState)
+        public event Action<string, string> OnModuleChanged; // (oldModule, newModule)
+        
         [Header("Robot Connector")]
         [SerializeField] private MonoBehaviour connectorComponent;
 
@@ -25,6 +29,10 @@ namespace RobotSystem.Core
         [SerializeField] private bool gripperOpen = false;
         [SerializeField] private float[] currentJointAngles = new float[6];
         [SerializeField] private double motionUpdateFreq = 0.0;
+        
+        // Previous state values for change detection
+        private string previousMotorState = "";
+        private string previousModule = "";
 
         void Start()
         {
@@ -73,6 +81,9 @@ namespace RobotSystem.Core
             // Update UI/status variables
             currentProgram = $"{state.currentModule}.{state.currentRoutine}:{state.currentLine}";
             gripperOpen = state.GripperOpen;
+            
+            // Check for specific state changes and fire targeted events
+            DetectStateChanges(state);
             
             // Trigger public event for external subscribers
             OnStateUpdated?.Invoke(state);
@@ -185,6 +196,28 @@ namespace RobotSystem.Core
         public List<IRobotVisualization> GetVisualizationSystems()
         {
             return new List<IRobotVisualization>(visualizers);
+        }
+        
+        private void DetectStateChanges(RobotState state)
+        {
+            string currentMotorState = state.motorState ?? "";
+            string currentModule = state.currentModule ?? "";
+            
+            // Check for motor state changes
+            if (currentMotorState != previousMotorState)
+            {
+                //Debug.Log($"[Robot Manager] Motor state changed: '{previousMotorState}' → '{currentMotorState}'");
+                OnMotorStateChanged?.Invoke(previousMotorState, currentMotorState);
+                previousMotorState = currentMotorState;
+            }
+            
+            // Check for module changes
+            if (currentModule != previousModule)
+            {
+                // Debug.Log($"[Robot Manager] Module changed: '{previousModule}' → '{currentModule}'");
+                OnModuleChanged?.Invoke(previousModule, currentModule);
+                previousModule = currentModule;
+            }
         }
     }
 }

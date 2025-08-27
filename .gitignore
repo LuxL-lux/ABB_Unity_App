@@ -82,6 +82,8 @@ Thumbs.db
 .vscode/
 .idea/
 
+#Logs
+SafetyLogs/
 # Custom project ignores (add your specific files here)
 # /Assets/YourSpecificFolder/
 # *.yourextension
