@@ -23,8 +23,7 @@ namespace RobotSystem.Safety
         [SerializeField] private bool checkElbowSingularity = true;
 
         [Header("Robot Configuration")]
-        [SerializeField] private Robot6RSphericalWrist robot6R;
-        [SerializeField] private bool autoFindRobot = true;
+        [SerializeField] private bool autoFindFrames = true;
 
         [Header("Debug Settings")]
         [SerializeField] private bool debugLogging = false;
@@ -61,46 +60,88 @@ namespace RobotSystem.Safety
 
         void Awake()
         {
-            // Find robot components on main thread
-            if (autoFindRobot && robot6R == null)
+            // Find robot frames for kinematic calculations
+            if (autoFindFrames)
             {
-                robot6R = FindFirstObjectByType<Robot6RSphericalWrist>();
-            }
-
-            if (robot6R != null)
-            {
-                robotFrames = robot6R.GetComponentsInChildren<Frame>();
-                Array.Sort(robotFrames, (a, b) => GetHierarchyDepth(a.transform).CompareTo(GetHierarchyDepth(b.transform)));
+                // Priority 1: Try to find Robot component directly
+                var robot = FindFirstObjectByType<Robot>();
+                if (robot != null)
+                {
+                    robotFrames = robot.GetComponentsInChildren<Frame>();
+                    if (robotFrames != null && robotFrames.Length > 0)
+                    {
+                        Array.Sort(robotFrames, (a, b) => GetHierarchyDepth(a.transform).CompareTo(GetHierarchyDepth(b.transform)));
+                        DebugLog($"[{MonitorName}] Found {robotFrames.Length} frames from Robot component");
+                    }
+                }
+                
+                // Priority 2: Check Controller's Robot reference
+                if (robotFrames == null || robotFrames.Length == 0)
+                {
+                    var controller = FindFirstObjectByType<Preliy.Flange.Controller>();
+                    if (controller != null && controller.MechanicalGroup != null && controller.MechanicalGroup.Robot != null)
+                    {
+                        robot = controller.MechanicalGroup.Robot;
+                        robotFrames = robot.GetComponentsInChildren<Frame>();
+                        if (robotFrames != null && robotFrames.Length > 0)
+                        {
+                            Array.Sort(robotFrames, (a, b) => GetHierarchyDepth(a.transform).CompareTo(GetHierarchyDepth(b.transform)));
+                            DebugLog($"[{MonitorName}] Found {robotFrames.Length} frames from Controller's Robot reference");
+                        }
+                    }
+                }
+                
+                // Priority 3: Check Controller's Frames list directly
+                if (robotFrames == null || robotFrames.Length == 0)
+                {
+                    var controller = FindFirstObjectByType<Preliy.Flange.Controller>();
+                    if (controller != null && controller.Frames != null && controller.Frames.Count > 0)
+                    {
+                        // Convert ReferenceFrame list to Frame array
+                        var framesList = new List<Frame>();
+                        foreach (var refFrame in controller.Frames)
+                        {
+                            // ReferenceFrame might contain Frame components
+                            if (refFrame != null && refFrame.transform != null)
+                            {
+                                var frame = refFrame.transform.GetComponent<Frame>();
+                                if (frame != null)
+                                {
+                                    framesList.Add(frame);
+                                }
+                            }
+                        }
+                        
+                        if (framesList.Count > 0)
+                        {
+                            robotFrames = framesList.ToArray();
+                            Array.Sort(robotFrames, (a, b) => GetHierarchyDepth(a.transform).CompareTo(GetHierarchyDepth(b.transform)));
+                            DebugLog($"[{MonitorName}] Found {robotFrames.Length} frames from Controller's Frames list");
+                        }
+                    }
+                }
+                
+                if (robotFrames == null || robotFrames.Length == 0)
+                {
+                    DebugLogWarning($"[{MonitorName}] No robot frames found - singularity detection will be limited");
+                }
             }
 
             isInitialized = true;
-            DebugLog($"[{MonitorName}] Pre-initialized with robot: {(robot6R != null ? robot6R.name : "None")}");
-
-            // Subscribe to joint state changes for automatic detection
-            if (robot6R != null)
-            {
-                robot6R.OnJointStateChanged += OnJointStateChanged;
-            }
+            DebugLog($"[{MonitorName}] Pre-initialized with {(robotFrames?.Length ?? 0)} frames");
         }
 
         public void Initialize()
         {
-            if (!isInitialized)
-            {
-                DebugLogWarning($"[{MonitorName}] Initialize called but component not properly pre-initialized in Awake");
-            }
-            else
-            {
-                DebugLog($"[{MonitorName}] Initialization confirmed with {(robotFrames?.Length ?? 0)} frames");
-            }
+            // Initialization handled in Awake
         }
 
         public void UpdateState(RobotState state)
         {
-            if (!IsActive || robot6R == null) return;
+            if (!IsActive || state == null || !state.hasValidJointData) return;
 
-            // Read joint angles directly from Robot6RSphericalWrist component
-            var jointAngles = GetCurrentJointAngles();
+            // Get joint angles from RobotState
+            var jointAngles = state.GetJointAngles();
             if (jointAngles != null && jointAngles.Length >= 6)
             {
                 CheckForSingularities(jointAngles);
@@ -116,29 +157,12 @@ namespace RobotSystem.Safety
         public void Shutdown()
         {
             IsActive = false;
-
-            // Unsubscribe from joint state changes
-            if (robot6R != null)
-            {
-                robot6R.OnJointStateChanged -= OnJointStateChanged;
-            }
         }
 
-        private void OnJointStateChanged()
-        {
-            if (!IsActive) return;
-
-            // Automatically check for singularities when joints move
-            var jointAngles = GetCurrentJointAngles();
-            if (jointAngles != null && jointAngles.Length >= 6)
-            {
-                CheckForSingularities(jointAngles);
-            }
-        }
 
         private void CheckForSingularities(float[] jointAngles)
         {
-            if (robot6R == null || robotFrames == null || robotFrames.Length < 6)
+            if (robotFrames == null || robotFrames.Length < 6)
                 return;
 
             
@@ -295,31 +319,7 @@ namespace RobotSystem.Safety
             return depth;
         }
 
-        private float[] GetCurrentJointAngles()
-        {
-            if (robot6R == null || robot6R.Joints.Count < 6) return null;
 
-            var jointAngles = new float[6];
-            for (int i = 0; i < 6; i++)
-            {
-                // Get joint position value from TransformJoint
-                jointAngles[i] = robot6R[i]; // Uses MechanicalUnit indexer
-            }
-            return jointAngles;
-        }
-
-        // Method to manually trigger singularity check (for testing)
-        public void CheckSingularitiesNow()
-        {
-            if (!IsActive || robot6R == null) return;
-
-            var jointAngles = GetCurrentJointAngles();
-            if (jointAngles != null && jointAngles.Length >= 6)
-            {
-                DebugLog($"[{MonitorName}] Manual check - Joint angles: [{string.Join(", ", Array.ConvertAll(jointAngles, x => x.ToString("F1")))}]");
-                CheckForSingularities(jointAngles);
-            }
-        }
 
         private void HandleSingularityDetected(string singularityType, float[] jointAngles, bool entering = true)
         {

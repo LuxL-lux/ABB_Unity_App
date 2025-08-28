@@ -32,7 +32,7 @@ namespace RobotSystem.Safety
         [SerializeField] private float partDetectionRadius = 0.2f;
         
         [Header("Update Settings")]
-        [SerializeField] private float monitoringFrequency = 10f; // Hz - optimized for 20Hz input updates
+        [SerializeField] private float checkEveryNthUpdate = 2; // Every second update
         [SerializeField] private int historyBufferSize = 15;
         
         [Header("Data Smoothing")]
@@ -66,14 +66,15 @@ namespace RobotSystem.Safety
         }
         
         // Monitoring state
-        private Robot6RSphericalWrist robot6R;
         private Preliy.Flange.Common.Gripper gripperComponent;
         private List<JointState> jointHistory = new List<JointState>();
         private float[] currentJointVelocities = new float[6];
         private float[] currentJointAccelerations = new float[6];
+        private float[] previousJointAngles = new float[6];
         private DateTime lastUpdateTime;
         private bool hasPartAttached = false;
         private RobotSystem.Core.Part currentAttachedPart = null;
+        private int updateCounter = 0; // Counter for nth update monitoring
         
         // Smoothing state
         private float[] smoothedVelocities = new float[6];
@@ -89,14 +90,6 @@ namespace RobotSystem.Safety
         
         private void Awake()
         {
-            robot6R = FindFirstObjectByType<Robot6RSphericalWrist>();
-            if (robot6R == null)
-            {
-                DebugLogError($"[{MonitorName}] Robot6RSphericalWrist component not found!");
-                isActive = false;
-                return;
-            }
-            
             gripperComponent = FindFirstObjectByType<Preliy.Flange.Common.Gripper>();
             if (gripperComponent == null && onlyMonitorWhenPartAttached)
             {
@@ -114,19 +107,12 @@ namespace RobotSystem.Safety
             
         }
         
-        private void Start()
-        {
-            if (!IsActive) return;
-            
-            // Start monitoring at specified frequency
-            InvokeRepeating(nameof(UpdateJointDynamics), 0f, 1f / monitoringFrequency); // Start immediately
-        }
-        
         /// <summary>
         /// Initialize joint limits from Flange JointConfig
         /// </summary>
         private void InitializeLimitsFromFlange()
         {
+            var robot6R = FindFirstObjectByType<Robot6RSphericalWrist>();
             if (robot6R == null || robot6R.Joints.Count < 6)
             {
                 DebugLogWarning($"[{MonitorName}] Cannot get limits from Flange - robot not properly configured");
@@ -165,35 +151,6 @@ namespace RobotSystem.Safety
             {
                 DebugLogError($"[{MonitorName}] Failed to get limits from Flange: {e.Message}\nStack: {e.StackTrace}");
                 useFlangeLimits = false;
-            }
-        }
-        
-        private void UpdateJointDynamics()
-        {
-            if (!IsActive || robot6R == null) return;
-            
-            try
-            {
-                // Check if we should monitor (part attachment logic)
-                if (onlyMonitorWhenPartAttached)
-                {
-                    UpdatePartAttachmentStatus();
-                    if (!hasPartAttached) return;
-                }
-                
-                // Get current joint angles
-                float[] currentJointAngles = GetCurrentJointAngles();
-                if (currentJointAngles == null) return;
-                
-                // Calculate velocities and accelerations
-                CalculateJointDynamics(currentJointAngles);
-                
-                // Check for violations
-                CheckJointLimits(currentJointAngles);
-            }
-            catch (System.Exception e)
-            {
-                DebugLogError($"[{MonitorName}] Error in UpdateJointDynamics: {e.Message}");
             }
         }
         
@@ -252,17 +209,7 @@ namespace RobotSystem.Safety
             return closestPart;
         }
         
-        private float[] GetCurrentJointAngles()
-        {
-            if (robot6R == null || robot6R.Joints.Count < 6) return null;
-            
-            var jointAngles = new float[6];
-            for (int i = 0; i < 6; i++)
-            {
-                jointAngles[i] = robot6R[i]; // Uses MechanicalUnit indexer
-            }
-            return jointAngles;
-        }
+        // This method is no longer needed - we get joint angles from RobotState
         
         private void CalculateJointDynamics(float[] currentAngles)
         {
@@ -563,12 +510,11 @@ namespace RobotSystem.Safety
                 currentValue = currentValue,
                 minLimit = minLimit,
                 maxLimit = maxLimit,
-                jointAngles = GetCurrentJointAngles(),
+                jointAngles = (float[])previousJointAngles.Clone(), // Use the stored joint angles
                 jointVelocities = (float[])currentJointVelocities.Clone(),
                 jointAccelerations = (float[])currentJointAccelerations.Clone(),
                 attachedPart = currentAttachedPart?.PartName ?? "None",
                 partId = currentAttachedPart?.PartId ?? "",
-                monitoringFrequency = monitoringFrequency,
                 smoothingEnabled = enableSmoothing,
                 smoothingAlpha = smoothingAlpha,
                 smoothingWindowSize = smoothingWindowSize
@@ -629,6 +575,7 @@ namespace RobotSystem.Safety
             jointHistory.Clear();
             velocityBuffer.Clear();
             accelerationBuffer.Clear();
+            updateCounter = 0; // Reset update counter
         }
         
         // Public API
@@ -646,22 +593,57 @@ namespace RobotSystem.Safety
             }
         }
         
-        // Interface implementation methods
+        // Interface implementation method
         public void Initialize()
         {
-            // Most initialization is done in Awake(), just verify here
+            // Notihing
         }
         
         public void UpdateState(RobotState state)
         {
-            // Joint dynamics monitoring uses its own timer-based updates
-            // No additional state update needed from RobotState
+            if (!IsActive || state == null || !state.hasValidJointData) return;
+            
+            // Increment update counter
+            updateCounter++;
+            
+            // Check if this is the nth update using modulo
+            if (updateCounter % checkEveryNthUpdate != 0)
+            {
+                return; // Skip this update
+            }
+            
+            try
+            {
+                // Check if we should monitor (part attachment logic)
+                if (onlyMonitorWhenPartAttached)
+                {
+                    UpdatePartAttachmentStatus();
+                    if (!hasPartAttached) return;
+                }
+                
+                // Get joint angles from RobotState
+                float[] currentJointAngles = state.GetJointAngles();
+                if (currentJointAngles == null || currentJointAngles.Length < 6) return;
+                
+                // Calculate velocities and accelerations
+                CalculateJointDynamics(currentJointAngles);
+                
+                // Check for violations
+                CheckJointLimits(currentJointAngles);
+                
+                // Store current angles for next iteration
+                Array.Copy(currentJointAngles, previousJointAngles, 6);
+            }
+            catch (System.Exception e)
+            {
+                DebugLogError($"[{MonitorName}] Error in UpdateState: {e.Message}");
+            }
         }
         
         public void Shutdown()
         {
             isActive = false;
-            CancelInvoke();
+            // No longer using InvokeRepeating
             ResetViolationStates();
         }
         
@@ -669,8 +651,7 @@ namespace RobotSystem.Safety
         [ContextMenu("Check Joint Dynamics Now")]
         public void CheckJointDynamicsNow()
         {
-            if (!IsActive) return;
-            UpdateJointDynamics();
+            DebugLogWarning($"[{MonitorName}] Manual checking requires RobotState - use UpdateState instead");
         }
         
         [ContextMenu("Reset Smoothing Data")]
@@ -695,10 +676,6 @@ namespace RobotSystem.Safety
             }
         }
         
-        private void OnDestroy()
-        {
-            CancelInvoke();
-        }
         
         private void OnDrawGizmosSelected()
         {
@@ -731,7 +708,6 @@ namespace RobotSystem.Safety
         public float[] jointAccelerations;
         public string attachedPart;
         public string partId;
-        public float monitoringFrequency;
         public bool smoothingEnabled;
         public float smoothingAlpha;
         public int smoothingWindowSize;

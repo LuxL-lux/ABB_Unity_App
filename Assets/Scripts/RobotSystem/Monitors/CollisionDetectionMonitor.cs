@@ -264,12 +264,6 @@ namespace RobotSystem.Safety
             SetupAdjacentFrameIgnoring();
         }
         
-        private void CheckForCollisions(RobotState state)
-        {
-            // This method is now mainly for legacy compatibility
-            // The actual collision detection happens through trigger events
-            // in RobotPartCollisionDetector components
-        }
         
         private void SetupAdjacentFrameIgnoring()
         {
@@ -447,10 +441,6 @@ namespace RobotSystem.Safety
             return false;
         }
         
-        private void HandleNewCollision(CollisionInfo collision, RobotState state)
-        {
-            // Legacy method - now handled by OnRobotPartCollision
-        }
         
         void OnDrawGizmosSelected()
         {

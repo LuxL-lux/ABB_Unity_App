@@ -112,7 +112,6 @@ namespace RobotSystem.Core
             if (state.GripperOpen != gripperOpen)
             {
                 // Gripper state changed
-                // Debug.Log($"Gripper: {(state.GripperOpen ? "OPENED" : "CLOSED")}");
             }
         }
 

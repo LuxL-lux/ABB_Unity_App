@@ -19,6 +19,7 @@ namespace RobotSystem.Core
         
         private List<IRobotSafetyMonitor> safetyMonitors = new List<IRobotSafetyMonitor>();
         private RobotManager robotManager;
+        private Queue<RobotState> pendingStateUpdates = new Queue<RobotState>();
         
         // Safety event collection for program-based logging
         private List<SafetyEvent> currentProgramSafetyEvents = new List<SafetyEvent>();
@@ -38,6 +39,9 @@ namespace RobotSystem.Core
             {
                 // Subscribe to motor state changes for program tracking
                 robotManager.OnMotorStateChanged += OnMotorStateChanged;
+                
+                // Subscribe to state updates to forward to safety monitors
+                robotManager.OnStateUpdated += OnRobotStateUpdated;
             }
             else
             {
@@ -81,6 +85,48 @@ namespace RobotSystem.Core
                 else if (component != null)
                 {
                     Debug.LogWarning($"[Safety Manager] Component {component.name} does not implement IRobotSafetyMonitor interface");
+                }
+            }
+        }
+        
+        private void OnRobotStateUpdated(RobotState state)
+        {
+            // Queue state updates to be processed on main thread
+            lock (pendingStateUpdates)
+            {
+                pendingStateUpdates.Enqueue(state);
+            }
+        }
+        
+        void Update()
+        {
+            // Process pending state updates on main thread
+            while (pendingStateUpdates.Count > 0)
+            {
+                RobotState state = null;
+                lock (pendingStateUpdates)
+                {
+                    if (pendingStateUpdates.Count > 0)
+                        state = pendingStateUpdates.Dequeue();
+                }
+                
+                if (state != null)
+                {
+                    // Forward state updates to all active safety monitors (now on main thread)
+                    foreach (var monitor in safetyMonitors)
+                    {
+                        if (monitor != null && monitor.IsActive)
+                        {
+                            try
+                            {
+                                monitor.UpdateState(state);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError($"[Safety Manager] Error updating monitor {monitor.MonitorName}: {e.Message}");
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -248,6 +294,13 @@ namespace RobotSystem.Core
             if (robotManager != null)
             {
                 robotManager.OnMotorStateChanged -= OnMotorStateChanged;
+                robotManager.OnStateUpdated -= OnRobotStateUpdated;
+            }
+            
+            // Clear pending updates
+            lock (pendingStateUpdates)
+            {
+                pendingStateUpdates.Clear();
             }
             
             // Save any pending program log before shutdown
