@@ -17121,14 +17121,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8519458bf5c52294c94d9becdd012b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wristSingularityThreshold: 10
+  wristSingularityThreshold: 5
   shoulderSingularityThreshold: 0.1
-  elbowSingularityThreshold: 0.1
+  elbowSingularityThreshold: 5
   checkWristSingularity: 1
   checkShoulderSingularity: 1
   checkElbowSingularity: 1
-  robot6R: {fileID: 8862533932727204976}
-  autoFindRobot: 1
+  autoFindFrames: 1
   debugLogging: 0
 --- !u!114 &8862533932727204981
 MonoBehaviour:
@@ -17215,7 +17214,7 @@ MonoBehaviour:
   - 3000
   onlyMonitorWhenPartAttached: 1
   partDetectionRadius: 0.2
-  monitoringFrequency: 10
+  checkEveryNthUpdate: 2
   historyBufferSize: 15
   enableSmoothing: 1
   debugLogging: 0
