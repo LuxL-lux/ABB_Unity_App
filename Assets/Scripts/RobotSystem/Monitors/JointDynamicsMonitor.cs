@@ -32,16 +32,16 @@ namespace RobotSystem.Safety
         [SerializeField] private float partDetectionRadius = 0.2f;
         
         [Header("Update Settings")]
-        [SerializeField] private float monitoringFrequency = 10f; // Hz - reduced to avoid errors
-        [SerializeField] private int historyBufferSize = 10;
+        [SerializeField] private float monitoringFrequency = 10f; // Hz - optimized for 20Hz input updates
+        [SerializeField] private int historyBufferSize = 15;
         
         [Header("Data Smoothing")]
         [SerializeField] private bool enableSmoothing = true;
         
         [Header("Debug Settings")]
         [SerializeField] private bool debugLogging = false;
-        [SerializeField] [Range(0.1f, 1.0f)] private float smoothingAlpha = 0.3f; // Exponential moving average factor (0-1, lower = more smoothing)
-        [SerializeField] [Range(3, 20)] private int smoothingWindowSize = 5; // Number of samples for moving average
+        [SerializeField] [Range(0.1f, 1.0f)] private float smoothingAlpha = 0.2f; // Exponential moving average factor (0-1, lower = more smoothing)
+        [SerializeField] [Range(3, 20)] private int smoothingWindowSize = 8; // Number of samples for moving average
         [SerializeField] [Range(0.05f, 0.5f)] private float velocityOutlierThreshold = 0.2f; // Outlier rejection threshold for velocities
         [SerializeField] [Range(0.05f, 0.5f)] private float accelerationOutlierThreshold = 0.15f; // Outlier rejection threshold for accelerations
         
@@ -119,7 +119,7 @@ namespace RobotSystem.Safety
             if (!IsActive) return;
             
             // Start monitoring at specified frequency
-            InvokeRepeating(nameof(UpdateJointDynamics), 1f, 1f / monitoringFrequency); // Start after 1 second
+            InvokeRepeating(nameof(UpdateJointDynamics), 0f, 1f / monitoringFrequency); // Start immediately
         }
         
         /// <summary>

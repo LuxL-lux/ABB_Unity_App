@@ -18,7 +18,7 @@ namespace RobotSystem.ABB.RWS
         [Header("Motion Data Settings")]
         [SerializeField] private bool enableMotionData = true;
         [SerializeField] private bool enableMetadata = false;
-        [SerializeField] private int motionPollingIntervalMs = 100;
+        [SerializeField] private int motionPollingIntervalMs = 50;
         [SerializeField] private string robName = "ROB_1";
 
         [Header("Inspector Controls")]

@@ -6575,7 +6575,7 @@ MonoBehaviour:
     _limits: {x: -370, y: 370}
     _offset: 0
     _factor: 1
-    _speedMax: 210
+    _speedMax: 190
     _accMax: 1000
 --- !u!1 &626176722308176838
 GameObject:
@@ -10116,7 +10116,7 @@ MonoBehaviour:
     _limits: {x: -170, y: 170}
     _offset: 0
     _factor: 1
-    _speedMax: 100
+    _speedMax: 60
     _accMax: 1000
 --- !u!33 &3404139722110546413
 MeshFilter:
@@ -16912,7 +16912,7 @@ MonoBehaviour:
   password: robotics
   enableMotionData: 1
   enableMetadata: 1
-  motionPollingIntervalMs: 25
+  motionPollingIntervalMs: 50
   robName: ROB_1
   startConnection: 1
   stopConnection: 0
@@ -17054,6 +17054,7 @@ MonoBehaviour:
   - {fileID: 8862533932727204978}
   - {fileID: 8862533932727204980}
   - {fileID: 8862533932727204981}
+  - {fileID: 8862533932727204983}
   enableJsonLogging: 1
   logOnlyWhenProgramRunning: 1
   logDirectory: SafetyLogs
@@ -17165,7 +17166,7 @@ MonoBehaviour:
   autoFindRobot: 1
   enableAutoUpdate: 1
   currentJoinTarget: '[[150.44,0.31,49.70,66.52,-71.51,-36.12],[9E9,9E9,9E9,9E9,9E9,9E9]]'
-  currentRobTarget: '[[1336.03,173.96,1142.99],[-0.528206,0.468779,0.147513,0.692448],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]]'
+  currentRobTarget: '[[-1078.04,-811.30,1137.55],[0.500054,0.500019,-0.500008,0.499919],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]]'
   showInInspector: 1
   logUpdates: 0
 --- !u!114 &8862533932727204983
@@ -17183,7 +17184,7 @@ MonoBehaviour:
   isActive: 1
   monitorName: Joint Dynamics Monitor
   useFlangeLimits: 1
-  limitSafetyFactor: 0.95
+  limitSafetyFactor: 1
   maxJointAngles:
   - 180
   - 110
@@ -17214,12 +17215,12 @@ MonoBehaviour:
   - 3000
   onlyMonitorWhenPartAttached: 1
   partDetectionRadius: 0.2
-  monitoringFrequency: 50
-  historyBufferSize: 10
+  monitoringFrequency: 10
+  historyBufferSize: 15
   enableSmoothing: 1
   debugLogging: 0
-  smoothingAlpha: 0.3
-  smoothingWindowSize: 5
+  smoothingAlpha: 0.2
+  smoothingWindowSize: 8
   velocityOutlierThreshold: 0.2
   accelerationOutlierThreshold: 0.15
 --- !u!33 &8867322562868257563
@@ -17636,17 +17637,17 @@ MonoBehaviour:
   _showName: 0
   _offset:
     e00: 1
-    e01: 6.62983e-11
-    e02: -0.000000030989877
-    e03: -0.00000027572185
-    e10: 0.000000013541496
+    e01: -1.1426273e-14
+    e02: -1.36236e-21
+    e03: 0.00000018687062
+    e10: 1.1425865e-14
     e11: 1
-    e12: 4.60465e-11
-    e13: 0.31669977
-    e20: -0.000000008789467
-    e21: -0.000000006694556
+    e12: -5.963112e-19
+    e13: 0.31669965
+    e20: 7.423222e-21
+    e21: 4.3029274e-19
     e22: 1
-    e23: -0.000000159612
+    e23: -0.0000003489001
     e30: 0
     e31: 0
     e32: 0
