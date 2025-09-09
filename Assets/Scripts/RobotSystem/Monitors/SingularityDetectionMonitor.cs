@@ -343,7 +343,7 @@ namespace RobotSystem.Safety
             // Create safety event - safety manager will provide robot state
             var safetyEvent = new SafetyEvent(
                 MonitorName,
-                entering ? SafetyEventType.Warning : SafetyEventType.Info,
+                entering ? SafetyEventType.Warning : SafetyEventType.Resolved,
                 eventDescription,
                 null // Safety manager will provide robot state
             );
@@ -469,11 +469,12 @@ namespace RobotSystem.Safety
         public float elbowThreshold;
         public string detectionTime;
         public double manipulability;
-        public bool isEntering = true; // true = entering singularity, false = exiting
+        public bool isEntering; // true = entering singularity, false = exiting
         
         public SingularityInfo()
         {
             detectionTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            // Don't set default for isEntering - it will be set explicitly
         }
     }
 }

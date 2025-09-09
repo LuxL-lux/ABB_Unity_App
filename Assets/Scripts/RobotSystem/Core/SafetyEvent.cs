@@ -87,6 +87,7 @@ namespace RobotSystem.Core
     public enum SafetyEventType
     {
         Info,
+        Resolved,   // For events that indicate resolution of a previous warning/critical state
         Warning,
         Critical,
         Emergency

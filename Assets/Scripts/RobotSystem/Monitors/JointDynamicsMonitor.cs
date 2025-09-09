@@ -510,6 +510,10 @@ namespace RobotSystem.Safety
 
         private SafetyEventType GetSafetyEventType(string eventType)
         {
+            // All "Resolved" events should use the Resolved type
+            if (eventType.Contains("Resolved"))
+                return SafetyEventType.Resolved;
+            
             if (eventType.Contains("Acceleration"))
                 return SafetyEventType.Critical;
             if (eventType.Contains("Velocity"))

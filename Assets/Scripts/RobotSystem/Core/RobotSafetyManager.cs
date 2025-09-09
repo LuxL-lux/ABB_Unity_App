@@ -167,8 +167,9 @@ namespace RobotSystem.Core
             
             OnSafetyEventDetected?.Invoke(safetyEvent);
             
+            // Always log Resolved events regardless of minimum log level (they indicate problem resolution)
             bool shouldCollectEvent = enableJsonLogging && 
-                                    safetyEvent.eventType >= minimumLogLevel &&
+                                    (safetyEvent.eventType == SafetyEventType.Resolved || safetyEvent.eventType >= minimumLogLevel) &&
                                     (safetyEvent.robotStateSnapshot == null || !logOnlyWhenProgramRunning || safetyEvent.robotStateSnapshot.isProgramRunning);
             
             if (shouldCollectEvent)
