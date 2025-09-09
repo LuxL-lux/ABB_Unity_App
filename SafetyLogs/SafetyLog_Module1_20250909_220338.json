@@ -1,0 +1,1891 @@
+{
+    "programName": "Module1",
+    "totalSafetyEvents": 65,
+    "safetyEvents": [
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 1 acceleration limit exceeded: 6599,24°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -38.31505584716797,
+                    9.47377872467041,
+                    8.20506763458252,
+                    195.24598693847657,
+                    -68.8739013671875,
+                    -79.0813217163086
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.571769679414414,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":0,\"currentValue\":6599.24267578125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-34.24174499511719,8.665404319763184,10.094491958618164,195.3128662109375,-67.53202819824219,-78.19824981689453],\"jointVelocities\":[-31.242916107177736,6.1515302658081059,-14.517716407775879,-0.5177915692329407,-10.335915565490723,-6.798599720001221],\"jointAccelerations\":[6599.24267578125,-1292.428955078125,3052.87841796875,109.01945495605469,2170.38525390625,1427.660400390625],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.661\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 2 acceleration limit exceeded: -1292,43°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -38.31505584716797,
+                    9.47377872467041,
+                    8.20506763458252,
+                    195.24598693847657,
+                    -68.8739013671875,
+                    -79.0813217163086
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.571769679414414,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":1,\"currentValue\":-1292.428955078125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-34.24174499511719,8.665404319763184,10.094491958618164,195.3128662109375,-67.53202819824219,-78.19824981689453],\"jointVelocities\":[-31.242916107177736,6.1515302658081059,-14.517716407775879,-0.5177915692329407,-10.335915565490723,-6.798599720001221],\"jointAccelerations\":[6599.24267578125,-1292.428955078125,3052.87841796875,109.01945495605469,2170.38525390625,1427.660400390625],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.664\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 3 acceleration limit exceeded: 3052,88°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -38.31505584716797,
+                    9.47377872467041,
+                    8.20506763458252,
+                    195.24598693847657,
+                    -68.8739013671875,
+                    -79.0813217163086
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.571769679414414,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":2,\"currentValue\":3052.87841796875,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-34.24174499511719,8.665404319763184,10.094491958618164,195.3128662109375,-67.53202819824219,-78.19824981689453],\"jointVelocities\":[-31.242916107177736,6.1515302658081059,-14.517716407775879,-0.5177915692329407,-10.335915565490723,-6.798599720001221],\"jointAccelerations\":[6599.24267578125,-1292.428955078125,3052.87841796875,109.01945495605469,2170.38525390625,1427.660400390625],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.665\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 5 acceleration limit exceeded: 2170,39°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -38.31505584716797,
+                    9.47377872467041,
+                    8.20506763458252,
+                    195.24598693847657,
+                    -68.8739013671875,
+                    -79.0813217163086
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.571769679414414,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":4,\"currentValue\":2170.38525390625,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-34.24174499511719,8.665404319763184,10.094491958618164,195.3128662109375,-67.53202819824219,-78.19824981689453],\"jointVelocities\":[-31.242916107177736,6.1515302658081059,-14.517716407775879,-0.5177915692329407,-10.335915565490723,-6.798599720001221],\"jointAccelerations\":[6599.24267578125,-1292.428955078125,3052.87841796875,109.01945495605469,2170.38525390625,1427.660400390625],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.665\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 6 acceleration limit exceeded: 1427,66°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -38.31505584716797,
+                    9.47377872467041,
+                    8.20506763458252,
+                    195.24598693847657,
+                    -68.8739013671875,
+                    -79.0813217163086
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.571769679414414,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":5,\"currentValue\":1427.660400390625,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-34.24174499511719,8.665404319763184,10.094491958618164,195.3128662109375,-67.53202819824219,-78.19824981689453],\"jointVelocities\":[-31.242916107177736,6.1515302658081059,-14.517716407775879,-0.5177915692329407,-10.335915565490723,-6.798599720001221],\"jointAccelerations\":[6599.24267578125,-1292.428955078125,3052.87841796875,109.01945495605469,2170.38525390625,1427.660400390625],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.665\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 1 acceleration limit resolved: -58,90°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -39.64220428466797,
+                    9.735917091369629,
+                    7.591596603393555,
+                    195.22427368164063,
+                    -69.30907440185547,
+                    -79.3677749633789
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.82426610080194,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":0,\"currentValue\":-58.89872360229492,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-38.31505584716797,9.47377872467041,8.20506763458252,195.24598693847657,-68.8739013671875,-79.0813217163086],\"jointVelocities\":[-33.102779388427737,6.518890380859375,-15.377432823181153,-0.5482204556465149,-10.945765495300293,-7.2000346183776859],\"jointAccelerations\":[-58.89872360229492,11.61065673828125,-27.390567779541017,-0.9756288528442383,-19.511856079101564,-12.835174560546875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.749\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 2 acceleration limit resolved: 11,61°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -39.64220428466797,
+                    9.735917091369629,
+                    7.591596603393555,
+                    195.22427368164063,
+                    -69.30907440185547,
+                    -79.3677749633789
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.82426610080194,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":1,\"currentValue\":11.61065673828125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-38.31505584716797,9.47377872467041,8.20506763458252,195.24598693847657,-68.8739013671875,-79.0813217163086],\"jointVelocities\":[-33.102779388427737,6.518890380859375,-15.377432823181153,-0.5482204556465149,-10.945765495300293,-7.2000346183776859],\"jointAccelerations\":[-58.89872360229492,11.61065673828125,-27.390567779541017,-0.9756288528442383,-19.511856079101564,-12.835174560546875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.749\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 3 acceleration limit resolved: -27,39°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -39.64220428466797,
+                    9.735917091369629,
+                    7.591596603393555,
+                    195.22427368164063,
+                    -69.30907440185547,
+                    -79.3677749633789
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.82426610080194,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":2,\"currentValue\":-27.390567779541017,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-38.31505584716797,9.47377872467041,8.20506763458252,195.24598693847657,-68.8739013671875,-79.0813217163086],\"jointVelocities\":[-33.102779388427737,6.518890380859375,-15.377432823181153,-0.5482204556465149,-10.945765495300293,-7.2000346183776859],\"jointAccelerations\":[-58.89872360229492,11.61065673828125,-27.390567779541017,-0.9756288528442383,-19.511856079101564,-12.835174560546875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.750\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 5 acceleration limit resolved: -19,51°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -39.64220428466797,
+                    9.735917091369629,
+                    7.591596603393555,
+                    195.22427368164063,
+                    -69.30907440185547,
+                    -79.3677749633789
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.82426610080194,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":4,\"currentValue\":-19.511856079101564,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-38.31505584716797,9.47377872467041,8.20506763458252,195.24598693847657,-68.8739013671875,-79.0813217163086],\"jointVelocities\":[-33.102779388427737,6.518890380859375,-15.377432823181153,-0.5482204556465149,-10.945765495300293,-7.2000346183776859],\"jointAccelerations\":[-58.89872360229492,11.61065673828125,-27.390567779541017,-0.9756288528442383,-19.511856079101564,-12.835174560546875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.751\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 6 acceleration limit resolved: -12,84°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageIn",
+                "currentLine": 134,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -39.64220428466797,
+                    9.735917091369629,
+                    7.591596603393555,
+                    195.22427368164063,
+                    -69.30907440185547,
+                    -79.3677749633789
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.82426610080194,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":5,\"currentValue\":-12.835174560546875,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-38.31505584716797,9.47377872467041,8.20506763458252,195.24598693847657,-68.8739013671875,-79.0813217163086],\"jointVelocities\":[-33.102779388427737,6.518890380859375,-15.377432823181153,-0.5482204556465149,-10.945765495300293,-7.2000346183776859],\"jointAccelerations\":[-58.89872360229492,11.61065673828125,-27.390567779541017,-0.9756288528442383,-19.511856079101564,-12.835174560546875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:03:41.751\"}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "Collision detected between Gripper and CylinderHead (8)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "GripFromStorageL1",
+                "currentLine": 81,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    131.408935546875,
+                    49.02730178833008,
+                    13.371999740600586,
+                    44.941715240478519,
+                    -69.57048797607422,
+                    161.03860473632813
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.714080661430466,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"CylinderHead (8)\",\"collisionPoint\":{\"x\":-1.9333001375198365,\"y\":0.5249927043914795,\"z\":-1.1674463748931885},\"distance\":2.3186581134796144,\"detectionTime\":\"2025-09-09 22:03:49.726\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 1 acceleration limit exceeded: 2986,36°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToMachine",
+                "currentLine": 76,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    29.29635238647461,
+                    -18.20537757873535,
+                    52.96882629394531,
+                    196.897705078125,
+                    -48.72759246826172,
+                    -69.55223083496094
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 9.077194275558203,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":0,\"currentValue\":2986.361572265625,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[29.29635238647461,-18.20537757873535,52.96882629394531,196.897705078125,-48.72759246826172,-69.55223083496094],\"jointVelocities\":[-20.438175201416017,11.279570579528809,-7.178435325622559,4.28646993637085,-0.17627966403961183,-22.248828887939454],\"jointAccelerations\":[2986.361572265625,-466.23382568359377,666.3151245117188,-209.97874450683595,666.9906616210938,2052.199462890625],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:04:03.159\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 6 acceleration limit exceeded: 2052,20°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToMachine",
+                "currentLine": 76,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    29.29635238647461,
+                    -18.20537757873535,
+                    52.96882629394531,
+                    196.897705078125,
+                    -48.72759246826172,
+                    -69.55223083496094
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 9.077194275558203,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":5,\"currentValue\":2052.199462890625,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[29.29635238647461,-18.20537757873535,52.96882629394531,196.897705078125,-48.72759246826172,-69.55223083496094],\"jointVelocities\":[-20.438175201416017,11.279570579528809,-7.178435325622559,4.28646993637085,-0.17627966403961183,-22.248828887939454],\"jointAccelerations\":[2986.361572265625,-466.23382568359377,666.3151245117188,-209.97874450683595,666.9906616210938,2052.199462890625],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:04:03.159\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 1 acceleration limit resolved: -48,13°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToMachine",
+                "currentLine": 76,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    10.8226318359375,
+                    -23.50897979736328,
+                    52.40058898925781,
+                    196.35838317871095,
+                    -56.34605026245117,
+                    -75.54560089111328
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.864602866859486,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":0,\"currentValue\":-48.1286506652832,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[12.147366523742676,-23.345151901245118,52.57754135131836,196.3782958984375,-55.87801742553711,-75.08304595947266],\"jointVelocities\":[-23.16213035583496,-6.681229114532471,-0.6937958598136902,-0.67802494764328,-9.554686546325684,-7.509426116943359],\"jointAccelerations\":[-48.1286506652832,-11.237533569335938,-3.0616302490234377,-1.1102802753448487,-18.736310958862306,-16.299766540527345],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:04:03.992\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 6 acceleration limit resolved: -16,30°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToMachine",
+                "currentLine": 76,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    10.8226318359375,
+                    -23.50897979736328,
+                    52.40058898925781,
+                    196.35838317871095,
+                    -56.34605026245117,
+                    -75.54560089111328
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.864602866859486,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":5,\"currentValue\":-16.299766540527345,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[12.147366523742676,-23.345151901245118,52.57754135131836,196.3782958984375,-55.87801742553711,-75.08304595947266],\"jointVelocities\":[-23.16213035583496,-6.681229114532471,-0.6937958598136902,-0.67802494764328,-9.554686546325684,-7.509426116943359],\"jointAccelerations\":[-48.1286506652832,-11.237533569335938,-3.0616302490234377,-1.1102802753448487,-18.736310958862306,-16.299766540527345],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:04:03.993\"}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "Collision detected between Gripper and CylinderHead (8)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInMachine",
+                "currentLine": 99,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -39.92742919921875,
+                    58.038917541503909,
+                    -35.008975982666019,
+                    -64.94734191894531,
+                    -45.11064529418945,
+                    -123.51749420166016
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 21.218808351722968,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"CylinderHead (8)\",\"collisionPoint\":{\"x\":1.4895551204681397,\"y\":1.0690131187438965,\"z\":2.246666431427002},\"distance\":2.8998472690582277,\"detectionTime\":\"2025-09-09 22:04:15.548\"}"
+        },
+        {
+            "monitorName": "Process Flow Monitor",
+            "eventType": 2,
+            "description": "Process flow violation: Part 'CylinderHead1' attempted invalid transition from StorageIn to Machine. Expected: StorageIn. Violation type: UnknownStation",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInMachine",
+                "currentLine": 99,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -39.92742919921875,
+                    58.038917541503909,
+                    -35.008975982666019,
+                    -64.94734191894531,
+                    -45.11064529418945,
+                    -123.51749420166016
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 21.218808351722968,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"partId\":\"1\",\"partName\":\"CylinderHead1\",\"fromStation\":\"StorageIn\",\"fromStationName\":\"StorageIn\",\"attemptedStation\":\"Machine\",\"attemptedStationName\":\"Machine\",\"requiredSequence\":[\"StorageIn\",\"StorageOut\"],\"currentSequenceIndex\":-1,\"expectedNextStation\":\"StorageIn\",\"violationType\":3,\"detectionTime\":\"2025-09-09 22:04:15.550\"}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "Collision detected between Gripper and CylinderHead (8)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 142,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -41.20412826538086,
+                    54.920711517333987,
+                    -32.7020149230957,
+                    -66.82736206054688,
+                    -45.7686767578125,
+                    -121.8166275024414
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.80996853092265,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"CylinderHead (8)\",\"collisionPoint\":{\"x\":1.489552617073059,\"y\":1.0689997673034669,\"z\":2.2466633319854738},\"distance\":2.89983868598938,\"detectionTime\":\"2025-09-09 22:04:56.218\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 1 acceleration limit exceeded: 1497,67°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -48.10832977294922,
+                    37.48086166381836,
+                    -4.55363655090332,
+                    -64.01368713378906,
+                    -55.91219711303711,
+                    -131.01483154296876
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 21.406858757545917,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":0,\"currentValue\":1497.668212890625,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-46.71986770629883,40.100868225097659,-8.050259590148926,-63.454952239990237,-54.473079681396487,-130.6873016357422],\"jointVelocities\":[-7.019748687744141,-15.358222961425782,21.71831703186035,-1.2995256185531617,-8.2531156539917,-3.7419891357421877],\"jointAccelerations\":[1497.668212890625,3974.3369140625,-5971.5283203125,-290.3316650390625,2082.88720703125,1546.6329345703125],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.335\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 2 acceleration limit exceeded: 3974,34°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -48.10832977294922,
+                    37.48086166381836,
+                    -4.55363655090332,
+                    -64.01368713378906,
+                    -55.91219711303711,
+                    -131.01483154296876
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 21.406858757545917,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":1,\"currentValue\":3974.3369140625,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-46.71986770629883,40.100868225097659,-8.050259590148926,-63.454952239990237,-54.473079681396487,-130.6873016357422],\"jointVelocities\":[-7.019748687744141,-15.358222961425782,21.71831703186035,-1.2995256185531617,-8.2531156539917,-3.7419891357421877],\"jointAccelerations\":[1497.668212890625,3974.3369140625,-5971.5283203125,-290.3316650390625,2082.88720703125,1546.6329345703125],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.336\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 3 acceleration limit exceeded: -5971,53°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -48.10832977294922,
+                    37.48086166381836,
+                    -4.55363655090332,
+                    -64.01368713378906,
+                    -55.91219711303711,
+                    -131.01483154296876
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 21.406858757545917,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":2,\"currentValue\":-5971.5283203125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-46.71986770629883,40.100868225097659,-8.050259590148926,-63.454952239990237,-54.473079681396487,-130.6873016357422],\"jointVelocities\":[-7.019748687744141,-15.358222961425782,21.71831703186035,-1.2995256185531617,-8.2531156539917,-3.7419891357421877],\"jointAccelerations\":[1497.668212890625,3974.3369140625,-5971.5283203125,-290.3316650390625,2082.88720703125,1546.6329345703125],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.336\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 5 acceleration limit exceeded: 2082,89°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -48.10832977294922,
+                    37.48086166381836,
+                    -4.55363655090332,
+                    -64.01368713378906,
+                    -55.91219711303711,
+                    -131.01483154296876
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 21.406858757545917,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":4,\"currentValue\":2082.88720703125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-46.71986770629883,40.100868225097659,-8.050259590148926,-63.454952239990237,-54.473079681396487,-130.6873016357422],\"jointVelocities\":[-7.019748687744141,-15.358222961425782,21.71831703186035,-1.2995256185531617,-8.2531156539917,-3.7419891357421877],\"jointAccelerations\":[1497.668212890625,3974.3369140625,-5971.5283203125,-290.3316650390625,2082.88720703125,1546.6329345703125],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.338\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 6 acceleration limit exceeded: 1546,63°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -48.10832977294922,
+                    37.48086166381836,
+                    -4.55363655090332,
+                    -64.01368713378906,
+                    -55.91219711303711,
+                    -131.01483154296876
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 21.406858757545917,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":5,\"currentValue\":1546.6329345703125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-46.71986770629883,40.100868225097659,-8.050259590148926,-63.454952239990237,-54.473079681396487,-130.6873016357422],\"jointVelocities\":[-7.019748687744141,-15.358222961425782,21.71831703186035,-1.2995256185531617,-8.2531156539917,-3.7419891357421877],\"jointAccelerations\":[1497.668212890625,3974.3369140625,-5971.5283203125,-290.3316650390625,2082.88720703125,1546.6329345703125],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.338\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 1 acceleration limit resolved: -32,89°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -49.64250183105469,
+                    34.82795715332031,
+                    -1.1424119472503663,
+                    -64.77034759521485,
+                    -57.39712142944336,
+                    -131.17103576660157
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.15287974575127,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":0,\"currentValue\":-32.8879508972168,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-48.6652717590332,36.49075698852539,-3.265126943588257,-64.27387237548828,-56.462677001953128,-131.09352111816407],\"jointVelocities\":[-9.083944320678711,-18.247703552246095,25.008556365966798,-2.831486225128174,-9.938494682312012,-3.2594804763793947],\"jointAccelerations\":[-32.8879508972168,-60.21623611450195,79.50736236572266,-14.243369102478028,-33.37141418457031,-6.249672889709473],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.477\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 2 acceleration limit resolved: -60,22°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -49.64250183105469,
+                    34.82795715332031,
+                    -1.1424119472503663,
+                    -64.77034759521485,
+                    -57.39712142944336,
+                    -131.17103576660157
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.15287974575127,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":1,\"currentValue\":-60.21623611450195,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-48.6652717590332,36.49075698852539,-3.265126943588257,-64.27387237548828,-56.462677001953128,-131.09352111816407],\"jointVelocities\":[-9.083944320678711,-18.247703552246095,25.008556365966798,-2.831486225128174,-9.938494682312012,-3.2594804763793947],\"jointAccelerations\":[-32.8879508972168,-60.21623611450195,79.50736236572266,-14.243369102478028,-33.37141418457031,-6.249672889709473],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.478\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 3 acceleration limit resolved: 79,51°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -49.64250183105469,
+                    34.82795715332031,
+                    -1.1424119472503663,
+                    -64.77034759521485,
+                    -57.39712142944336,
+                    -131.17103576660157
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.15287974575127,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":2,\"currentValue\":79.50736236572266,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-48.6652717590332,36.49075698852539,-3.265126943588257,-64.27387237548828,-56.462677001953128,-131.09352111816407],\"jointVelocities\":[-9.083944320678711,-18.247703552246095,25.008556365966798,-2.831486225128174,-9.938494682312012,-3.2594804763793947],\"jointAccelerations\":[-32.8879508972168,-60.21623611450195,79.50736236572266,-14.243369102478028,-33.37141418457031,-6.249672889709473],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.478\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 5 acceleration limit resolved: -33,37°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -49.64250183105469,
+                    34.82795715332031,
+                    -1.1424119472503663,
+                    -64.77034759521485,
+                    -57.39712142944336,
+                    -131.17103576660157
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.15287974575127,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":4,\"currentValue\":-33.37141418457031,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-48.6652717590332,36.49075698852539,-3.265126943588257,-64.27387237548828,-56.462677001953128,-131.09352111816407],\"jointVelocities\":[-9.083944320678711,-18.247703552246095,25.008556365966798,-2.831486225128174,-9.938494682312012,-3.2594804763793947],\"jointAccelerations\":[-32.8879508972168,-60.21623611450195,79.50736236572266,-14.243369102478028,-33.37141418457031,-6.249672889709473],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.478\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 6 acceleration limit resolved: -6,25°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 139,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -49.64250183105469,
+                    34.82795715332031,
+                    -1.1424119472503663,
+                    -64.77034759521485,
+                    -57.39712142944336,
+                    -131.17103576660157
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.15287974575127,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":5,\"currentValue\":-6.249672889709473,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-48.6652717590332,36.49075698852539,-3.265126943588257,-64.27387237548828,-56.462677001953128,-131.09352111816407],\"jointVelocities\":[-9.083944320678711,-18.247703552246095,25.008556365966798,-2.831486225128174,-9.938494682312012,-3.2594804763793947],\"jointAccelerations\":[-32.8879508972168,-60.21623611450195,79.50736236572266,-14.243369102478028,-33.37141418457031,-6.249672889709473],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.478\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 2 acceleration limit exceeded: 1113,58°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 140,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -51.077110290527347,
+                    32.54047393798828,
+                    1.6879616975784302,
+                    -65.5743179321289,
+                    -58.706363677978519,
+                    -131.1658172607422
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.548902277640328,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":1,\"currentValue\":1113.580078125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-51.077110290527347,32.54047393798828,1.6879616975784302,-65.5743179321289,-58.706363677978519,-131.1658172607422],\"jointVelocities\":[-7.819502830505371,-14.495612144470215,19.219057083129884,-3.2440805435180666,-8.005209922790528,-1.6712766885757447],\"jointAccelerations\":[691.9047241210938,1113.580078125,-1384.677734375,381.04949951171877,636.116455078125,6.979963302612305],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.634\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 3 acceleration limit exceeded: -1384,68°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 140,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -51.077110290527347,
+                    32.54047393798828,
+                    1.6879616975784302,
+                    -65.5743179321289,
+                    -58.706363677978519,
+                    -131.1658172607422
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.548902277640328,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":2,\"currentValue\":-1384.677734375,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-51.077110290527347,32.54047393798828,1.6879616975784302,-65.5743179321289,-58.706363677978519,-131.1658172607422],\"jointVelocities\":[-7.819502830505371,-14.495612144470215,19.219057083129884,-3.2440805435180666,-8.005209922790528,-1.6712766885757447],\"jointAccelerations\":[691.9047241210938,1113.580078125,-1384.677734375,381.04949951171877,636.116455078125,6.979963302612305],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:05.634\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 2 acceleration limit resolved: -26,58°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 140,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -57.83039855957031,
+                    23.726564407348634,
+                    11.63620662689209,
+                    -70.07001495361328,
+                    -64.28531646728516,
+                    -129.889404296875
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.062313545873484,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":1,\"currentValue\":-26.576459884643556,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-57.35789489746094,24.25799560546875,11.106752395629883,-69.75092315673828,-63.930755615234378,-130.0181884765625],\"jointVelocities\":[-8.429516792297364,-11.041459083557129,12.467366218566895,-5.604920387268066,-6.9685139656066898,1.5780600309371949],\"jointAccelerations\":[-20.60150718688965,-26.576459884643556,28.758790969848634,-13.547337532043457,-16.44552230834961,4.137355804443359],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:06.518\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 3 acceleration limit resolved: 28,76°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 140,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -57.83039855957031,
+                    23.726564407348634,
+                    11.63620662689209,
+                    -70.07001495361328,
+                    -64.28531646728516,
+                    -129.889404296875
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.062313545873484,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":2,\"currentValue\":28.758790969848634,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-57.35789489746094,24.25799560546875,11.106752395629883,-69.75092315673828,-63.930755615234378,-130.0181884765625],\"jointVelocities\":[-8.429516792297364,-11.041459083557129,12.467366218566895,-5.604920387268066,-6.9685139656066898,1.5780600309371949],\"jointAccelerations\":[-20.60150718688965,-26.576459884643556,28.758790969848634,-13.547337532043457,-16.44552230834961,4.137355804443359],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:06.519\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 2 acceleration limit exceeded: 1282,03°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -53.82271194458008,
+                    7.028188705444336,
+                    25.16592788696289,
+                    -144.74703979492188,
+                    -48.362239837646487,
+                    -80.91239929199219
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.020772585740887,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":1,\"currentValue\":1282.032958984375,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-53.82271194458008,7.028188705444336,25.16592788696289,-144.74703979492188,-48.362239837646487,-80.91239929199219],\"jointVelocities\":[2.853158712387085,-11.487564086914063,9.335103034973145,-51.72339630126953,11.05683708190918,33.92677688598633],\"jointAccelerations\":[-318.4809265136719,1282.032958984375,-1041.816162109375,5772.40283203125,-1233.955810546875,-3786.279052734375],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:23.010\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 3 acceleration limit exceeded: -1041,82°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -53.82271194458008,
+                    7.028188705444336,
+                    25.16592788696289,
+                    -144.74703979492188,
+                    -48.362239837646487,
+                    -80.91239929199219
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.020772585740887,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":2,\"currentValue\":-1041.816162109375,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-53.82271194458008,7.028188705444336,25.16592788696289,-144.74703979492188,-48.362239837646487,-80.91239929199219],\"jointVelocities\":[2.853158712387085,-11.487564086914063,9.335103034973145,-51.72339630126953,11.05683708190918,33.92677688598633],\"jointAccelerations\":[-318.4809265136719,1282.032958984375,-1041.816162109375,5772.40283203125,-1233.955810546875,-3786.279052734375],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:23.011\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 4 acceleration limit exceeded: 5772,40°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -53.82271194458008,
+                    7.028188705444336,
+                    25.16592788696289,
+                    -144.74703979492188,
+                    -48.362239837646487,
+                    -80.91239929199219
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.020772585740887,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":3,\"currentValue\":5772.40283203125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-53.82271194458008,7.028188705444336,25.16592788696289,-144.74703979492188,-48.362239837646487,-80.91239929199219],\"jointVelocities\":[2.853158712387085,-11.487564086914063,9.335103034973145,-51.72339630126953,11.05683708190918,33.92677688598633],\"jointAccelerations\":[-318.4809265136719,1282.032958984375,-1041.816162109375,5772.40283203125,-1233.955810546875,-3786.279052734375],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:23.011\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 5 acceleration limit exceeded: -1233,96°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -53.82271194458008,
+                    7.028188705444336,
+                    25.16592788696289,
+                    -144.74703979492188,
+                    -48.362239837646487,
+                    -80.91239929199219
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.020772585740887,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":4,\"currentValue\":-1233.955810546875,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-53.82271194458008,7.028188705444336,25.16592788696289,-144.74703979492188,-48.362239837646487,-80.91239929199219],\"jointVelocities\":[2.853158712387085,-11.487564086914063,9.335103034973145,-51.72339630126953,11.05683708190918,33.92677688598633],\"jointAccelerations\":[-318.4809265136719,1282.032958984375,-1041.816162109375,5772.40283203125,-1233.955810546875,-3786.279052734375],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:23.012\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 6 acceleration limit exceeded: -3786,28°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -53.82271194458008,
+                    7.028188705444336,
+                    25.16592788696289,
+                    -144.74703979492188,
+                    -48.362239837646487,
+                    -80.91239929199219
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.020772585740887,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":5,\"currentValue\":-3786.279052734375,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-53.82271194458008,7.028188705444336,25.16592788696289,-144.74703979492188,-48.362239837646487,-80.91239929199219],\"jointVelocities\":[2.853158712387085,-11.487564086914063,9.335103034973145,-51.72339630126953,11.05683708190918,33.92677688598633],\"jointAccelerations\":[-318.4809265136719,1282.032958984375,-1041.816162109375,5772.40283203125,-1233.955810546875,-3786.279052734375],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:23.013\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 1 acceleration limit exceeded: -1280,73°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -53.00170135498047,
+                    3.700242280960083,
+                    27.867765426635743,
+                    -159.7095947265625,
+                    -45.16075897216797,
+                    -71.1011734008789
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.867721599552597,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":0,\"currentValue\":-1280.7332763671875,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-53.00170135498047,3.700242280960083,27.867765426635743,-159.7095947265625,-45.16075897216797,-71.1011734008789],\"jointVelocities\":[2.4583182334899904,-9.91076374053955,8.052203178405762,-44.610599517822269,9.538118362426758,29.259422302246095],\"jointAccelerations\":[-1280.7332763671875,5182.49365234375,-4208.45751953125,23309.00390625,-4986.19482421875,-15285.35546875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:23.218\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 1 acceleration limit resolved: -990,73°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -55.84796905517578,
+                    -2.857389450073242,
+                    33.22951126098633,
+                    -176.1900634765625,
+                    -34.66066360473633,
+                    -67.44915008544922
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.359135143939086,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":0,\"currentValue\":-990.7296142578125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-54.50389099121094,-2.477185010910034,32.947914123535159,-179.0670928955078,-36.350616455078128,-63.18922424316406],\"jointVelocities\":[-3.738405227661133,-9.759695053100586,7.9335455894470219,-25.664628982543947,15.104853630065918,6.95974588394165],\"jointAccelerations\":[-990.7296142578125,3888.335693359375,-3157.84033203125,17584.265625,-3712.534423828125,-11581.73828125],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:23.846\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 2 acceleration limit resolved: -11,37°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -58.737857818603519,
+                    -3.3180642127990724,
+                    33.606327056884769,
+                    -169.3502197265625,
+                    -31.43173599243164,
+                    -76.75227355957031
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.37174357678925,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":1,\"currentValue\":-11.370325088500977,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-56.93167495727539,-3.047161340713501,33.37700271606445,-173.62684631347657,-33.438743591308597,-70.94902038574219],\"jointVelocities\":[-8.14299488067627,-8.370687484741211,6.814517974853516,-7.408135414123535,17.541873931884767,-11.523721694946289],\"jointAccelerations\":[-43.7042121887207,-11.370325088500977,8.737798690795899,90.22906494140625,53.27262878417969,-133.7483673095703],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:24.056\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 3 acceleration limit resolved: 8,74°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -58.737857818603519,
+                    -3.3180642127990724,
+                    33.606327056884769,
+                    -169.3502197265625,
+                    -31.43173599243164,
+                    -76.75227355957031
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.37174357678925,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":2,\"currentValue\":8.737798690795899,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-56.93167495727539,-3.047161340713501,33.37700271606445,-173.62684631347657,-33.438743591308597,-70.94902038574219],\"jointVelocities\":[-8.14299488067627,-8.370687484741211,6.814517974853516,-7.408135414123535,17.541873931884767,-11.523721694946289],\"jointAccelerations\":[-43.7042121887207,-11.370325088500977,8.737798690795899,90.22906494140625,53.27262878417969,-133.7483673095703],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:24.057\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 4 acceleration limit resolved: 90,23°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -58.737857818603519,
+                    -3.3180642127990724,
+                    33.606327056884769,
+                    -169.3502197265625,
+                    -31.43173599243164,
+                    -76.75227355957031
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.37174357678925,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":3,\"currentValue\":90.22906494140625,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-56.93167495727539,-3.047161340713501,33.37700271606445,-173.62684631347657,-33.438743591308597,-70.94902038574219],\"jointVelocities\":[-8.14299488067627,-8.370687484741211,6.814517974853516,-7.408135414123535,17.541873931884767,-11.523721694946289],\"jointAccelerations\":[-43.7042121887207,-11.370325088500977,8.737798690795899,90.22906494140625,53.27262878417969,-133.7483673095703],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:24.057\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 5 acceleration limit resolved: 53,27°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -58.737857818603519,
+                    -3.3180642127990724,
+                    33.606327056884769,
+                    -169.3502197265625,
+                    -31.43173599243164,
+                    -76.75227355957031
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.37174357678925,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":4,\"currentValue\":53.27262878417969,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-56.93167495727539,-3.047161340713501,33.37700271606445,-173.62684631347657,-33.438743591308597,-70.94902038574219],\"jointVelocities\":[-8.14299488067627,-8.370687484741211,6.814517974853516,-7.408135414123535,17.541873931884767,-11.523721694946289],\"jointAccelerations\":[-43.7042121887207,-11.370325088500977,8.737798690795899,90.22906494140625,53.27262878417969,-133.7483673095703],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:24.057\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 6 acceleration limit resolved: -133,75°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -58.737857818603519,
+                    -3.3180642127990724,
+                    33.606327056884769,
+                    -169.3502197265625,
+                    -31.43173599243164,
+                    -76.75227355957031
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.37174357678925,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":5,\"currentValue\":-133.7483673095703,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-56.93167495727539,-3.047161340713501,33.37700271606445,-173.62684631347657,-33.438743591308597,-70.94902038574219],\"jointVelocities\":[-8.14299488067627,-8.370687484741211,6.814517974853516,-7.408135414123535,17.541873931884767,-11.523721694946289],\"jointAccelerations\":[-43.7042121887207,-11.370325088500977,8.737798690795899,90.22906494140625,53.27262878417969,-133.7483673095703],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:24.058\"}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 2,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-82,7, -6,9, 36,6, -112,8, -4,9, -153,5]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -82.70653533935547,
+                    -6.902932167053223,
+                    36.63517761230469,
+                    -112.7900161743164,
+                    -4.886471271514893,
+                    -153.50022888183595
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.48497318867689,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-82.70653533935547,-6.902932167053223,36.63517761230469,-112.7900161743164,-4.886471271514893,-153.50022888183595],\"wristThreshold\":5.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":5.0,\"detectionTime\":\"2025-09-09 22:05:25.826\",\"manipulability\":0.1912786066532135,\"isEntering\":true}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "EXITING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-91,8, -8,3, 37,8, -91,3, 5,2, -182,6]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -91.79658508300781,
+                    -8.26282787322998,
+                    37.7839469909668,
+                    -91.3401870727539,
+                    5.180557727813721,
+                    -182.60595703125
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.561011773772987,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-91.79658508300781,-8.26282787322998,37.7839469909668,-91.3401870727539,5.180557727813721,-182.60595703125],\"wristThreshold\":5.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":5.0,\"detectionTime\":\"2025-09-09 22:05:26.582\",\"manipulability\":0.19678568840026856,\"isEntering\":false}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 2,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-138,6, -20,7, 53,1, 7,5, 4,0, -244,1]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -138.63734436035157,
+                    -20.703445434570314,
+                    53.070777893066409,
+                    7.491296768188477,
+                    4.019395351409912,
+                    -244.0762939453125
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 22.09622463905817,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-138.63734436035157,-20.703445434570314,53.070777893066409,7.491296768188477,4.019395351409912,-244.0762939453125],\"wristThreshold\":5.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":5.0,\"detectionTime\":\"2025-09-09 22:05:30.827\",\"manipulability\":0.10033178329467774,\"isEntering\":true}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "EXITING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-138,1, -21,7, 55,1, 3,9, -8,6, -222,8]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -138.12582397460938,
+                    -21.659236907958986,
+                    55.14612579345703,
+                    3.9475326538085939,
+                    -8.616183280944825,
+                    -222.78761291503907
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 16.29681055120702,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-138.12582397460938,-21.659236907958986,55.14612579345703,3.9475326538085939,-8.616183280944825,-222.78761291503907],\"wristThreshold\":5.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":5.0,\"detectionTime\":\"2025-09-09 22:05:31.205\",\"manipulability\":0.20150019228458405,\"isEntering\":false}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 1 acceleration limit exceeded: -1220,32°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -132.23214721679688,
+                    -12.67376708984375,
+                    60.67491912841797,
+                    1.4298768043518067,
+                    -47.9970588684082,
+                    -177.14474487304688
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.600886662161938,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":0,\"currentValue\":-1220.3182373046875,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-132.23214721679688,-12.67376708984375,60.67491912841797,1.4298768043518067,-47.9970588684082,-177.14474487304688],\"jointVelocities\":[5.950550556182861,10.689613342285157,4.078257083892822,0.5930519104003906,-31.050920486450197,29.727359771728517],\"jointAccelerations\":[-1220.3182373046875,-2778.835693359375,-275.8753662109375,-1293.155517578125,3143.1181640625,-13.938896179199219],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:32.255\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 2 acceleration limit exceeded: -2778,84°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -132.23214721679688,
+                    -12.67376708984375,
+                    60.67491912841797,
+                    1.4298768043518067,
+                    -47.9970588684082,
+                    -177.14474487304688
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.600886662161938,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":1,\"currentValue\":-2778.835693359375,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-132.23214721679688,-12.67376708984375,60.67491912841797,1.4298768043518067,-47.9970588684082,-177.14474487304688],\"jointVelocities\":[5.950550556182861,10.689613342285157,4.078257083892822,0.5930519104003906,-31.050920486450197,29.727359771728517],\"jointAccelerations\":[-1220.3182373046875,-2778.835693359375,-275.8753662109375,-1293.155517578125,3143.1181640625,-13.938896179199219],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:32.255\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 4 acceleration limit exceeded: -1293,16°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -132.23214721679688,
+                    -12.67376708984375,
+                    60.67491912841797,
+                    1.4298768043518067,
+                    -47.9970588684082,
+                    -177.14474487304688
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.600886662161938,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":3,\"currentValue\":-1293.155517578125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-132.23214721679688,-12.67376708984375,60.67491912841797,1.4298768043518067,-47.9970588684082,-177.14474487304688],\"jointVelocities\":[5.950550556182861,10.689613342285157,4.078257083892822,0.5930519104003906,-31.050920486450197,29.727359771728517],\"jointAccelerations\":[-1220.3182373046875,-2778.835693359375,-275.8753662109375,-1293.155517578125,3143.1181640625,-13.938896179199219],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:32.256\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 5 acceleration limit exceeded: 3143,12°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -132.23214721679688,
+                    -12.67376708984375,
+                    60.67491912841797,
+                    1.4298768043518067,
+                    -47.9970588684082,
+                    -177.14474487304688
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.600886662161938,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":4,\"currentValue\":3143.1181640625,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-132.23214721679688,-12.67376708984375,60.67491912841797,1.4298768043518067,-47.9970588684082,-177.14474487304688],\"jointVelocities\":[5.950550556182861,10.689613342285157,4.078257083892822,0.5930519104003906,-31.050920486450197,29.727359771728517],\"jointAccelerations\":[-1220.3182373046875,-2778.835693359375,-275.8753662109375,-1293.155517578125,3143.1181640625,-13.938896179199219],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:32.256\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 1 acceleration limit resolved: 53,08°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -125.1341323852539,
+                    3.735322952270508,
+                    62.21051025390625,
+                    9.06599235534668,
+                    -65.8496322631836,
+                    -177.76902770996095
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.3675643507617,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":0,\"currentValue\":53.08497619628906,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-125.77861785888672,2.2452995777130129,62.07107162475586,8.372612953186036,-64.22856903076172,-177.71234130859376],\"jointVelocities\":[10.22164249420166,23.63031005859375,2.2113640308380129,10.996537208557129,-25.708942413330079,-0.8989851474761963],\"jointAccelerations\":[53.08497619628906,122.72265625,11.484649658203125,57.10926818847656,-133.5162811279297,-4.668220520019531],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:33.087\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 2 acceleration limit resolved: 122,72°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -125.1341323852539,
+                    3.735322952270508,
+                    62.21051025390625,
+                    9.06599235534668,
+                    -65.8496322631836,
+                    -177.76902770996095
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.3675643507617,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":1,\"currentValue\":122.72265625,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-125.77861785888672,2.2452995777130129,62.07107162475586,8.372612953186036,-64.22856903076172,-177.71234130859376],\"jointVelocities\":[10.22164249420166,23.63031005859375,2.2113640308380129,10.996537208557129,-25.708942413330079,-0.8989851474761963],\"jointAccelerations\":[53.08497619628906,122.72265625,11.484649658203125,57.10926818847656,-133.5162811279297,-4.668220520019531],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:33.089\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 4 acceleration limit resolved: 57,11°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -125.1341323852539,
+                    3.735322952270508,
+                    62.21051025390625,
+                    9.06599235534668,
+                    -65.8496322631836,
+                    -177.76902770996095
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.3675643507617,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":3,\"currentValue\":57.10926818847656,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-125.77861785888672,2.2452995777130129,62.07107162475586,8.372612953186036,-64.22856903076172,-177.71234130859376],\"jointVelocities\":[10.22164249420166,23.63031005859375,2.2113640308380129,10.996537208557129,-25.708942413330079,-0.8989851474761963],\"jointAccelerations\":[53.08497619628906,122.72265625,11.484649658203125,57.10926818847656,-133.5162811279297,-4.668220520019531],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:33.091\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 5 acceleration limit resolved: -133,52°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -125.1341323852539,
+                    3.735322952270508,
+                    62.21051025390625,
+                    9.06599235534668,
+                    -65.8496322631836,
+                    -177.76902770996095
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.3675643507617,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":4,\"currentValue\":-133.5162811279297,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-125.77861785888672,2.2452995777130129,62.07107162475586,8.372612953186036,-64.22856903076172,-177.71234130859376],\"jointVelocities\":[10.22164249420166,23.63031005859375,2.2113640308380129,10.996537208557129,-25.708942413330079,-0.8989851474761963],\"jointAccelerations\":[53.08497619628906,122.72265625,11.484649658203125,57.10926818847656,-133.5162811279297,-4.668220520019531],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:33.093\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 1 acceleration limit exceeded: -1261,05°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInStorage",
+                "currentLine": 120,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -114.49880981445313,
+                    28.309953689575197,
+                    64.52027893066406,
+                    20.540420532226564,
+                    -92.67906951904297,
+                    -178.7071990966797
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.67025364468247,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":0,\"currentValue\":-1261.0531005859375,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-115.21173858642578,26.65918731689453,64.36712646484375,19.772836685180665,-90.88414764404297,-178.64443969726563],\"jointVelocities\":[7.868298530578613,18.176054000854493,1.7152854204177857,8.50827407836914,-19.895183563232423,-0.6956589221954346],\"jointAccelerations\":[-1261.0531005859375,-2915.779296875,-272.8083801269531,-1356.5223388671875,3171.425048828125,110.90936279296875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:34.352\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 2 acceleration limit exceeded: -2915,78°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInStorage",
+                "currentLine": 120,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -114.49880981445313,
+                    28.309953689575197,
+                    64.52027893066406,
+                    20.540420532226564,
+                    -92.67906951904297,
+                    -178.7071990966797
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.67025364468247,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":1,\"currentValue\":-2915.779296875,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-115.21173858642578,26.65918731689453,64.36712646484375,19.772836685180665,-90.88414764404297,-178.64443969726563],\"jointVelocities\":[7.868298530578613,18.176054000854493,1.7152854204177857,8.50827407836914,-19.895183563232423,-0.6956589221954346],\"jointAccelerations\":[-1261.0531005859375,-2915.779296875,-272.8083801269531,-1356.5223388671875,3171.425048828125,110.90936279296875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:34.353\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 4 acceleration limit exceeded: -1356,52°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInStorage",
+                "currentLine": 120,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -114.49880981445313,
+                    28.309953689575197,
+                    64.52027893066406,
+                    20.540420532226564,
+                    -92.67906951904297,
+                    -178.7071990966797
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.67025364468247,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":3,\"currentValue\":-1356.5223388671875,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-115.21173858642578,26.65918731689453,64.36712646484375,19.772836685180665,-90.88414764404297,-178.64443969726563],\"jointVelocities\":[7.868298530578613,18.176054000854493,1.7152854204177857,8.50827407836914,-19.895183563232423,-0.6956589221954346],\"jointAccelerations\":[-1261.0531005859375,-2915.779296875,-272.8083801269531,-1356.5223388671875,3171.425048828125,110.90936279296875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:34.354\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 3,
+            "description": "Joint 5 acceleration limit exceeded: 3171,43°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInStorage",
+                "currentLine": 120,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -114.49880981445313,
+                    28.309953689575197,
+                    64.52027893066406,
+                    20.540420532226564,
+                    -92.67906951904297,
+                    -178.7071990966797
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.67025364468247,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimit\",\"jointIndex\":4,\"currentValue\":3171.425048828125,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-115.21173858642578,26.65918731689453,64.36712646484375,19.772836685180665,-90.88414764404297,-178.64443969726563],\"jointVelocities\":[7.868298530578613,18.176054000854493,1.7152854204177857,8.50827407836914,-19.895183563232423,-0.6956589221954346],\"jointAccelerations\":[-1261.0531005859375,-2915.779296875,-272.8083801269531,-1356.5223388671875,3171.425048828125,110.90936279296875],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:34.354\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 1 acceleration limit resolved: -118,24°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInStorage",
+                "currentLine": 120,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -114.2605972290039,
+                    29.006328582763673,
+                    64.5024185180664,
+                    20.798429489135743,
+                    -93.298583984375,
+                    -178.7477264404297
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.221669945947477,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":0,\"currentValue\":-118.24147033691406,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-114.2256088256836,28.96354103088379,64.57158660888672,20.82113265991211,-93.33415985107422,-178.73016357421876],\"jointVelocities\":[5.624146938323975,13.158845901489258,1.1470214128494263,6.100738525390625,-14.287086486816407,-0.5227511525154114],\"jointAccelerations\":[-118.24147033691406,-272.43011474609377,-26.046024322509767,-126.90579223632813,296.5356140136719,10.14034652709961],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:34.600\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 2 acceleration limit resolved: -272,43°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInStorage",
+                "currentLine": 120,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -114.2605972290039,
+                    29.006328582763673,
+                    64.5024185180664,
+                    20.798429489135743,
+                    -93.298583984375,
+                    -178.7477264404297
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.221669945947477,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":1,\"currentValue\":-272.43011474609377,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-114.2256088256836,28.96354103088379,64.57158660888672,20.82113265991211,-93.33415985107422,-178.73016357421876],\"jointVelocities\":[5.624146938323975,13.158845901489258,1.1470214128494263,6.100738525390625,-14.287086486816407,-0.5227511525154114],\"jointAccelerations\":[-118.24147033691406,-272.43011474609377,-26.046024322509767,-126.90579223632813,296.5356140136719,10.14034652709961],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:34.600\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 4 acceleration limit resolved: -126,91°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInStorage",
+                "currentLine": 120,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -114.2605972290039,
+                    29.006328582763673,
+                    64.5024185180664,
+                    20.798429489135743,
+                    -93.298583984375,
+                    -178.7477264404297
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.221669945947477,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":3,\"currentValue\":-126.90579223632813,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-114.2256088256836,28.96354103088379,64.57158660888672,20.82113265991211,-93.33415985107422,-178.73016357421876],\"jointVelocities\":[5.624146938323975,13.158845901489258,1.1470214128494263,6.100738525390625,-14.287086486816407,-0.5227511525154114],\"jointAccelerations\":[-118.24147033691406,-272.43011474609377,-26.046024322509767,-126.90579223632813,296.5356140136719,10.14034652709961],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:34.602\"}"
+        },
+        {
+            "monitorName": "Joint Dynamics Monitor",
+            "eventType": 1,
+            "description": "Joint 5 acceleration limit resolved: 296,54°/s²",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInStorage",
+                "currentLine": 120,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -114.2605972290039,
+                    29.006328582763673,
+                    64.5024185180664,
+                    20.798429489135743,
+                    -93.298583984375,
+                    -178.7477264404297
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.221669945947477,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"eventType\":\"JointAccelerationLimitResolved\",\"jointIndex\":4,\"currentValue\":296.5356140136719,\"minLimit\":-1000.0,\"maxLimit\":1000.0,\"jointAngles\":[-114.2256088256836,28.96354103088379,64.57158660888672,20.82113265991211,-93.33415985107422,-178.73016357421876],\"jointVelocities\":[5.624146938323975,13.158845901489258,1.1470214128494263,6.100738525390625,-14.287086486816407,-0.5227511525154114],\"jointAccelerations\":[-118.24147033691406,-272.43011474609377,-26.046024322509767,-126.90579223632813,296.5356140136719,10.14034652709961],\"attachedPart\":\"\",\"partId\":\"\",\"smoothingEnabled\":true,\"smoothingAlpha\":0.20000000298023225,\"smoothingWindowSize\":8,\"detectionTime\":\"2025-09-09 22:05:34.602\"}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "Collision detected between Gripper and CylinderHead (8)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInStorage",
+                "currentLine": 122,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -123.31293487548828,
+                    44.01197052001953,
+                    23.518165588378908,
+                    12.617620468139649,
+                    -68.02055358886719,
+                    -184.78909301757813
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 23.450177752347366,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"CylinderHead (8)\",\"collisionPoint\":{\"x\":1.660624384880066,\"y\":0.5428199172019959,\"z\":-1.2773936986923218},\"distance\":2.1642653942108156,\"detectionTime\":\"2025-09-09 22:05:40.501\"}"
+        }
+    ]
+}
