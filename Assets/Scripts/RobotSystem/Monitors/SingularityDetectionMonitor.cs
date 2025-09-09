@@ -203,8 +203,8 @@ namespace RobotSystem.Safety
                 }
                 else
                 {
-                    // Exiting singularity
-                    HandleSingularityResolved(singularityType, jointAngles);
+                    // Exiting singularity - use same description for consistency
+                    HandleSingularityDetected(description, jointAngles, false);
                 }
             }
             // No state change = no event (prevents spam)
@@ -354,12 +354,6 @@ namespace RobotSystem.Safety
             // Trigger event
             OnSafetyEventDetected?.Invoke(safetyEvent);
         }
-
-        private void HandleSingularityResolved(string singularityType, float[] jointAngles)
-        {
-            HandleSingularityDetected($"{singularityType} Resolved", jointAngles, false);
-        }
-
 
         public double GetManipulability(float[] jointAngles)
         {
