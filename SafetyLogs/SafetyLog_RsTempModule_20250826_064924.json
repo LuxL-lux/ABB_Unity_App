@@ -1,0 +1,122 @@
+{
+    "programName": "RsTempModule",
+    "totalSafetyEvents": 4,
+    "safetyEvents": [
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and UMC-750_Reboot_SS_PP_CT_HSK_STEP_2021-06",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 8,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -50.06565475463867,
+                    37.84260177612305,
+                    -10.414164543151856,
+                    109.71732330322266,
+                    54.9820671081543,
+                    56.2593994140625
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.133482829612509,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"UMC-750_Reboot_SS_PP_CT_HSK_STEP_2021-06\",\"collisionPoint\":{\"x\":1.100000023841858,\"y\":0.9500000476837158,\"z\":1.899999976158142},\"distance\":2.3921685218811037}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_6 and UMC-750_Reboot_SS_PP_CT_HSK_STEP_2021-06",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 10,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -43.499244689941409,
+                    49.74745559692383,
+                    -28.90074348449707,
+                    109.56315612792969,
+                    47.173397064208987,
+                    61.390350341796878
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.56732725963495,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_6\",\"collisionObject\":\"UMC-750_Reboot_SS_PP_CT_HSK_STEP_2021-06\",\"collisionPoint\":{\"x\":1.100000023841858,\"y\":0.9500000476837158,\"z\":1.899999976158142},\"distance\":2.3921685218811037}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_5 and UMC-750_Reboot_SS_PP_CT_HSK_STEP_2021-06",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 10,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -43.01706314086914,
+                    50.621726989746097,
+                    -30.258342742919923,
+                    109.55182647705078,
+                    46.5999755859375,
+                    61.767127990722659
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.85842415236098,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_5\",\"collisionObject\":\"UMC-750_Reboot_SS_PP_CT_HSK_STEP_2021-06\",\"collisionPoint\":{\"x\":1.100000023841858,\"y\":0.9500000476837158,\"z\":1.899999976158142},\"distance\":2.3921685218811037}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_4 and UMC-750_Reboot_SS_PP_CT_HSK_STEP_2021-06",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 10,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -42.45314025878906,
+                    51.64414978027344,
+                    -31.845767974853517,
+                    109.5385971069336,
+                    45.92948532104492,
+                    62.20770263671875
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 21.354380210468773,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_4\",\"collisionObject\":\"UMC-750_Reboot_SS_PP_CT_HSK_STEP_2021-06\",\"collisionPoint\":{\"x\":1.100000023841858,\"y\":0.9500000476837158,\"z\":1.899999976158142},\"distance\":2.3921685218811037}"
+        }
+    ]
+}

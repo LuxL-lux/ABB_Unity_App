@@ -1,0 +1,93 @@
+{
+    "programName": "RsTempModule",
+    "totalSafetyEvents": 3,
+    "safetyEvents": [
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and Cube",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 8,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -112.73062133789063,
+                    40.704166412353519,
+                    21.604768753051759,
+                    -0.7732662558555603,
+                    -67.42150115966797,
+                    -175.8992156982422
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.24905583381135,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"Cube\",\"collisionPoint\":{\"x\":2.146482229232788,\"y\":0.000008702278137207031,\"z\":-0.7534818649291992},\"distance\":2.2748894691467287}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-54,4, 9,2, 23,4, -34,6, -6,5, -187,7]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 10,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -54.35580825805664,
+                    9.204463005065918,
+                    23.396738052368165,
+                    -34.61320877075195,
+                    -6.479057788848877,
+                    -187.6730194091797
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.27681913482868,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-54.35580825805664,9.204463005065918,23.396738052368165,-34.61320877075195,-6.479057788848877,-187.6730194091797],\"wristThreshold\":10.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":0.10000000149011612,\"dhAnalysis\":\"DH-parameter based detection using Preliy.Flange framework (Unity Y-up coordinate system)\",\"isEntering\":true}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-138,8, -20,3, 52,3, 8,9, 8,9, -252,4]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 12,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -138.81240844726563,
+                    -20.268474578857423,
+                    52.260765075683597,
+                    8.91120719909668,
+                    8.920775413513184,
+                    -252.44418334960938
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.811670262484819,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-138.81240844726563,-20.268474578857423,52.260765075683597,8.91120719909668,8.920775413513184,-252.44418334960938],\"wristThreshold\":10.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":0.10000000149011612,\"dhAnalysis\":\"DH-parameter based detection using Preliy.Flange framework (Unity Y-up coordinate system)\",\"isEntering\":true}"
+        }
+    ]
+}

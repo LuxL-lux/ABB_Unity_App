@@ -1,0 +1,35 @@
+{
+    "programName": "RsTempModule",
+    "totalSafetyEvents": 1,
+    "safetyEvents": [
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and StorageIn",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 9,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    131.91099548339845,
+                    48.45904541015625,
+                    14.614605903625489,
+                    45.27299880981445,
+                    -70.20979309082031,
+                    161.3726806640625
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.260345438889734,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"StorageIn\",\"collisionPoint\":{\"x\":-1.9000000953674317,\"y\":0.000008940696716308594,\"z\":0.00000286102294921875},\"distance\":1.900000810623169}"
+        }
+    ]
+}

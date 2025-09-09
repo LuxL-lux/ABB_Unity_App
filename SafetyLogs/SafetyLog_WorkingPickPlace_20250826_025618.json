@@ -1,0 +1,64 @@
+{
+    "programName": "WorkingPickPlace",
+    "totalSafetyEvents": 2,
+    "safetyEvents": [
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-148,9, -41,2, 49,9, 66,1, 9,9, 155,9]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "init",
+                "currentLine": 21,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -146.45367431640626,
+                    -41.142578125,
+                    49.515113830566409,
+                    68.22000122070313,
+                    7.927314758300781,
+                    156.5997314453125
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.75416107948951,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-148.85365295410157,-41.24623489379883,49.933231353759769,66.13531494140625,9.851890563964844,155.94012451171876],\"wristThreshold\":10.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":0.10000000149011612,\"dhAnalysis\":\"DH-parameter based detection using Preliy.Flange framework (Unity Y-up coordinate system)\",\"isEntering\":true}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-124,5, -40,2, 45,7, 87,3, -9,4, 162,6]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "MoveAroundColumn",
+                "currentLine": 62,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -126.96504974365235,
+                    -40.352867126464847,
+                    46.14052200317383,
+                    85.15074157714844,
+                    -7.440807342529297,
+                    161.9491424560547
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.220013415569367,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-124.52204132080078,-40.246238708496097,45.71438980102539,87.27312469482422,-9.405866622924805,162.62086486816407],\"wristThreshold\":10.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":0.10000000149011612,\"dhAnalysis\":\"DH-parameter based detection using Preliy.Flange framework (Unity Y-up coordinate system)\",\"isEntering\":true}"
+        }
+    ]
+}

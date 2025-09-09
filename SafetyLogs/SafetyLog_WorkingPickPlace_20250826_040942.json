@@ -1,0 +1,64 @@
+{
+    "programName": "WorkingPickPlace",
+    "totalSafetyEvents": 2,
+    "safetyEvents": [
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-101,4, -26,7, 38,1, 192,1, 9,3, -6,4]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -100.26092529296875,
+                    -26.340896606445314,
+                    38.087242126464847,
+                    192.01097106933595,
+                    8.481744766235352,
+                    -6.1310248374938969
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.256446614134949,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-101.43833923339844,-26.712509155273439,38.13071823120117,192.0540008544922,9.31982707977295,-6.445474147796631],\"wristThreshold\":10.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":0.10000000149011612,\"dhAnalysis\":\"DH-parameter based detection using Preliy.Flange framework (Unity Y-up coordinate system)\",\"isEntering\":true}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "CRITICAL COLLISION: Joint_4 -> Sauele",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    32.46060562133789,
+                    15.741241455078125,
+                    25.917570114135743,
+                    108.44856262207031,
+                    -37.0231819152832,
+                    -12.940363883972168
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.941223489390074,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_4\",\"collisionObject\":\"Sauele\",\"collisionPoint\":{\"x\":-1.1465449333190919,\"y\":0.03821668401360512,\"z\":1.1465444564819337},\"distance\":1.6219112873077393}"
+        }
+    ]
+}

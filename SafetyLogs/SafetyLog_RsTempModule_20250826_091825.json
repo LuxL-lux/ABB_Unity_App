@@ -1,0 +1,64 @@
+{
+    "programName": "RsTempModule",
+    "totalSafetyEvents": 2,
+    "safetyEvents": [
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-78,1, -6,2, 36,1, -123,7, -10,0, -138,7]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 10,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -78.09474182128906,
+                    -6.2131147384643559,
+                    36.05242919921875,
+                    -123.67158508300781,
+                    -9.993507385253907,
+                    -138.73477172851563
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.370830600246895,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-78.09474182128906,-6.2131147384643559,36.05242919921875,-123.67158508300781,-9.993507385253907,-138.73477172851563],\"wristThreshold\":10.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":0.10000000149011612,\"dhAnalysis\":\"DH-parameter based detection using Preliy.Flange framework (Unity Y-up coordinate system)\",\"isEntering\":true}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-138,8, -20,2, 52,2, 9,1, 9,5, -253,4]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 12,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -138.83094787597657,
+                    -20.219552993774415,
+                    52.17219161987305,
+                    9.067242622375489,
+                    9.455913543701172,
+                    -253.36032104492188
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 13.191185122453773,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-138.83094787597657,-20.219552993774415,52.17219161987305,9.067242622375489,9.455913543701172,-253.36032104492188],\"wristThreshold\":10.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":0.10000000149011612,\"dhAnalysis\":\"DH-parameter based detection using Preliy.Flange framework (Unity Y-up coordinate system)\",\"isEntering\":true}"
+        }
+    ]
+}

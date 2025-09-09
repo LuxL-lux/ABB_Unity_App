@@ -1,0 +1,34 @@
+{
+    "programName": "Module1",
+    "totalSafetyEvents": 1,
+    "safetyEvents": [
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and CylinderHead (8)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "GripFromStorageL1",
+                "currentLine": 81,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    131.00384521484376,
+                    49.48512649536133,
+                    12.371325492858887,
+                    44.673702239990237,
+                    -69.05581665039063,
+                    160.76968383789063
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.354659588673039,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            }
+        }
+    ]
+}

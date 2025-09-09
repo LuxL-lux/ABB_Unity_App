@@ -1,0 +1,557 @@
+{
+    "programName": "WorkingPickPlace",
+    "totalSafetyEvents": 19,
+    "safetyEvents": [
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "CRITICAL COLLISION: Joint_4 -> Sauele",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "SmartMove",
+                "currentLine": 100,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    32.501808166503909,
+                    6.618999004364014,
+                    -2.0905299186706545,
+                    138.0010223388672,
+                    -58.628883361816409,
+                    -55.159610748291019
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.54457237452873,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_4\",\"collisionObject\":\"Sauele\",\"collisionPoint\":{\"x\":-1.1465449333190919,\"y\":0.03821668401360512,\"z\":1.1465444564819337},\"distance\":1.6219112873077393}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-91,1, -43,1, 29,8, 92,1, -9,2, -74,5]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "SmartMove",
+                "currentLine": 132,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -91.05554962158203,
+                    -42.640708923339847,
+                    29.61005973815918,
+                    90.27171325683594,
+                    -6.350672721862793,
+                    -74.95743560791016
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.044535646609597,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-91.05538177490235,-43.129051208496097,29.813831329345704,92.05712890625,-9.230666160583496,-74.54540252685547],\"wristThreshold\":10.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":0.10000000149011612,\"dhAnalysis\":\"DH-parameter based detection using Preliy.Flange framework (Unity Y-up coordinate system)\",\"isEntering\":true}"
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-101,0, -26,6, 38,2, 192,3, 8,9, -6,2]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -100.98237609863281,
+                    -26.64825439453125,
+                    38.162742614746097,
+                    192.2752685546875,
+                    8.862677574157715,
+                    -6.194334030151367
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.22854206828751,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"singularityType\":\"Wrist Singularity (θ₅ ≈ 0°)\",\"jointAngles\":[-100.98237609863281,-26.64825439453125,38.162742614746097,192.2752685546875,8.862677574157715,-6.194334030151367],\"wristThreshold\":10.0,\"shoulderThreshold\":0.10000000149011612,\"elbowThreshold\":0.10000000149011612,\"dhAnalysis\":\"DH-parameter based detection using Preliy.Flange framework (Unity Y-up coordinate system)\",\"isEntering\":true}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "CRITICAL COLLISION: Joint_4 -> Sauele",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    33.96342086791992,
+                    16.21161651611328,
+                    25.785737991333009,
+                    107.5267105102539,
+                    -37.52437973022461,
+                    -13.015750885009766
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.173573425755199,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_4\",\"collisionObject\":\"Sauele\",\"collisionPoint\":{\"x\":-1.1465449333190919,\"y\":0.03821668401360512,\"z\":1.1465444564819337},\"distance\":1.6219112873077393}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "CRITICAL COLLISION: Joint_5 -> Sauele",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    35.828773498535159,
+                    16.802988052368165,
+                    25.614696502685548,
+                    106.35208892822266,
+                    -38.163421630859378,
+                    -13.111695289611817
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.15114466391656,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_5\",\"collisionObject\":\"Sauele\",\"collisionPoint\":{\"x\":-1.1465449333190919,\"y\":0.03821668401360512,\"z\":1.1465444564819337},\"distance\":1.6219112873077393}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "CRITICAL COLLISION: Joint_6 -> Sauele",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    35.828773498535159,
+                    16.802988052368165,
+                    25.614696502685548,
+                    106.35208892822266,
+                    -38.163421630859378,
+                    -13.111695289611817
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.15114466391656,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_6\",\"collisionObject\":\"Sauele\",\"collisionPoint\":{\"x\":-1.1465449333190919,\"y\":0.03821668401360512,\"z\":1.1465444564819337},\"distance\":1.6219112873077393}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 2,
+            "description": "CRITICAL COLLISION: Gripper -> Sauele",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    38.08345413208008,
+                    17.517789840698243,
+                    25.407957077026368,
+                    104.93229675292969,
+                    -38.935848236083987,
+                    -13.227665901184082
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.021423829659346,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"Sauele\",\"collisionPoint\":{\"x\":-1.1465449333190919,\"y\":0.03821668401360512,\"z\":1.1465444564819337},\"distance\":1.6219112873077393}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_4 and StorageIn",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    81.82067108154297,
+                    31.379920959472658,
+                    21.397470474243165,
+                    77.39080047607422,
+                    -53.919578552246097,
+                    -15.477293968200684
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.016092938722733,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_4\",\"collisionObject\":\"StorageIn\",\"collisionPoint\":{\"x\":-1.9000000953674317,\"y\":0.0,\"z\":-0.0000020265579223632814},\"distance\":1.9000005722045899}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_4 and Cube (1)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    81.82067108154297,
+                    31.379920959472658,
+                    21.397470474243165,
+                    77.39080047607422,
+                    -53.919578552246097,
+                    -15.477293968200684
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.016092938722733,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_4\",\"collisionObject\":\"Cube (1)\",\"collisionPoint\":{\"x\":-1.90500009059906,\"y\":0.0,\"z\":0.1850000023841858},\"distance\":1.9139626026153565}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_4 and Cube (2)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    81.82067108154297,
+                    31.379920959472658,
+                    21.397470474243165,
+                    77.39080047607422,
+                    -53.919578552246097,
+                    -15.477293968200684
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.016092938722733,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_4\",\"collisionObject\":\"Cube (2)\",\"collisionPoint\":{\"x\":-1.9000000953674317,\"y\":1.274999976158142,\"z\":-0.0000020265579223632814},\"distance\":2.2881531715393068}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_5 and Cube (1)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    84.32362365722656,
+                    32.173095703125,
+                    21.16796112060547,
+                    75.814697265625,
+                    -54.777042388916019,
+                    -15.60603141784668
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.044463108018289,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_5\",\"collisionObject\":\"Cube (1)\",\"collisionPoint\":{\"x\":-1.9000000953674317,\"y\":0.875,\"z\":-0.0000020265579223632814},\"distance\":2.0918028354644777}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_5 and StorageIn",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    84.32362365722656,
+                    32.173095703125,
+                    21.16796112060547,
+                    75.814697265625,
+                    -54.777042388916019,
+                    -15.60603141784668
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.044463108018289,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_5\",\"collisionObject\":\"StorageIn\",\"collisionPoint\":{\"x\":-1.9000000953674317,\"y\":0.0,\"z\":-0.0000020265579223632814},\"distance\":1.9000005722045899}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_6 and StorageIn",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    87.6396255493164,
+                    33.224464416503909,
+                    20.863889694213868,
+                    73.7265853881836,
+                    -55.913063049316409,
+                    -15.776591300964356
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.27239018110265,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_6\",\"collisionObject\":\"StorageIn\",\"collisionPoint\":{\"x\":-1.9000000953674317,\"y\":0.0,\"z\":-0.0000020265579223632814},\"distance\":1.9000005722045899}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_6 and Cube (1)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    87.6396255493164,
+                    33.224464416503909,
+                    20.863889694213868,
+                    73.7265853881836,
+                    -55.913063049316409,
+                    -15.776591300964356
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.27239018110265,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_6\",\"collisionObject\":\"Cube (1)\",\"collisionPoint\":{\"x\":-1.90500009059906,\"y\":0.0,\"z\":0.1850000023841858},\"distance\":1.9139626026153565}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and Cube (1)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    88.46488189697266,
+                    33.48611831665039,
+                    20.78821563720703,
+                    73.20691680908203,
+                    -56.19578552246094,
+                    -15.819039344787598
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.09585723903017,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"Cube (1)\",\"collisionPoint\":{\"x\":-1.90500009059906,\"y\":0.0,\"z\":0.1850000023841858},\"distance\":1.9139626026153565}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and StorageIn",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    88.46488189697266,
+                    33.48611831665039,
+                    20.78821563720703,
+                    73.20691680908203,
+                    -56.19578552246094,
+                    -15.819039344787598
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.09585723903017,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"StorageIn\",\"collisionPoint\":{\"x\":-1.9000000953674317,\"y\":0.0,\"z\":-0.0000020265579223632814},\"distance\":1.9000005722045899}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Joint_4 and CylinderHead (9)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    91.8680419921875,
+                    34.56511688232422,
+                    20.476154327392579,
+                    71.06391906738281,
+                    -57.361663818359378,
+                    -15.994081497192383
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 19.362096372898486,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Joint_4\",\"collisionObject\":\"CylinderHead (9)\",\"collisionPoint\":{\"x\":-1.9333003759384156,\"y\":0.9249926209449768,\"z\":-0.1674463152885437},\"distance\":2.149724245071411}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and CylinderHead (5)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    109.88685607910156,
+                    40.278167724609378,
+                    18.823888778686525,
+                    59.717533111572269,
+                    -63.534568786621097,
+                    -16.920869827270509
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.699033446961125,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"CylinderHead (5)\",\"collisionPoint\":{\"x\":-1.9333003759384156,\"y\":0.5249926447868347,\"z\":-0.1674463152885437},\"distance\":2.0103020668029787}"
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and Cube (5)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "WorkingPickPlace",
+                "currentRoutine": "PickupObject",
+                "currentLine": 50,
+                "currentColumn": 5,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    116.85372924804688,
+                    42.47669219970703,
+                    18.177236557006837,
+                    55.2924690246582,
+                    -65.94293975830078,
+                    -17.282297134399415
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.351654401644308,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"Cube (5)\",\"collisionPoint\":{\"x\":-1.90500009059906,\"y\":0.0,\"z\":-0.7950000166893005},\"distance\":2.0642309188842775}"
+        }
+    ]
+}

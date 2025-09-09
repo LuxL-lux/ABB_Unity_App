@@ -1,0 +1,35 @@
+{
+    "programName": "RsTempModule",
+    "totalSafetyEvents": 1,
+    "safetyEvents": [
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and CylinderHead (8)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "RsTempModule",
+                "currentRoutine": "RsTempPath",
+                "currentLine": 9,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -42.693321228027347,
+                    51.38655090332031,
+                    -30.677934646606447,
+                    110.22147369384766,
+                    46.44259262084961,
+                    61.095272064208987
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.624680317455078,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            },
+            "eventDataJson": "{\"robotLink\":\"Gripper\",\"collisionObject\":\"CylinderHead (8)\",\"collisionPoint\":{\"x\":1.4895398616790772,\"y\":1.1964993476867676,\"z\":2.2533035278320314},\"distance\":2.9542646408081056}"
+        }
+    ]
+}
