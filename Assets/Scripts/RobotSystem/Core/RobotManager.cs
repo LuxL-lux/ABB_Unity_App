@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using RobotSystem.Interfaces;
+using Preliy.Flange;
 
 namespace RobotSystem.Core
 {
@@ -33,6 +34,9 @@ namespace RobotSystem.Core
         // Previous state values for change detection
         private string previousMotorState = "";
         private string previousModule = "";
+        
+        // Local Flange mode
+        private RobotState localRobotState;
 
         void Start()
         {
@@ -54,8 +58,20 @@ namespace RobotSystem.Core
 
             // Initialize visualization systems
             InitializeVisualizationSystems();
+            
+            // Initialize local robot state for Flange mode
+            localRobotState = new RobotState();
         }
 
+        void Update()
+        {
+            // When not connected to robot, read joint data from Flange Controller
+            if (!isConnected)
+            {
+                UpdateFromFlangeController();
+            }
+        }
+        
         void OnDestroy()
         {
             if (robotConnector != null)
@@ -216,6 +232,31 @@ namespace RobotSystem.Core
                 // Debug.Log($"[Robot Manager] Module changed: '{previousModule}' → '{currentModule}'");
                 OnModuleChanged?.Invoke(previousModule, currentModule);
                 previousModule = currentModule;
+            }
+        }
+        
+        private void UpdateFromFlangeController()
+        {
+            // Find Flange Controller automatically
+            var controller = FindFirstObjectByType<Preliy.Flange.Controller>();
+            if (controller != null && controller.MechanicalGroup != null)
+            {
+                // Get joint values from the robot joints
+                var robotJoints = controller.MechanicalGroup.RobotJoints;
+                if (robotJoints != null && robotJoints.Count >= 6)
+                {
+                    var jointValues = robotJoints.GetJointValues();
+                    
+                    // Update local robot state with Flange joint data
+                    localRobotState.hasValidJointData = true;
+                    localRobotState.jointAngles = jointValues;
+                    localRobotState.lastUpdate = DateTime.Now;
+                    localRobotState.lastJointUpdate = DateTime.Now;
+                    localRobotState.motorState = "LocalMode";
+                    
+                    // Trigger the same update path as when connected
+                    OnRobotStateUpdated(localRobotState);
+                }
             }
         }
     }

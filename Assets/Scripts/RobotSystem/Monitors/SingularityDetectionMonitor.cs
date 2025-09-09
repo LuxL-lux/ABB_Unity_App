@@ -16,8 +16,8 @@ namespace RobotSystem.Safety
     {
         [Header("Singularity Detection Settings")]
         [SerializeField] private float wristSingularityThreshold = 5f; // degrees
+        [SerializeField] private float elbowSingularityThreshold = 5f; // degrees
         [SerializeField] private float shoulderSingularityThreshold = 0.1f; // meters
-        [SerializeField] private float elbowSingularityThreshold = 5f; // normalized cross product threshold (0-1)
         [SerializeField] private bool checkWristSingularity = true;
         [SerializeField] private bool checkShoulderSingularity = true;
         [SerializeField] private bool checkElbowSingularity = true;
