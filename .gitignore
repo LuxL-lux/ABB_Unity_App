@@ -82,6 +82,7 @@ Thumbs.db
 .vscode/
 .idea/
 
+*.meta
 #Logs
 # Custom project ignores (add your specific files here)
 # /Assets/YourSpecificFolder/
