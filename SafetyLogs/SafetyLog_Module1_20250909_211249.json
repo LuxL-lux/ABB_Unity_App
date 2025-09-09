@@ -1,0 +1,174 @@
+{
+    "programName": "Module1",
+    "totalSafetyEvents": 6,
+    "safetyEvents": [
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and CylinderHead (8)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "GripFromStorageL1",
+                "currentLine": 81,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    130.44259643554688,
+                    50.119476318359378,
+                    10.984827041625977,
+                    44.30235290527344,
+                    -68.34270477294922,
+                    160.39706420898438
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.28002660739491,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            }
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and CylinderHead (8)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInMachine",
+                "currentLine": 99,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -39.92742919921875,
+                    58.038917541503909,
+                    -35.008975982666019,
+                    -64.94734191894531,
+                    -45.11064529418945,
+                    -123.51749420166016
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.461362808608503,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            }
+        },
+        {
+            "monitorName": "Process Flow Monitor",
+            "eventType": 1,
+            "description": "Process flow violation: Part 'CylinderHead1' attempted invalid transition from StorageIn to Machine. Expected: StorageIn. Violation type: UnknownStation",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "PlaceInMachine",
+                "currentLine": 99,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -39.92742919921875,
+                    58.038917541503909,
+                    -35.008975982666019,
+                    -64.94734191894531,
+                    -45.11064529418945,
+                    -123.51749420166016
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.97266797451591,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            }
+        },
+        {
+            "monitorName": "Collision Detector",
+            "eventType": 1,
+            "description": "Collision detected between Gripper and CylinderHead (8)",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "TakeOutOfMachine",
+                "currentLine": 142,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -41.34608459472656,
+                    54.638858795166019,
+                    -32.30000305175781,
+                    -66.86831665039063,
+                    -45.93464660644531,
+                    -121.87609100341797
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 16.441608449671415,
+                "gripperOpen": true,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            }
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-83,0, -6,9, 36,7, -112,1, -4,6, -154,4]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 150,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -82.98066711425781,
+                    -6.943938732147217,
+                    36.66981887817383,
+                    -112.1431655883789,
+                    -4.582884311676025,
+                    -154.37796020507813
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 18.15158753784606,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            }
+        },
+        {
+            "monitorName": "Singularity Detector",
+            "eventType": 1,
+            "description": "ENTERING Wrist Singularity (θ₅ ≈ 0°) at joint configuration: [-138,6, -20,7, 53,1, 7,5, 4,0, -244,1]°",
+            "robotStateSnapshot": {
+                "isProgramRunning": true,
+                "currentModule": "Module1",
+                "currentRoutine": "MoveToStorageOut_Faulty",
+                "currentLine": 152,
+                "currentColumn": 9,
+                "executionCycle": "once",
+                "motorState": "running",
+                "controllerState": "motoron",
+                "jointAngles": [
+                    -138.63734436035157,
+                    -20.703445434570314,
+                    53.070777893066409,
+                    7.491296768188477,
+                    4.019395351409912,
+                    -244.0762939453125
+                ],
+                "hasValidJointData": true,
+                "motionUpdateFrequencyHz": 20.930222823152176,
+                "gripperOpen": false,
+                "robotType": "ABB",
+                "robotIP": "127.0.0.1"
+            }
+        }
+    ]
+}
