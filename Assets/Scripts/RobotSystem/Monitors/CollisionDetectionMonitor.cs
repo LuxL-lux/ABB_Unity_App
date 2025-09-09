@@ -351,7 +351,7 @@ namespace RobotSystem.Safety
             bool isCritical = IsCriticalCollision(hitCollider);
             
             // Create collision info
-            var collision = new CollisionInfo
+            var collision = new CollisionInfo()
             {
                 robotLink = robotPartName,
                 collisionObject = hitObjectName,
@@ -516,6 +516,11 @@ namespace RobotSystem.Safety
         public string collisionObject;
         public Vector3 collisionPoint;
         public float distance;
-        public DateTime detectionTime = DateTime.Now;
+        public string detectionTime;
+        
+        public CollisionInfo()
+        {
+            detectionTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        }
     }
 }

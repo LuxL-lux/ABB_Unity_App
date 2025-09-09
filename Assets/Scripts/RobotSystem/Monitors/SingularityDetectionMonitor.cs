@@ -325,7 +325,7 @@ namespace RobotSystem.Safety
         {
             lastSingularityTime = DateTime.Now;
 
-            var singularityData = new SingularityInfo
+            var singularityData = new SingularityInfo()
             {
                 singularityType = singularityType,
                 jointAngles = (float[])jointAngles.Clone(),
@@ -473,9 +473,13 @@ namespace RobotSystem.Safety
         public float wristThreshold;
         public float shoulderThreshold;
         public float elbowThreshold;
-        public DateTime detectionTime = DateTime.Now;
+        public string detectionTime;
         public double manipulability;
         public bool isEntering = true; // true = entering singularity, false = exiting
-
+        
+        public SingularityInfo()
+        {
+            detectionTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        }
     }
 }

@@ -334,7 +334,7 @@ namespace RobotSystem.Safety
         {
             if (!ShouldMonitorPart(part)) return;
             
-            var violationData = new ProcessFlowViolation
+            var violationData = new ProcessFlowViolation()
             {
                 partId = part.PartId,
                 partName = part.PartName,
@@ -448,7 +448,12 @@ namespace RobotSystem.Safety
         public int currentSequenceIndex;
         public string expectedNextStation;
         public ProcessViolationType violationType;
-        public DateTime detectionTime = DateTime.Now;
+        public string detectionTime;
+        
+        public ProcessFlowViolation()
+        {
+            detectionTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        }
     }
     
     public enum ProcessViolationType

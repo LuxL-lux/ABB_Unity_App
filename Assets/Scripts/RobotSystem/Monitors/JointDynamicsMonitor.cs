@@ -479,7 +479,7 @@ namespace RobotSystem.Safety
         {
             lastViolationTime = DateTime.Now;
 
-            var eventData = new JointDynamicsInfo
+            var eventData = new JointDynamicsInfo()
             {
                 eventType = eventType,
                 jointIndex = jointIndex,
@@ -601,10 +601,9 @@ namespace RobotSystem.Safety
                 var currentTime = DateTime.Now;
                 var deltaTime = (float)(currentTime - lastUpdateTime).TotalSeconds;
                 
-                var jointState = new JointState
+                var jointState = new JointState()
                 {
                     angles = (float[])currentJointAngles.Clone(),
-                    timestamp = currentTime,
                     deltaTime = deltaTime
                 };
 
@@ -690,13 +689,24 @@ namespace RobotSystem.Safety
         public bool smoothingEnabled;
         public float smoothingAlpha;
         public int smoothingWindowSize;
+        public string detectionTime;
+        
+        public JointDynamicsInfo()
+        {
+            detectionTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        }
     }
 
     [Serializable]
     public class JointState
     {
         public float[] angles;
-        public DateTime timestamp;
+        public string timestamp;
         public float deltaTime;
+        
+        public JointState()
+        {
+            timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+        }
     }
 }
