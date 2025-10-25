@@ -1,3 +1,0 @@
-GET http://127.0.0.1/ HTTP/1.1
-Authorization: Basic Default User robotics
-Accept: application/xhtml+xml;v=2.0 

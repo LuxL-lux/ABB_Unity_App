@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using Preliy.Flange;
 using RobotSystem.Core;
 using RobotSystem.Interfaces;
-using Preliy.Flange;
+using UnityEngine;
 
 namespace RobotSystem.Safety
 {
@@ -15,30 +15,46 @@ namespace RobotSystem.Safety
     public class SingularityDetectionMonitor : MonoBehaviour, IRobotSafetyMonitor
     {
         [Header("Singularity Detection Settings")]
-        [SerializeField] private float wristSingularityThreshold = 5f; // degrees
-        [SerializeField] private float elbowSingularityThreshold = 5f; // degrees
-        [SerializeField] private float shoulderSingularityThreshold = 0.1f; // meters
-        [SerializeField] private bool checkWristSingularity = true;
-        [SerializeField] private bool checkShoulderSingularity = true;
-        [SerializeField] private bool checkElbowSingularity = true;
+        [SerializeField]
+        private float wristSingularityThreshold = 5f; // degrees
+
+        [SerializeField]
+        private float elbowSingularityThreshold = 5f; // degrees
+
+        [SerializeField]
+        private float shoulderSingularityThreshold = 0.1f; // meters
+
+        [SerializeField]
+        private bool checkWristSingularity = true;
+
+        [SerializeField]
+        private bool checkShoulderSingularity = true;
+
+        [SerializeField]
+        private bool checkElbowSingularity = true;
 
         [Header("Robot Configuration")]
-        [SerializeField] private bool autoFindFrames = true;
+        [SerializeField]
+        private bool autoFindFrames = true;
 
         [Header("Debug Settings")]
-        [SerializeField] private bool debugLogging = false;
+        [SerializeField]
+        private bool debugLogging = false;
 
         public string MonitorName => "Singularity Detector";
 
         private void DebugLog(string message)
         {
-            if (debugLogging) Debug.Log(message);
+            if (debugLogging)
+                Debug.Log(message);
         }
 
         private void DebugLogWarning(string message)
         {
-            if (debugLogging) Debug.LogWarning(message);
+            if (debugLogging)
+                Debug.LogWarning(message);
         }
+
         public bool IsActive { get; private set; } = true;
 
         public event Action<SafetyEvent> OnSafetyEventDetected;
@@ -55,7 +71,7 @@ namespace RobotSystem.Safety
         {
             { "Wrist", false },
             { "Shoulder", false },
-            { "Elbow", false }
+            { "Elbow", false },
         };
 
         void Awake()
@@ -70,32 +86,54 @@ namespace RobotSystem.Safety
                     robotFrames = robot.GetComponentsInChildren<Frame>();
                     if (robotFrames != null && robotFrames.Length > 0)
                     {
-                        Array.Sort(robotFrames, (a, b) => GetHierarchyDepth(a.transform).CompareTo(GetHierarchyDepth(b.transform)));
-                        DebugLog($"[{MonitorName}] Found {robotFrames.Length} frames from Robot component");
+                        Array.Sort(
+                            robotFrames,
+                            (a, b) =>
+                                GetHierarchyDepth(a.transform)
+                                    .CompareTo(GetHierarchyDepth(b.transform))
+                        );
+                        DebugLog(
+                            $"[{MonitorName}] Found {robotFrames.Length} frames from Robot component"
+                        );
                     }
                 }
-                
+
                 // Priority 2: Check Controller's Robot reference
                 if (robotFrames == null || robotFrames.Length == 0)
                 {
                     var controller = FindFirstObjectByType<Preliy.Flange.Controller>();
-                    if (controller != null && controller.MechanicalGroup != null && controller.MechanicalGroup.Robot != null)
+                    if (
+                        controller != null
+                        && controller.MechanicalGroup != null
+                        && controller.MechanicalGroup.Robot != null
+                    )
                     {
                         robot = controller.MechanicalGroup.Robot;
                         robotFrames = robot.GetComponentsInChildren<Frame>();
                         if (robotFrames != null && robotFrames.Length > 0)
                         {
-                            Array.Sort(robotFrames, (a, b) => GetHierarchyDepth(a.transform).CompareTo(GetHierarchyDepth(b.transform)));
-                            DebugLog($"[{MonitorName}] Found {robotFrames.Length} frames from Controller's Robot reference");
+                            Array.Sort(
+                                robotFrames,
+                                (a, b) =>
+                                    GetHierarchyDepth(a.transform)
+                                        .CompareTo(GetHierarchyDepth(b.transform))
+                            );
+                            DebugLog(
+                                $"[{MonitorName}] Found {robotFrames.Length} frames from Controller's Robot reference"
+                            );
                         }
                     }
                 }
-                
+
                 // Priority 3: Check Controller's Frames list directly
                 if (robotFrames == null || robotFrames.Length == 0)
                 {
                     var controller = FindFirstObjectByType<Preliy.Flange.Controller>();
-                    if (controller != null && controller.Frames != null && controller.Frames.Count > 0)
+                    if (
+                        controller != null
+                        && controller.Frames != null
+                        && controller.Frames.Count > 0
+                    )
                     {
                         // Convert ReferenceFrame list to Frame array
                         var framesList = new List<Frame>();
@@ -111,19 +149,28 @@ namespace RobotSystem.Safety
                                 }
                             }
                         }
-                        
+
                         if (framesList.Count > 0)
                         {
                             robotFrames = framesList.ToArray();
-                            Array.Sort(robotFrames, (a, b) => GetHierarchyDepth(a.transform).CompareTo(GetHierarchyDepth(b.transform)));
-                            DebugLog($"[{MonitorName}] Found {robotFrames.Length} frames from Controller's Frames list");
+                            Array.Sort(
+                                robotFrames,
+                                (a, b) =>
+                                    GetHierarchyDepth(a.transform)
+                                        .CompareTo(GetHierarchyDepth(b.transform))
+                            );
+                            DebugLog(
+                                $"[{MonitorName}] Found {robotFrames.Length} frames from Controller's Frames list"
+                            );
                         }
                     }
                 }
-                
+
                 if (robotFrames == null || robotFrames.Length == 0)
                 {
-                    DebugLogWarning($"[{MonitorName}] No robot frames found - singularity detection will be limited");
+                    DebugLogWarning(
+                        $"[{MonitorName}] No robot frames found - singularity detection will be limited"
+                    );
                 }
             }
 
@@ -138,7 +185,8 @@ namespace RobotSystem.Safety
 
         public void UpdateState(RobotState state)
         {
-            if (!IsActive || state == null || !state.hasValidJointData) return;
+            if (!IsActive || state == null || !state.hasValidJointData)
+                return;
 
             // Get joint angles from RobotState
             var jointAngles = state.GetJointAngles();
@@ -159,35 +207,52 @@ namespace RobotSystem.Safety
             IsActive = false;
         }
 
-
         private void CheckForSingularities(float[] jointAngles)
         {
             if (robotFrames == null || robotFrames.Length < 6)
                 return;
 
-            
-
             // Check each singularity type and track state changes
             if (checkWristSingularity)
             {
                 bool isInWristSingularity = IsWristSingularityDH(jointAngles);
-                CheckSingularityStateChange("Wrist", "Wrist Singularity (θ₅ ≈ 0°)", isInWristSingularity, jointAngles);
+                CheckSingularityStateChange(
+                    "Wrist",
+                    "Wrist Singularity (θ₅ ≈ 0°)",
+                    isInWristSingularity,
+                    jointAngles
+                );
             }
 
             if (checkShoulderSingularity)
             {
                 bool isInShoulderSingularity = IsShoulderSingularityDH(jointAngles);
-                CheckSingularityStateChange("Shoulder", "Shoulder Singularity (Wrist on Y₀)", isInShoulderSingularity, jointAngles);
+                CheckSingularityStateChange(
+                    "Shoulder",
+                    "Shoulder Singularity (Wrist on Y₀)",
+                    isInShoulderSingularity,
+                    jointAngles
+                );
             }
 
             if (checkElbowSingularity)
             {
                 bool isInElbowSingularity = IsElbowSingularityDH(jointAngles);
-                CheckSingularityStateChange("Elbow", "Elbow Singularity (J2-J3-J5 Coplanar)", isInElbowSingularity, jointAngles);
+                CheckSingularityStateChange(
+                    "Elbow",
+                    "Elbow Singularity (J2-J3-J5 Coplanar)",
+                    isInElbowSingularity,
+                    jointAngles
+                );
             }
         }
 
-        private void CheckSingularityStateChange(string singularityType, string description, bool isCurrentlyInSingularity, float[] jointAngles)
+        private void CheckSingularityStateChange(
+            string singularityType,
+            string description,
+            bool isCurrentlyInSingularity,
+            float[] jointAngles
+        )
         {
             bool wasInSingularity = currentSingularityStates[singularityType];
 
@@ -219,13 +284,14 @@ namespace RobotSystem.Safety
             // If angle between the vectors < threshold then singularity
             float angle = Vector3.Angle(y4, y6);
 
-            return angle < wristSingularityThreshold ||
-                   Mathf.Abs(180f - angle) < wristSingularityThreshold;
+            return angle < wristSingularityThreshold
+                || Mathf.Abs(180f - angle) < wristSingularityThreshold;
         }
 
         private bool IsShoulderSingularityDH(float[] jointAngles)
         {
-            if (robotFrames.Length < 4) return false;
+            if (robotFrames.Length < 4)
+                return false;
 
             // Calculate wrist center position using forward kinematics
             Vector3 wristCenter = ComputeJointPosition(jointAngles, 5);
@@ -236,15 +302,18 @@ namespace RobotSystem.Safety
             Vector3 wristToBase = wristCenter - basePosition;
 
             // Project onto XZ plane (senkrecht to Y₀ in Unity coordinate system)
-            // Basically calculates the horizontal distance from the center point to wrist center             
-            float distanceFromY0 = Mathf.Sqrt(wristToBase.x * wristToBase.x + wristToBase.z * wristToBase.z);
+            // Basically calculates the horizontal distance from the center point to wrist center
+            float distanceFromY0 = Mathf.Sqrt(
+                wristToBase.x * wristToBase.x + wristToBase.z * wristToBase.z
+            );
 
             return distanceFromY0 < shoulderSingularityThreshold;
         }
 
         private bool IsElbowSingularityDH(float[] jointAngles)
         {
-            if (robotFrames.Length < 4) return false;
+            if (robotFrames.Length < 4)
+                return false;
             // Calculate positions of joint 2, joint 3, and joint 5 (wrist center) using forward kinematics
             Vector3 joint2Position = ComputeJointPosition(jointAngles, 2);
             Vector3 joint3Position = ComputeJointPosition(jointAngles, 3);
@@ -261,7 +330,6 @@ namespace RobotSystem.Safety
             return (angle < elbowSingularityThreshold || angle > 180f - elbowSingularityThreshold);
         }
 
-
         private Vector3 ComputeJointPosition(float[] jointAngles, int jointIndex)
         {
             // Use forward kinematics to compute position after applying jointIndex transformations
@@ -277,9 +345,9 @@ namespace RobotSystem.Safety
 
                 // Create transformation matrix using DH parameters
                 float theta = jointAngles[i] * Mathf.Deg2Rad + config.Theta;
-                Matrix4x4 dhTransform = HomogeneousMatrix.CreateRaw(new FrameConfig(
-                    config.Alpha, config.A, config.D, theta
-                ));
+                Matrix4x4 dhTransform = HomogeneousMatrix.CreateRaw(
+                    new FrameConfig(config.Alpha, config.A, config.D, theta)
+                );
 
                 baseTransform = baseTransform * dhTransform;
             }
@@ -297,9 +365,9 @@ namespace RobotSystem.Safety
                 var config = frame.Config;
 
                 float theta = jointAngles[i] * Mathf.Deg2Rad + config.Theta;
-                Matrix4x4 dhTransform = HomogeneousMatrix.CreateRaw(new FrameConfig(
-                    config.Alpha, config.A, config.D, theta
-                ));
+                Matrix4x4 dhTransform = HomogeneousMatrix.CreateRaw(
+                    new FrameConfig(config.Alpha, config.A, config.D, theta)
+                );
 
                 baseTransform *= dhTransform;
             }
@@ -319,9 +387,11 @@ namespace RobotSystem.Safety
             return depth;
         }
 
-
-
-        private void HandleSingularityDetected(string singularityType, float[] jointAngles, bool entering = true)
+        private void HandleSingularityDetected(
+            string singularityType,
+            float[] jointAngles,
+            bool entering = true
+        )
         {
             lastSingularityTime = DateTime.Now;
 
@@ -333,12 +403,12 @@ namespace RobotSystem.Safety
                 shoulderThreshold = shoulderSingularityThreshold,
                 elbowThreshold = elbowSingularityThreshold,
                 manipulability = GetManipulability(jointAngles),
-                isEntering = entering
+                isEntering = entering,
             };
 
-            string eventDescription = entering ?
-                $"ENTERING {singularityType} at joint configuration: [{string.Join(", ", Array.ConvertAll(jointAngles, x => x.ToString("F1")))}]°" :
-                $"EXITING {singularityType} at joint configuration: [{string.Join(", ", Array.ConvertAll(jointAngles, x => x.ToString("F1")))}]°";
+            string eventDescription = entering
+                ? $"Entering {singularityType} at joint configuration: [{string.Join(", ", Array.ConvertAll(jointAngles, x => x.ToString("F1")))}]°"
+                : $"Exiting {singularityType} at joint configuration: [{string.Join(", ", Array.ConvertAll(jointAngles, x => x.ToString("F1")))}]°";
 
             // Create safety event - safety manager will provide robot state
             var safetyEvent = new SafetyEvent(
@@ -379,10 +449,14 @@ namespace RobotSystem.Safety
                 Vector3 zi = ComputeJointAxis(jointAngles, i + 1, 1); // use Y-axis
 
                 Vector3 Jv = Vector3.Cross(zi, pE - pi); // linear part
-                Vector3 Jw = zi;                         // angular part
+                Vector3 Jw = zi; // angular part
 
-                J[0, i] = Jv.x; J[1, i] = Jv.y; J[2, i] = Jv.z;
-                J[3, i] = Jw.x; J[4, i] = Jw.y; J[5, i] = Jw.z;
+                J[0, i] = Jv.x;
+                J[1, i] = Jv.y;
+                J[2, i] = Jv.z;
+                J[3, i] = Jw.x;
+                J[4, i] = Jw.y;
+                J[5, i] = Jw.z;
             }
 
             return J;
@@ -409,7 +483,8 @@ namespace RobotSystem.Safety
 
             // Determinant via naive LU decomposition (works for 6x6)
             double det = Det6x6(JJt);
-            if (det < 0) det = 0; // numerical safety
+            if (det < 0)
+                det = 0; // numerical safety
             return Mathf.Sqrt((float)det);
         }
 
@@ -429,15 +504,22 @@ namespace RobotSystem.Safety
                 for (int r = k + 1; r < N; r++)
                 {
                     double v = Mathf.Abs((float)M[r, k]);
-                    if (v > maxAbs) { maxAbs = v; piv = r; }
+                    if (v > maxAbs)
+                    {
+                        maxAbs = v;
+                        piv = r;
+                    }
                 }
-                if (maxAbs < 1e-12) return 0.0;
+                if (maxAbs < 1e-12)
+                    return 0.0;
 
                 if (piv != k)
                 {
                     for (int c = k; c < N; c++)
                     {
-                        double tmp = M[k, c]; M[k, c] = M[piv, c]; M[piv, c] = tmp;
+                        double tmp = M[k, c];
+                        M[k, c] = M[piv, c];
+                        M[piv, c] = tmp;
                     }
                     det = -det;
                 }
@@ -456,7 +538,6 @@ namespace RobotSystem.Safety
 
             return det;
         }
-    
     }
 
     [Serializable]
@@ -470,7 +551,7 @@ namespace RobotSystem.Safety
         public string detectionTime;
         public double manipulability;
         public bool isEntering; // true = entering singularity, false = exiting
-        
+
         public SingularityInfo()
         {
             detectionTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -478,3 +559,4 @@ namespace RobotSystem.Safety
         }
     }
 }
+
