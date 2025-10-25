@@ -84,6 +84,8 @@ Thumbs.db
 
 *.meta
 #Logs
+Logs/
+SafetyLogs/
 # Custom project ignores (add your specific files here)
 # /Assets/YourSpecificFolder/
 # *.yourextension
