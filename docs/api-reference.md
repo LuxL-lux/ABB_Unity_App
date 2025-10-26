@@ -9,28 +9,37 @@
 Primary interface for robot communication implementations.
 
 #### Properties
+
 ```csharp
 bool IsConnected { get; }
 RobotState CurrentState { get; }
 ```
 
 #### Events
+
 ```csharp
 event Action<RobotState> OnRobotStateUpdated;
 event Action<bool> OnConnectionStateChanged;
 ```
 
 #### Methods
+
 ```csharp
 void Connect();
 void Disconnect();
 ```
 
 **Implementation Requirements**:
-- Must handle authentication and session management
-- Should implement thread-safe state updates
-- Must trigger events on state changes
-- Should provide graceful error handling
+
+Must..
+
+- ..handle authentication and session management
+- ..trigger events on state changes
+
+Should..
+
+- ..implement thread-safe state updates
+- ..provide graceful error handling
 
 ### IRobotSafetyMonitor
 
@@ -39,17 +48,20 @@ void Disconnect();
 Interface for implementing safety monitoring algorithms.
 
 #### Properties
+
 ```csharp
 string MonitorName { get; }    // Human-readable monitor identifier
 bool IsActive { get; }         // Current monitor state
 ```
 
 #### Events
+
 ```csharp
 event Action<SafetyEvent> OnSafetyEventDetected;
 ```
 
 #### Methods
+
 ```csharp
 void Initialize();                    // Setup resources and configurations
 void UpdateState(RobotState state);  // Process robot state for safety analysis
@@ -58,6 +70,7 @@ void Shutdown();                     // Cleanup and resource disposal
 ```
 
 **Implementation Guidelines**:
+
 - Initialize() should be idempotent
 - UpdateState() must be thread-safe
 - Use cooldown periods to prevent event spam
@@ -70,14 +83,16 @@ void Shutdown();                     // Cleanup and resource disposal
 Strategy interface for parsing robot-specific data formats.
 
 #### Methods
+
 ```csharp
 bool CanParse(string rawData);                      // Format detection
 void ParseData(string rawData, RobotState robotState); // Data extraction and state update
 ```
 
 **Implementation Notes**:
-- CanParse() should be fast and reliable
+
 - ParseData() must handle malformed data gracefully
+- CanParse() should be fast and reliable
 - Should update robotState atomically where possible
 
 ### IRobotVisualization
@@ -87,16 +102,25 @@ void ParseData(string rawData, RobotState robotState); // Data extraction and st
 Interface for robot visualization adapters.
 
 #### Properties
+
 ```csharp
 bool IsConnected { get; }
 bool IsValid { get; }
 string VisualizationType { get; }
 ```
 
+#### Events
+
+```csharp
+event Action<float[]> OnJointAnglesRequested;
+```
+
 #### Methods
+
 ```csharp
 void Initialize();
 void UpdateJointAngles(float[] jointAngles);
+bool TryUpdateJointAngles(float[] jointAngles);
 void Shutdown();
 ```
 
@@ -109,6 +133,7 @@ void Shutdown();
 Central state container for robot data.
 
 #### Core Properties
+
 ```csharp
 // Connection Information
 string robotType;           // Robot manufacturer/model
@@ -141,6 +166,7 @@ Dictionary<string, object> ioSignals; // Signal name -> value mapping
 ```
 
 #### Key Methods
+
 ```csharp
 void UpdateMotorState(string state);
 void UpdateProgramPointer(string module, string routine, int line, int col);
@@ -160,6 +186,7 @@ bool GripperClosed => !GripperOpen;
 ```
 
 #### Thread Safety
+
 - All Update methods are thread-safe
 - State access methods return copies/immutable data
 - Dictionary operations are synchronized
@@ -168,22 +195,26 @@ bool GripperClosed => !GripperOpen;
 
 **Location**: `Assets/Scripts/RobotSystem/Core/RobotManager.cs`
 
-Mediator class coordinating robot operations.
+Class coordinating robot operations.
 
 #### Properties
+
 ```csharp
 bool IsConnected { get; }
 RobotState CurrentRobotState { get; }
 ```
 
 #### Events
+
 ```csharp
 event Action<RobotState> OnRobotStateUpdated;
 event Action<bool> OnConnectionStateChanged;
 event Action<string, string> OnMotorStateChanged; // (oldState, newState)
+event Action<string, string> OnModuleChanged; // (oldModule, newModule)
 ```
 
 #### Methods
+
 ```csharp
 void ConnectToRobot();
 void DisconnectFromRobot();
@@ -191,6 +222,9 @@ RobotState GetCurrentState();
 bool HasValidMotionData();
 float[] GetCurrentJointAngles();
 double GetMotionUpdateFrequency();
+void AddVisualizationSystem(IRobotVisualization visualizer);
+void RemoveVisualizationSystem(IRobotVisualization visualizer);
+List<IRobotVisualization> GetVisualizationSystems();
 ```
 
 ### RobotSafetyManager
@@ -200,6 +234,7 @@ double GetMotionUpdateFrequency();
 Facade for coordinating safety monitoring subsystem.
 
 #### Configuration Properties
+
 ```csharp
 bool enableJsonLogging;              // Enable file-based logging
 bool logOnlyWhenProgramRunning;      // Conditional logging based on program state
@@ -208,6 +243,7 @@ SafetyEventType minimumLogLevel;     // Minimum severity for logging
 ```
 
 #### Methods
+
 ```csharp
 void SetMonitorActive(string monitorName, bool active);
 List<string> GetActiveMonitors();
@@ -216,6 +252,7 @@ List<SafetyEvent> GetEventHistory(DateTime since);
 ```
 
 #### Event Handling
+
 - Aggregates events from all monitors
 - Applies filtering based on severity levels
 - Handles conditional logging logic
@@ -228,6 +265,7 @@ List<SafetyEvent> GetEventHistory(DateTime since);
 Immutable value object for safety incidents.
 
 #### Properties
+
 ```csharp
 string monitorName;                  // Source monitor identifier
 SafetyEventType eventType;           // Severity level
@@ -238,17 +276,20 @@ string eventDataJson;                // Serialized event-specific data
 ```
 
 #### Event Types
+
 ```csharp
 public enum SafetyEventType
 {
     Info = 0,        // Informational events
-    Warning = 1,     // Potential safety concerns
-    Critical = 2,    // Immediate safety hazards
-    Emergency = 3    // Emergency stop conditions
+    Resolved = 1,    // For events that indicate resolution of a previous warning/critical state
+    Warning = 2,     // Potential safety concerns
+    Critical = 3,    // Immediate safety hazards
+    Emergency = 4    // Emergency stop conditions
 }
 ```
 
 #### Methods
+
 ```csharp
 void SetEventData<T>(T data);       // Attach typed event data
 T GetEventData<T>();                // Retrieve typed event data
@@ -263,6 +304,7 @@ static SafetyEvent FromJson(string json); // Deserialize event
 Immutable snapshot of robot state at specific moment.
 
 #### Properties
+
 ```csharp
 DateTime captureTime;               // Snapshot timestamp
 bool isProgramRunning;              // Execution state
@@ -277,6 +319,7 @@ string robotType, robotIP;
 ```
 
 #### Methods
+
 ```csharp
 string GetProgramContext();         // Formatted program location
 string GetMotionSummary();         // Joint configuration summary
@@ -292,6 +335,7 @@ Dictionary<string, object> ToDictionary(); // Serializable representation
 Detects kinematic singularities in 6-DOF spherical wrist robots.
 
 #### Configuration
+
 ```csharp
 float wristSingularityThreshold = 10f;      // Degrees
 float shoulderSingularityThreshold = 0.1f;   // Meters
@@ -304,23 +348,25 @@ bool checkElbowSingularity = true;
 #### Mathematical Implementation
 
 **Wrist Singularity Detection**:
+
 ```csharp
 private bool IsWristSingularityDH(float[] jointAngles)
 {
     float theta5_deg = Mathf.Abs(jointAngles[4]);
-    return theta5_deg < wristSingularityThreshold || 
+    return theta5_deg < wristSingularityThreshold ||
            Mathf.Abs(180f - theta5_deg) < wristSingularityThreshold;
 }
 ```
 
 **Shoulder Singularity Detection**:
+
 ```csharp
 private bool IsShoulderSingularityDH(float[] jointAngles)
 {
     Vector3 wristCenter = ComputeJointPosition(jointAngles, 5);
     Vector3 basePosition = robotFrames[0].transform.position;
     Vector3 wristToBase = wristCenter - basePosition;
-    
+
     // Distance from Y₀ axis in Unity coordinates
     float distanceFromY0 = Mathf.Sqrt(wristToBase.x * wristToBase.x + wristToBase.z * wristToBase.z);
     return distanceFromY0 < shoulderSingularityThreshold;
@@ -328,18 +374,20 @@ private bool IsShoulderSingularityDH(float[] jointAngles)
 ```
 
 **Elbow Singularity Detection**:
+
 ```csharp
 private bool IsElbowSingularityDH(float[] jointAngles)
 {
     Vector3 joint2Position = ComputeJointPosition(jointAngles, 2);
     Vector3 joint3Position = ComputeJointPosition(jointAngles, 3);
     Vector3 joint5Position = ComputeJointPosition(jointAngles, 5);
-    
+
     return ArePointsCoplanar(joint2Position, joint3Position, joint5Position, elbowSingularityThreshold);
 }
 ```
 
 #### Event Data Structure
+
 ```csharp
 public class SingularityInfo
 {
@@ -351,6 +399,7 @@ public class SingularityInfo
     public DateTime detectionTime;
     public string dhAnalysis;           // Analysis method description
     public bool isEntering;             // true = entering singularity, false = exiting
+    public double manipulability;      // Manipulability measure at the time of detection
 }
 ```
 
@@ -361,6 +410,7 @@ public class SingularityInfo
 Unity physics-based collision detection for robot links.
 
 #### Configuration
+
 ```csharp
 LayerMask collisionLayers = -1;             // Collision detection layers
 bool excludeProcessFlowLayer = true;         // Exclude station triggers
@@ -370,11 +420,25 @@ List<string> criticalCollisionTags;         // Tags for critical collisions
 ```
 
 #### Implementation Details
+
 - Automatically discovers robot links via Frame and Tool components
 - Generates mesh colliders for robot geometry
 - Implements hierarchical collision detection
 - Supports self-collision detection between non-adjacent links
 - Uses spatial hashing for performance optimization
+
+#### Event Data Structure
+
+```csharp
+public class CollisionInfo
+{
+    public string robotLink;
+    public string collisionObject;
+    public Vector3 collisionPoint;
+    public float distance;
+    public string detectionTime;
+}
+```
 
 ### JointDynamicsMonitor
 
@@ -383,6 +447,7 @@ List<string> criticalCollisionTags;         // Tags for critical collisions
 Monitors joint position, velocity, and acceleration limits.
 
 #### Configuration
+
 ```csharp
 bool useFlangeLimits = true;                 // Extract limits from Flange configuration
 float limitSafetyFactor = 0.8f;              // Safety margin (80% of max limits)
@@ -402,10 +467,33 @@ int smoothingWindowSize = 5;                 // Moving average window
 ```
 
 #### Signal Processing
+
 - Finite difference velocity/acceleration calculation
 - Exponential moving average smoothing
 - Outlier rejection based on statistical thresholds
 - Part attachment detection for selective monitoring
+
+#### Event Data Structure
+
+```csharp
+public class JointDynamicsInfo
+{
+    public string eventType;
+    public int jointIndex;
+    public float currentValue;
+    public float minLimit;
+    public float maxLimit;
+    public float[] jointAngles;
+    public float[] jointVelocities;
+    public float[] jointAccelerations;
+    public string attachedPart;
+    public string partId;
+    public bool smoothingEnabled;
+    public float smoothingAlpha;
+    public int smoothingWindowSize;
+    public string detectionTime;
+}
+```
 
 ### ProcessFlowMonitor
 
@@ -414,6 +502,7 @@ int smoothingWindowSize = 5;                 // Moving average window
 Validates part movement through manufacturing stations.
 
 #### Configuration
+
 ```csharp
 bool monitorAllParts = true;                 // Monitor all Part components
 List<Part> specificParts;                   // Alternatively, monitor specific parts
@@ -425,9 +514,29 @@ float violationCooldownTime = 1.0f;         // Duplicate event suppression
 ```
 
 #### Layer Configuration
+
 - Layer 30: Parts layer (for objects being processed)
 - Layer 31: ProcessFlow layer (for station triggers)
 - Automatic layer collision matrix configuration
+
+#### Event Data Structure
+
+```csharp
+public class ProcessFlowViolation
+{
+    public string partId;
+    public string partName;
+    public string fromStation;
+    public string fromStationName;
+    public string attemptedStation;
+    public string attemptedStationName;
+    public string[] requiredSequence;
+    public int currentSequenceIndex;
+    public string expectedNextStation;
+    public ProcessViolationType violationType;
+    public string detectionTime;
+}
+```
 
 ## ABB-Specific Components
 
@@ -438,23 +547,33 @@ float violationCooldownTime = 1.0f;         // Duplicate event suppression
 Main connector for ABB Robot Web Services.
 
 #### Configuration
+
 ```csharp
 string robotIP = "127.0.0.1";              // Robot controller IP
-string username = "Default User";            // RWS authentication username  
+string username = "Default User";            // RWS authentication username
 string password = "robotics";               // RWS authentication password
 bool enableMotionData = true;               // Enable joint data polling
 int motionPollingIntervalMs = 100;          // Motion data update interval
 string robName = "ROB_1";                  // Robot identifier in controller
 ```
 
+#### Events
+
+```csharp
+event Action<float[]> OnJointDataReceived;
+```
+
 #### Service Components
+
 - **ABBAuthenticationService**: Digest authentication management
-- **ABBSubscriptionService**: WebSocket subscription management  
+- **ABBSubscriptionService**: WebSocket subscription management
 - **ABBWebSocketService**: Real-time event handling
 - **ABBMotionDataService**: HTTP-based motion data polling
 
 #### WebSocket Subscriptions
+
 Default subscriptions created on connection:
+
 - `/rw/rapid/execution;ctrlexecstate` - Execution state changes
 - `/rw/rapid/tasks/T_ROB1/pcp;programpointerchange` - Program pointer updates
 - `/rw/iosystem/signals/Local/Unit/DO_GripperOpen;state` - Gripper I/O state
@@ -468,6 +587,7 @@ Default subscriptions created on connection:
 Reflection-based adapter for Preliy Flange visualization framework.
 
 #### Properties
+
 ```csharp
 MonoBehaviour controllerComponent;          // Reference to Controller.cs script
 bool IsConnected { get; }                   // Flange integration status
@@ -475,7 +595,14 @@ bool IsValid { get; }                       // Controller validity state
 string VisualizationType { get; }           // "Preliy Flange"
 ```
 
+#### Events
+
+```csharp
+event Action<float[]> OnJointAnglesRequested;
+```
+
 #### Integration Details
+
 - Uses C# reflection to avoid hard dependencies
 - Thread-safe joint angle updates via ConcurrentQueue
 - Automatic validity monitoring
@@ -487,31 +614,41 @@ string VisualizationType { get; }           // "Preliy Flange"
 
 RAPID code generation for robot targets.
 
+#### Events
+
+```csharp
+event Action<string, string> OnTargetsUpdated; // (jointTarget, robTarget)
+```
+
 #### Output Formats
 
 **JOINTTARGET**:
+
 ```
 [[j1,j2,j3,j4,j5,j6],[9E9,9E9,9E9,9E9,9E9,9E9]]
 ```
 
 **ROBTARGET**:
+
 ```
 [[x,y,z],[qx,qy,qz,qw],[cf1,cf4,cf6,cfx],[9E9,9E9,9E9,9E9,9E9,9E9]]
 ```
 
 #### Coordinate System Conversion
+
 ```csharp
 // Unity → ABB transformation
 float x = position.z * 1000f;  // Unity Z → ABB X (forward)
-float y = position.x * 1000f;  // Unity X → ABB Y (left)  
+float y = position.x * 1000f;  // Unity X → ABB Y (left)
 float z = position.y * 1000f;  // Unity Y → ABB Z (up)
 ```
 
 #### Methods
+
 ```csharp
 void UpdateTargets();                       // Recalculate targets from current robot state
 string GetJoinTarget();                     // Current JOINTTARGET string
-string GetRobTarget();                      // Current ROBTARGET string  
+string GetRobTarget();                      // Current ROBTARGET string
 void CopyJoinTargetToClipboard();          // Copy JOINTTARGET to system clipboard
 void CopyRobTargetToClipboard();           // Copy ROBTARGET to system clipboard
 void CopyBothTargetsToClipboard();         // Copy formatted RAPID code
@@ -526,6 +663,7 @@ void CopyBothTargetsToClipboard();         // Copy formatted RAPID code
 Represents a workpiece in the manufacturing process.
 
 #### Configuration
+
 ```csharp
 string partId;                              // Unique part identifier
 string partName;                            // Human-readable name
@@ -536,6 +674,7 @@ bool allowSkipStations = false;             // Allow non-sequential processing
 ```
 
 #### State Tracking
+
 ```csharp
 Station currentStation;                     // Current part location
 DateTime lastStationChangeTime;             // Last movement timestamp
@@ -544,6 +683,7 @@ List<StationVisit> visitHistory;           // Complete movement history
 ```
 
 #### Methods
+
 ```csharp
 bool TryMoveToStation(Station newStation);      // Validated station transition
 bool IsValidNextStation(Station station);        // Sequence validation
@@ -554,6 +694,7 @@ void ResetProcess();                             // Reset to initial state
 ```
 
 #### Events
+
 ```csharp
 event Action<Part, Station, Station> OnStationChanged;          // (part, from, to)
 event Action<Part, Station, Station> OnInvalidStationTransition; // (part, from, attempted)
@@ -566,6 +707,7 @@ event Action<Part, Station, Station> OnInvalidStationTransition; // (part, from,
 Represents a processing station in the manufacturing workflow.
 
 #### Configuration
+
 ```csharp
 string stationName;                         // Human-readable station name
 int stationIndex;                          // Sequence position number
@@ -576,18 +718,22 @@ bool autoConfigureForProcessFlow = true;   // Automatic layer setup
 ```
 
 #### Layer Configuration
+
 - Station GameObject automatically assigned to Layer 31 (ProcessFlow)
 - Collider configured as trigger for part detection
 - Collision matrix configured to avoid interference with physics
 
 #### Methods
+
 ```csharp
 bool IsValidNextStation(Station fromStation, Part part); // Sequence validation
 void ManualConfigureForProcessFlow();                    // Manual layer setup
 ```
 
 #### Events
+
 ```csharp
 event Action<Part, Station> OnPartEntered;    // Part enters station
 event Action<Part, Station> OnPartExited;     // Part leaves station
 ```
+
