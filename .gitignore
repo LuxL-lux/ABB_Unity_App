@@ -83,7 +83,8 @@ Thumbs.db
 .idea/
 
 *.meta
-#Logs
+#
+# Ignore Logs
 Logs/
 SafetyLogs/
 # Custom project ignores (add your specific files here)
