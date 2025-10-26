@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "com.preliy.flange": "1.0.11",
-    "com.endel.nativewebsockets": "1.1.15"
+    "com.endel.nativewebsockets": "1.1.5"
   },
   "samples": [
     {
