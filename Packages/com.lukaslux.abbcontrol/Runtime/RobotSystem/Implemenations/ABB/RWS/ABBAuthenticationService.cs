@@ -14,10 +14,17 @@ namespace RobotSystem.ABB.RWS
         public string SessionCookie { get; private set; }
         public bool IsAuthenticated { get; private set; }
 
-        public ABBAuthenticationService(string robotIP, string username, string password, HttpClient httpClient)
+        public ABBAuthenticationService(
+            string robotIP,
+            string username,
+            string password,
+            HttpClient httpClient
+        )
         {
             baseUrl = $"http://{robotIP}";
-            authHeader = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{username}:{password}"));
+            authHeader = Convert.ToBase64String(
+                System.Text.Encoding.UTF8.GetBytes($"{username}:{password}")
+            );
             this.httpClient = httpClient;
         }
 
@@ -54,21 +61,29 @@ namespace RobotSystem.ABB.RWS
                                 // Debug.Log($"[ABB Auth] Authentication successful");
                                 return true;
                             }
-                            Debug.LogError("[ABB Auth] Authentication failed: Cookie could not be parsed");
+                            Debug.LogError(
+                                "[ABB Auth] Authentication failed: Cookie could not be parsed"
+                            );
                         }
                         else
                         {
-                            Debug.LogError("[ABB Auth] Authentication successful but no session cookie received.");
+                            Debug.LogError(
+                                "[ABB Auth] Authentication successful but no session cookie received."
+                            );
                         }
                     }
                     else
                     {
-                        Debug.LogError("[ABB Auth] Authentication successful but no Set-Cookie header received.");
+                        Debug.LogError(
+                            "[ABB Auth] Authentication successful but no Set-Cookie header received."
+                        );
                     }
                 }
                 else
                 {
-                    Debug.LogError($"[ABB Auth] Authentication failed: {response.StatusCode} - {response.ReasonPhrase}");
+                    Debug.LogError(
+                        $"[ABB Auth] Authentication failed: {response.StatusCode} - {response.ReasonPhrase}"
+                    );
                 }
             }
             catch (Exception e)
@@ -94,12 +109,12 @@ namespace RobotSystem.ABB.RWS
 
                 var response = await httpClient.SendAsync(request);
 
-                if (response.IsSuccessStatusCode)
-                {
-                }
+                if (response.IsSuccessStatusCode) { }
                 else
                 {
-                    Debug.LogError($"[ABB Auth] Logout failed: {response.StatusCode} - {response.ReasonPhrase}");
+                    Debug.LogError(
+                        $"[ABB Auth] Logout failed: {response.StatusCode} - {response.ReasonPhrase}"
+                    );
                 }
             }
             catch (Exception e)
@@ -124,12 +139,12 @@ namespace RobotSystem.ABB.RWS
                 return null;
 
             // Debug.Log($"Cookie Header: {setCookieHeader}");
-            
+
             // We need to extract BOTH session cookies: -http-session- and ABBCX
             string httpSession = null;
             string abbcx = null;
             string[] cookieParts = setCookieHeader.Split(';');
-            
+
             foreach (string part in cookieParts)
             {
                 string trimmedPart = part.Trim();
@@ -171,6 +186,7 @@ namespace RobotSystem.ABB.RWS
 
             return null;
         }
+
         private async Task<string> FormatRequest(HttpRequestMessage request)
         {
             var msg = $"{request.Method} {request.RequestUri} HTTP/{request.Version}\n";
@@ -193,27 +209,25 @@ namespace RobotSystem.ABB.RWS
         }
 
         private async Task<string> FormatResponse(HttpResponseMessage response)
-{
-    var msg = $"HTTP/{response.Version} {(int)response.StatusCode} {response.ReasonPhrase}\n";
-
-    foreach (var header in response.Headers)
-    {
-        msg += $"{header.Key}: {string.Join(", ", header.Value)}\n";
-    }
-    if (response.Content != null)
-    {
-        foreach (var header in response.Content.Headers)
         {
-            msg += $"{header.Key}: {string.Join(", ", header.Value)}\n";
+            var msg =
+                $"HTTP/{response.Version} {(int)response.StatusCode} {response.ReasonPhrase}\n";
+
+            foreach (var header in response.Headers)
+            {
+                msg += $"{header.Key}: {string.Join(", ", header.Value)}\n";
+            }
+            if (response.Content != null)
+            {
+                foreach (var header in response.Content.Headers)
+                {
+                    msg += $"{header.Key}: {string.Join(", ", header.Value)}\n";
+                }
+                msg += "\n" + await response.Content.ReadAsStringAsync();
+            }
+
+            return msg;
         }
-        msg += "\n" + await response.Content.ReadAsStringAsync();
     }
-
-    return msg;
 }
 
-
-    }
-
-    
-}

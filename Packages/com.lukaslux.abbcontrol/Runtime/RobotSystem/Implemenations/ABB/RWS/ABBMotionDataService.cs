@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net.Http;
-using UnityEngine;
 using Newtonsoft.Json;
-using RobotSystem.Core;
-using RobotSystem.Interfaces;
+using UnityEngine;
 
 namespace RobotSystem.ABB.RWS
 {
@@ -14,44 +11,50 @@ namespace RobotSystem.ABB.RWS
     {
         public event Action<float[]> OnJointDataReceived;
         public event Action<string> OnError;
-        
+
         private readonly string robotIP;
         private readonly string robName;
         private readonly HttpClient httpClient;
         private readonly object dataLock = new object();
         private string sessionCookie;
-        
+
         private CancellationTokenSource cancellationTokenSource;
         private bool isRunning = false;
         private float[] currentJointAngles = new float[6];
         private DateTime lastUpdateTime = DateTime.MinValue;
         private int updateCount = 0;
         private double currentFrequency = 0.0;
-        
+
         // Performance tracking
-        private readonly System.Diagnostics.Stopwatch performanceStopwatch = new System.Diagnostics.Stopwatch();
-        
+        private readonly System.Diagnostics.Stopwatch performanceStopwatch =
+            new System.Diagnostics.Stopwatch();
+
         public bool IsRunning => isRunning;
-        public float[] CurrentJointAngles 
-        { 
-            get 
-            { 
-                lock (dataLock) 
-                { 
-                    return (float[])currentJointAngles.Clone(); 
-                } 
-            } 
+        public float[] CurrentJointAngles
+        {
+            get
+            {
+                lock (dataLock)
+                {
+                    return (float[])currentJointAngles.Clone();
+                }
+            }
         }
         public double UpdateFrequency => currentFrequency;
-        
-        public ABBMotionDataService(string robotIP, string robName, HttpClient httpClient, string sessionCookie = null)
+
+        public ABBMotionDataService(
+            string robotIP,
+            string robName,
+            HttpClient httpClient,
+            string sessionCookie = null
+        )
         {
             this.robotIP = robotIP ?? throw new ArgumentNullException(nameof(robotIP));
             this.robName = robName ?? "ROB1";
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             this.sessionCookie = sessionCookie;
         }
-        
+
         public async Task StartAsync(int pollingIntervalMs = 100)
         {
             if (isRunning)
@@ -59,18 +62,17 @@ namespace RobotSystem.ABB.RWS
                 Debug.LogWarning("[ABB Motion] Service is already running");
                 return;
             }
-            
+
             cancellationTokenSource = new CancellationTokenSource();
             isRunning = true;
-            
-            
+
             try
             {
-                await Task.Run(() => MotionDataPollingLoop(pollingIntervalMs, cancellationTokenSource.Token));
+                await Task.Run(() =>
+                    MotionDataPollingLoop(pollingIntervalMs, cancellationTokenSource.Token)
+                );
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 Debug.LogError($"[ABB Motion] Service error: {e.Message}");
@@ -81,22 +83,26 @@ namespace RobotSystem.ABB.RWS
                 isRunning = false;
             }
         }
-        
+
         public void Stop()
         {
-            if (!isRunning) return;
-            
+            if (!isRunning)
+                return;
+
             cancellationTokenSource?.Cancel();
         }
-        
-        private async Task MotionDataPollingLoop(int pollingIntervalMs, CancellationToken cancellationToken)
+
+        private async Task MotionDataPollingLoop(
+            int pollingIntervalMs,
+            CancellationToken cancellationToken
+        )
         {
             var stopwatch = new System.Diagnostics.Stopwatch();
-            
+
             while (!cancellationToken.IsCancellationRequested)
             {
                 stopwatch.Restart();
-                
+
                 try
                 {
                     await FetchJointData(cancellationToken);
@@ -110,14 +116,14 @@ namespace RobotSystem.ABB.RWS
                 {
                     Debug.LogError($"[ABB Motion] Joint data fetch error: {e.Message}");
                     OnError?.Invoke($"Joint data fetch error: {e.Message}");
-                    
+
                     // Add delay on error to prevent spam
                     await Task.Delay(Math.Max(pollingIntervalMs, 1000), cancellationToken);
                     continue;
                 }
-                
+
                 stopwatch.Stop();
-                
+
                 // Calculate sleep time to maintain polling interval
                 int sleepTime = Math.Max(0, pollingIntervalMs - (int)stopwatch.ElapsedMilliseconds);
                 if (sleepTime > 0)
@@ -126,12 +132,12 @@ namespace RobotSystem.ABB.RWS
                 }
             }
         }
-        
+
         private async Task FetchJointData(CancellationToken cancellationToken)
         {
             // Use the same URL pattern as the original ABBDataStream
             string url = $"http://{robotIP}/rw/motionsystem/mechunits/{robName}/jointtarget";
-            
+
             // Create request with proper headers (same as subscription service)
             var request = new HttpRequestMessage(HttpMethod.Get, url);
 
@@ -157,7 +163,7 @@ namespace RobotSystem.ABB.RWS
                     (float)(state.rax_3 ?? 0.0),
                     (float)(state.rax_4 ?? 0.0),
                     (float)(state.rax_5 ?? 0.0),
-                    (float)(state.rax_6 ?? 0.0)
+                    (float)(state.rax_6 ?? 0.0),
                 };
 
                 lock (dataLock)
@@ -169,12 +175,12 @@ namespace RobotSystem.ABB.RWS
                 OnJointDataReceived?.Invoke((float[])jointData.Clone());
             }
         }
-        
+
         private void UpdatePerformanceMetrics()
         {
             DateTime now = DateTime.Now;
             updateCount++;
-            
+
             if (lastUpdateTime != DateTime.MinValue)
             {
                 TimeSpan timeDiff = now - lastUpdateTime;
@@ -183,10 +189,10 @@ namespace RobotSystem.ABB.RWS
                     currentFrequency = 1000.0 / timeDiff.TotalMilliseconds;
                 }
             }
-            
+
             lastUpdateTime = now;
         }
-        
+
         public void Dispose()
         {
             Stop();

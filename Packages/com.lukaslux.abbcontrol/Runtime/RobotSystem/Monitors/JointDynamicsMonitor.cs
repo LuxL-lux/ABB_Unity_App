@@ -513,7 +513,7 @@ namespace RobotSystem.Safety
             // All "Resolved" events should use the Resolved type
             if (eventType.Contains("Resolved"))
                 return SafetyEventType.Resolved;
-            
+
             if (eventType.Contains("Acceleration"))
                 return SafetyEventType.Critical;
             if (eventType.Contains("Velocity"))
@@ -528,10 +528,8 @@ namespace RobotSystem.Safety
             return eventType switch
             {
                 "JointAngleLimit" => $"{jointName} angle limit exceeded: {value:F2}°",
-                "JointAngleLimitResolved" =>
-                    $"{jointName} angle limit resolved: {value:F2}°",
-                "JointVelocityLimit" =>
-                    $"{jointName} velocity limit exceeded: {value:F2}°/s",
+                "JointAngleLimitResolved" => $"{jointName} angle limit resolved: {value:F2}°",
+                "JointVelocityLimit" => $"{jointName} velocity limit exceeded: {value:F2}°/s",
                 "JointVelocityLimitResolved" =>
                     $"{jointName} velocity limit resolved: {value:F2}°/s",
                 "JointAccelerationLimit" =>
@@ -604,11 +602,11 @@ namespace RobotSystem.Safety
                 // Add current state to history
                 var currentTime = DateTime.Now;
                 var deltaTime = (float)(currentTime - lastUpdateTime).TotalSeconds;
-                
+
                 var jointState = new JointState()
                 {
                     angles = (float[])currentJointAngles.Clone(),
-                    deltaTime = deltaTime
+                    deltaTime = deltaTime,
                 };
 
                 jointHistory.Add(jointState);
@@ -622,7 +620,7 @@ namespace RobotSystem.Safety
                 // Calculate velocities and accelerations
                 CalculateVelocities();
                 CalculateAccelerations();
-                
+
                 lastUpdateTime = currentTime;
 
                 // Check for violations
@@ -674,7 +672,6 @@ namespace RobotSystem.Safety
                 ResetSmoothingData();
             }
         }
-
     }
 
     [Serializable]
@@ -694,7 +691,7 @@ namespace RobotSystem.Safety
         public float smoothingAlpha;
         public int smoothingWindowSize;
         public string detectionTime;
-        
+
         public JointDynamicsInfo()
         {
             detectionTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -707,7 +704,7 @@ namespace RobotSystem.Safety
         public float[] angles;
         public string timestamp;
         public float deltaTime;
-        
+
         public JointState()
         {
             timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");

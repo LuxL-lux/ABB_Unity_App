@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Preliy.Flange;
 using RobotSystem.Core;
 using RobotSystem.Interfaces;
@@ -61,10 +60,8 @@ namespace RobotSystem.Safety
 
         private float[] previousJointAngles = new float[6];
         private DateTime lastSingularityTime = DateTime.MinValue;
-        private readonly float cooldownTime = 2.0f;
 
         private Frame[] robotFrames;
-        private bool isInitialized = false;
 
         // Singularity state tracking
         private Dictionary<string, bool> currentSingularityStates = new Dictionary<string, bool>
@@ -174,7 +171,6 @@ namespace RobotSystem.Safety
                 }
             }
 
-            isInitialized = true;
             DebugLog($"[{MonitorName}] Pre-initialized with {(robotFrames?.Length ?? 0)} frames");
         }
 
@@ -559,4 +555,3 @@ namespace RobotSystem.Safety
         }
     }
 }
-

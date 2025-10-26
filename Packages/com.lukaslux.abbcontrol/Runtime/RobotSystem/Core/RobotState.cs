@@ -11,34 +11,35 @@ namespace RobotSystem.Core
         public string robotType = "";
         public string robotIP = "";
         public DateTime lastUpdate = DateTime.Now;
-        
+
         [Header("Execution State")]
         public bool isRunning = false;
         public string motorState = "unknown";
         public string executionCycle = "";
-        
+
         [Header("Program Pointer")]
         public string currentModule = "";
         public string currentRoutine = "";
         public int currentLine = 0;
         public int currentColumn = 0;
-        
+
         [Header("Motion Data")]
         public float[] jointAngles = new float[6];
         public float[] jointVelocities = new float[6];
         public bool hasValidJointData = false;
         public DateTime lastJointUpdate = DateTime.MinValue;
         public double motionUpdateFrequencyHz = 0.0;
-        
+
         [Header("IO Signals")]
         public Dictionary<string, object> ioSignals = new Dictionary<string, object>();
-        
+
         [Header("Controller State")]
         public string controllerState = "";
-        
+
         [Header("Custom Data")]
-        [SerializeField] private Dictionary<string, object> customData = new Dictionary<string, object>();
-        
+        [SerializeField]
+        private Dictionary<string, object> customData = new Dictionary<string, object>();
+
         // Generic methods for any robot type
         public void UpdateMotorState(string state)
         {
@@ -46,7 +47,7 @@ namespace RobotSystem.Core
             isRunning = (state == "running" || state == "active" || state == "executing");
             lastUpdate = DateTime.Now;
         }
-        
+
         public void UpdateProgramPointer(string module, string routine, int line, int col)
         {
             currentModule = module;
@@ -55,8 +56,13 @@ namespace RobotSystem.Core
             currentColumn = col;
             lastUpdate = DateTime.Now;
         }
-        
-        public void UpdateIOSignal(string signalName, object value, string state = "", string quality = "")
+
+        public void UpdateIOSignal(
+            string signalName,
+            object value,
+            string state = "",
+            string quality = ""
+        )
         {
             string key = signalName.ToLower();
             ioSignals[key] = value;
@@ -64,7 +70,7 @@ namespace RobotSystem.Core
             ioSignals[$"{key}_quality"] = quality;
             lastUpdate = DateTime.Now;
         }
-        
+
         public void UpdateControllerState(string state)
         {
             controllerState = state;
@@ -76,7 +82,7 @@ namespace RobotSystem.Core
             executionCycle = state;
             lastUpdate = DateTime.Now;
         }
-        
+
         public void UpdateJointAngles(float[] angles, double updateFrequency = 0.0)
         {
             if (angles != null && angles.Length >= 6)
@@ -88,7 +94,7 @@ namespace RobotSystem.Core
                 motionUpdateFrequencyHz = updateFrequency;
             }
         }
-        
+
         public void UpdateJointVelocities(float[] velocities)
         {
             if (velocities != null && velocities.Length >= 6)
@@ -97,12 +103,12 @@ namespace RobotSystem.Core
                 lastUpdate = DateTime.Now;
             }
         }
-        
+
         public float[] GetJointAngles()
         {
             return hasValidJointData ? (float[])jointAngles.Clone() : new float[6];
         }
-        
+
         public float[] GetJointVelocities()
         {
             return (float[])jointVelocities.Clone();
@@ -113,14 +119,14 @@ namespace RobotSystem.Core
             customData[key] = value;
             lastUpdate = DateTime.Now;
         }
-        
+
         public T GetCustomData<T>(string key, T defaultValue = default(T))
         {
             if (customData.ContainsKey(key) && customData[key] is T)
                 return (T)customData[key];
             return defaultValue;
         }
-        
+
         public T GetIOSignal<T>(string signalName, T defaultValue = default(T))
         {
             string key = signalName.ToLower();
@@ -128,19 +134,20 @@ namespace RobotSystem.Core
                 return (T)ioSignals[key];
             return defaultValue;
         }
-        
+
         public string GetIOSignalState(string signalName)
         {
             return GetIOSignal<string>($"{signalName.ToLower()}_state", "");
         }
-        
+
         public string GetIOSignalQuality(string signalName)
         {
             return GetIOSignal<string>($"{signalName.ToLower()}_quality", "");
         }
-        
+
         // Gripper Properties
         public bool GripperOpen => GetIOSignal<bool>("do_gripperopen", false);
         public bool GripperClosed => !GripperOpen;
     }
 }
+

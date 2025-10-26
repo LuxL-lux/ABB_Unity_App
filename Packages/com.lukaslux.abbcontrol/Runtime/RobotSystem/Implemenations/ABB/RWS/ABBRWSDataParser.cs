@@ -1,24 +1,26 @@
 using System;
 using System.Xml;
-using UnityEngine;
-using RobotSystem.Interfaces;
 using RobotSystem.Core;
+using RobotSystem.Interfaces;
+using UnityEngine;
 
 namespace RobotSystem.ABB.RWS
 {
     public class ABBRWSDataParser : IRobotDataParser
     {
-
         private XmlNamespaceManager nsmgr;
         private string ns;
+
         public bool CanParse(string rawData)
         {
-            return !string.IsNullOrEmpty(rawData) &&
-                   rawData.Contains("<?xml") &&
-                   (rawData.Contains("rap-ctrlexecstate-ev") ||
-                    rawData.Contains("rap-pp-ev") ||
-                    rawData.Contains("ios-signalstate-ev") ||
-                    rawData.Contains("pnl-ctrlstate-ev"));
+            return !string.IsNullOrEmpty(rawData)
+                && rawData.Contains("<?xml")
+                && (
+                    rawData.Contains("rap-ctrlexecstate-ev")
+                    || rawData.Contains("rap-pp-ev")
+                    || rawData.Contains("ios-signalstate-ev")
+                    || rawData.Contains("pnl-ctrlstate-ev")
+                );
         }
 
         public void ParseData(string xmlData, RobotState robotState)
@@ -35,7 +37,7 @@ namespace RobotSystem.ABB.RWS
 
                 // Select <li> nodes with namespace prefix
                 XmlNodeList eventNodes = doc.SelectNodes("//x:li", nsmgr);
-                
+
                 foreach (XmlNode node in eventNodes)
                 {
                     string className = node.Attributes?["class"]?.Value;
@@ -66,7 +68,6 @@ namespace RobotSystem.ABB.RWS
                             Debug.LogWarning($"No parser for: {className}");
                             break;
                     }
-
                 }
             }
             catch (Exception ex)
@@ -126,7 +127,7 @@ namespace RobotSystem.ABB.RWS
 
         private void ParseControllerState(XmlNode node, RobotState robotState)
         {
-            XmlNode stateNode = node.SelectSingleNode(".//x:span[@class='ctrlstate']",nsmgr);
+            XmlNode stateNode = node.SelectSingleNode(".//x:span[@class='ctrlstate']", nsmgr);
 
             if (stateNode != null)
             {
@@ -183,3 +184,4 @@ namespace RobotSystem.ABB.RWS
         }
     }
 }
+

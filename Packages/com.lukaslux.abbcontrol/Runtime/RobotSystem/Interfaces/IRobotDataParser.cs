@@ -6,3 +6,4 @@ namespace RobotSystem.Interfaces
         bool CanParse(string rawData);
     }
 }
+

@@ -1,5 +1,3 @@
-using System;
-
 namespace RobotSystem.Interfaces
 {
     public interface IRobotConnector
@@ -14,4 +12,3 @@ namespace RobotSystem.Interfaces
         void Disconnect();
     }
 }
-

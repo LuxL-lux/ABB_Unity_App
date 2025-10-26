@@ -21,11 +21,15 @@ namespace RobotSystem.ABB.RWS
             this.httpClient = httpClient;
         }
 
-        public async Task<(bool success, string initialStateData)> CreateSubscriptionAsync(string sessionCookie)
+        public async Task<(bool success, string initialStateData)> CreateSubscriptionAsync(
+            string sessionCookie
+        )
         {
             if (string.IsNullOrEmpty(sessionCookie))
             {
-                Debug.LogError("[ABB Subscription] Cannot create subscription without valid session cookie");
+                Debug.LogError(
+                    "[ABB Subscription] Cannot create subscription without valid session cookie"
+                );
                 return (false, null);
             }
 
@@ -56,7 +60,7 @@ namespace RobotSystem.ABB.RWS
 
                 // Set cookie and accept header
                 request.Headers.Add("Cookie", sessionCookie);
-                
+
                 request.Headers.TryAddWithoutValidation("Accept", "application/hal+json;v=2.0");
 
                 // Create content
@@ -65,7 +69,10 @@ namespace RobotSystem.ABB.RWS
                 // Remove the default media type
                 request.Content.Headers.ContentType = null;
                 // Overwrite content header to prevent being plain/charset
-                request.Content.Headers.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded;v=2.0");
+                request.Content.Headers.TryAddWithoutValidation(
+                    "Content-Type",
+                    "application/x-www-form-urlencoded;v=2.0"
+                );
 
                 // Debug.Log(await FormatRequest(request));
 
@@ -77,24 +84,28 @@ namespace RobotSystem.ABB.RWS
                     {
                         string location = response.Headers.Location.ToString();
                         SubscriptionGroupId = ExtractGroupIdFromLocation(location);
-                        
+
                         // Handle WebSocket URL - add port if missing
                         WebSocketUrl = location;
-                        
+
                         // Read the response body which contains initial state data
                         string initialStateData = await response.Content.ReadAsStringAsync();
-                        
+
                         // Debug.Log($"[ABB Subscription] WebSocket URL: {WebSocketUrl}");
                         return (true, initialStateData);
                     }
                     else
                     {
-                        Debug.LogError("[ABB Subscription] No Location header in subscription response");
+                        Debug.LogError(
+                            "[ABB Subscription] No Location header in subscription response"
+                        );
                     }
                 }
                 else
                 {
-                    Debug.LogError($"[ABB Subscription] Subscription creation failed: {response.StatusCode} - {response.ReasonPhrase}");
+                    Debug.LogError(
+                        $"[ABB Subscription] Subscription creation failed: {response.StatusCode} - {response.ReasonPhrase}"
+                    );
                 }
             }
             catch (Exception e)
@@ -122,11 +133,15 @@ namespace RobotSystem.ABB.RWS
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Debug.Log($"[ABB Subscription] Subscription {SubscriptionGroupId} deleted successfully");
+                    Debug.Log(
+                        $"[ABB Subscription] Subscription {SubscriptionGroupId} deleted successfully"
+                    );
                 }
                 else
                 {
-                    Debug.LogError($"[ABB Subscription] Failed to delete subscription: {response.StatusCode} - {response.ReasonPhrase}");
+                    Debug.LogError(
+                        $"[ABB Subscription] Failed to delete subscription: {response.StatusCode} - {response.ReasonPhrase}"
+                    );
                 }
             }
             catch (Exception e)
@@ -167,6 +182,7 @@ namespace RobotSystem.ABB.RWS
 
             return null;
         }
+
         private async Task<string> FormatRequest(HttpRequestMessage request)
         {
             var msg = $"{request.Method} {request.RequestUri} HTTP/{request.Version}\n";
@@ -190,7 +206,8 @@ namespace RobotSystem.ABB.RWS
 
         private async Task<string> FormatResponse(HttpResponseMessage response)
         {
-            var msg = $"HTTP/{response.Version} {(int)response.StatusCode} {response.ReasonPhrase}\n";
+            var msg =
+                $"HTTP/{response.Version} {(int)response.StatusCode} {response.ReasonPhrase}\n";
 
             foreach (var header in response.Headers)
             {
@@ -223,3 +240,4 @@ namespace RobotSystem.ABB.RWS
         }
     }
 }
+
