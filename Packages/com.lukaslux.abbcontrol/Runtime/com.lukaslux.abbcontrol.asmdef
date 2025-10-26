@@ -1,6 +1,6 @@
 {
     "name": "com.lukaslux.abbcontrol",
-    "rootNamespace": "",
+    "rootNamespace": "abbcontrol",
     "references": [
     "com.preliy.flange", "com.endel.nativewebsocket"
     ],

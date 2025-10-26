@@ -1,13 +1,27 @@
 {
   "dependencies": {
+    "com.endel.nativewebsocket": {
+      "version": "https://github.com/endel/NativeWebSocket.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "1d8b49b3fee41c09a98141f1f1a5e4db47e14229"
+    },
     "com.lukaslux.abbcontrol": {
       "version": "file:com.lukaslux.abbcontrol",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.preliy.flange": "1.0.11",
-        "com.endel.nativewebsockets": "1.1.15"
+        "com.endel.nativewebsocket": "1.1.5"
       }
+    },
+    "com.preliy.flange": {
+      "version": "https://github.com/Preliy/Flange.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "34040b32179a1eaa6655731511bc637b560ca6a8"
     },
     "com.unity.ai.navigation": {
       "version": "2.0.8",
