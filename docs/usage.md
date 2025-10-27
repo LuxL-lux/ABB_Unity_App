@@ -10,8 +10,6 @@ Before you begin, ensure you have met the following requirements:
 - **Preliy Flange Package**: The visualization of the robot is based on the Preliy Flange package. Make sure you have it installed in your project. To use the example, make sure its included locally inside packages as is per default.
 - **ABB Robot Controller**: An IRC5 or OmniCore controller with RobotWare 6.0 or later.
 
-For detailed installation instructions, please refer to the [Installation & Setup Guide](installation-setup.md).
-
 ## Core Components Setup
 
 ### RobotManager
