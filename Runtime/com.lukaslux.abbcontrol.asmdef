@@ -1,0 +1,16 @@
+{
+    "name": "com.lukaslux.abbcontrol",
+    "rootNamespace": "LukasLux.ABBControl",
+    "references": [
+    "Preliy.Flange", "endel.nativewebsocket"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
