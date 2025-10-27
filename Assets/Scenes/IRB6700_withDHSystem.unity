@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6431373}
   - component: {fileID: 6431375}
-  - component: {fileID: 6431374}
+  - component: {fileID: 6431376}
   m_Layer: 0
   m_Name: StorageIn
   m_TagString: Environment
@@ -159,26 +159,6 @@ Transform:
   - {fileID: 64830560}
   m_Father: {fileID: 7855338788870070611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6431374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6431372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 838b346bd4b38d349a759d7cb965d2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stationName: StorageIn
-  stationIndex: 0
-  stationColor: {r: 0, g: 0, b: 1, a: 1}
-  partDetectionLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  detectionDelay: 0.1
-  autoConfigureForProcessFlow: 1
 --- !u!65 &6431375
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -200,6 +180,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6431376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6431372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ed9c85a05c44e83be89991b8534225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Station
+  stationName: 
+  stationIndex: 0
+  stationColor: {r: 0, g: 0, b: 1, a: 1}
+  partDetectionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  autoConfigureForProcessFlow: 1
 --- !u!1 &21833621
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +213,7 @@ GameObject:
   - component: {fileID: 21833627}
   - component: {fileID: 21833626}
   - component: {fileID: 21833625}
+  - component: {fileID: 21833628}
   m_Layer: 0
   m_Name: CylinderHead (7)
   m_TagString: Untagged
@@ -353,6 +353,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0050800005, y: 0.0016510005, z: 0.0008573003}
   m_Center: {x: 0.00012700004, y: 0, z: -0.00020635007}
+--- !u!114 &21833628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21833621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 
+  partName: 
+  partType: 
+  requiredStationSequence: []
+  enforceSequence: 1
+  allowSkipStations: 0
+  currentStation: {fileID: 0}
 --- !u!1 &64830559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,6 +1165,7 @@ GameObject:
   - component: {fileID: 159202507}
   - component: {fileID: 159202506}
   - component: {fileID: 159202505}
+  - component: {fileID: 159202508}
   m_Layer: 0
   m_Name: CylinderHead (3)
   m_TagString: Untagged
@@ -1285,6 +1305,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &159202508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159202501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 1
+  partName: Part1
+  partType: 
+  requiredStationSequence:
+  - {fileID: 6431376}
+  - {fileID: 5256131186589745744}
+  - {fileID: 2020998243}
+  enforceSequence: 0
+  allowSkipStations: 0
+  currentStation: {fileID: 6431376}
 --- !u!1 &177135821
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,6 +1379,7 @@ GameObject:
   - component: {fileID: 195669206}
   - component: {fileID: 195669205}
   - component: {fileID: 195669204}
+  - component: {fileID: 195669207}
   m_Layer: 0
   m_Name: CylinderHead (4)
   m_TagString: Untagged
@@ -1476,6 +1519,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0050800005, y: 0.0016510005, z: 0.0008573003}
   m_Center: {x: 0.00012700004, y: 0, z: -0.00020635007}
+--- !u!114 &195669207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195669200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 
+  partName: 
+  partType: 
+  requiredStationSequence: []
+  enforceSequence: 1
+  allowSkipStations: 0
+  currentStation: {fileID: 0}
 --- !u!1 &235171660
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,6 +1663,7 @@ GameObject:
   - component: {fileID: 244789834}
   - component: {fileID: 244789833}
   - component: {fileID: 244789832}
+  - component: {fileID: 244789837}
   m_Layer: 0
   m_Name: CylinderHead (11)
   m_TagString: Untagged
@@ -1740,6 +1803,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244789830}
   m_Mesh: {fileID: 4394420077881190621, guid: 1f70a8e4859736f46a06d2286b1302a9, type: 3}
+--- !u!114 &244789837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244789830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 
+  partName: 
+  partType: 
+  requiredStationSequence: []
+  enforceSequence: 1
+  allowSkipStations: 0
+  currentStation: {fileID: 0}
 --- !u!1 &251786475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,6 +1984,7 @@ GameObject:
   - component: {fileID: 451161920}
   - component: {fileID: 451161919}
   - component: {fileID: 451161918}
+  - component: {fileID: 451161923}
   m_Layer: 0
   m_Name: CylinderHead (10)
   m_TagString: Untagged
@@ -2041,6 +2124,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451161916}
   m_Mesh: {fileID: 4394420077881190621, guid: 1f70a8e4859736f46a06d2286b1302a9, type: 3}
+--- !u!114 &451161923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451161916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 
+  partName: 
+  partType: 
+  requiredStationSequence: []
+  enforceSequence: 1
+  allowSkipStations: 0
+  currentStation: {fileID: 0}
 --- !u!1 &494548043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3406,7 +3508,7 @@ GameObject:
   - component: {fileID: 1273840125}
   - component: {fileID: 1273840124}
   - component: {fileID: 1273840123}
-  - component: {fileID: 1273840128}
+  - component: {fileID: 1273840129}
   m_Layer: 0
   m_Name: CylinderHead (8)
   m_TagString: Untagged
@@ -3546,7 +3648,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1273840121}
   m_Mesh: {fileID: 4394420077881190621, guid: 1f70a8e4859736f46a06d2286b1302a9, type: 3}
---- !u!114 &1273840128
+--- !u!114 &1273840129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3555,18 +3657,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1273840121}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9a1b0e9fda90b648ae4f11444c9af2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  partId: 1
-  partName: CylinderHead1
-  partType: WorkObj
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 2
+  partName: Part2
+  partType: 
   requiredStationSequence:
-  - {fileID: 6431374}
-  - {fileID: 2020998241}
+  - {fileID: 6431376}
+  - {fileID: 5256131186589745744}
+  - {fileID: 2020998243}
   enforceSequence: 1
   allowSkipStations: 0
-  currentStation: {fileID: 6431374}
+  currentStation: {fileID: 6431376}
 --- !u!1 &1278268346
 GameObject:
   m_ObjectHideFlags: 0
@@ -4104,7 +4207,7 @@ GameObject:
   - component: {fileID: 1333057245}
   - component: {fileID: 1333057244}
   - component: {fileID: 1333057243}
-  - component: {fileID: 1333057246}
+  - component: {fileID: 1333057247}
   m_Layer: 0
   m_Name: CylinderHead (5)
   m_TagString: Untagged
@@ -4244,7 +4347,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0050800005, y: 0.0016510005, z: 0.0008573003}
   m_Center: {x: 0.00012700004, y: 0, z: -0.00020635007}
---- !u!114 &1333057246
+--- !u!114 &1333057247
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4253,19 +4356,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1333057239}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9a1b0e9fda90b648ae4f11444c9af2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  partId: 2
-  partName: CylinderHead
-  partType: WorkObj
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 4
+  partName: Part4
+  partType: 
   requiredStationSequence:
-  - {fileID: 6431374}
-  - {fileID: 5256131186589745742}
-  - {fileID: 2020998241}
+  - {fileID: 6431376}
+  - {fileID: 5256131186589745744}
+  - {fileID: 2020998243}
   enforceSequence: 1
   allowSkipStations: 0
-  currentStation: {fileID: 6431374}
+  currentStation: {fileID: 6431376}
 --- !u!1 &1391985189
 GameObject:
   m_ObjectHideFlags: 0
@@ -4613,6 +4716,7 @@ GameObject:
   - component: {fileID: 1616144568}
   - component: {fileID: 1616144567}
   - component: {fileID: 1616144566}
+  - component: {fileID: 1616144571}
   m_Layer: 0
   m_Name: CylinderHead (12)
   m_TagString: Untagged
@@ -4752,6 +4856,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616144564}
   m_Mesh: {fileID: 4394420077881190621, guid: 1f70a8e4859736f46a06d2286b1302a9, type: 3}
+--- !u!114 &1616144571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616144564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 
+  partName: 
+  partType: 
+  requiredStationSequence: []
+  enforceSequence: 1
+  allowSkipStations: 0
+  currentStation: {fileID: 0}
 --- !u!1 &1643349140
 GameObject:
   m_ObjectHideFlags: 0
@@ -4766,6 +4889,7 @@ GameObject:
   - component: {fileID: 1643349144}
   - component: {fileID: 1643349146}
   - component: {fileID: 1643349145}
+  - component: {fileID: 1643349147}
   m_Layer: 0
   m_Name: CylinderHead (6)
   m_TagString: Untagged
@@ -4905,6 +5029,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0050800005, y: 0.0016510005, z: 0.0008573003}
   m_Center: {x: 0.00012700004, y: 0, z: -0.00020635007}
+--- !u!114 &1643349147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643349140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 
+  partName: 
+  partType: 
+  requiredStationSequence: []
+  enforceSequence: 1
+  allowSkipStations: 0
+  currentStation: {fileID: 0}
 --- !u!1 &1675672432
 GameObject:
   m_ObjectHideFlags: 0
@@ -5322,6 +5465,7 @@ GameObject:
   - component: {fileID: 1883970171}
   - component: {fileID: 1883970170}
   - component: {fileID: 1883970169}
+  - component: {fileID: 1883970174}
   m_Layer: 0
   m_Name: CylinderHead (9)
   m_TagString: Untagged
@@ -5461,6 +5605,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883970167}
   m_Mesh: {fileID: 4394420077881190621, guid: 1f70a8e4859736f46a06d2286b1302a9, type: 3}
+--- !u!114 &1883970174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883970167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd0c00b0bcd64e84a2b9484328164ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Part
+  partId: 3
+  partName: Part3
+  partType: 
+  requiredStationSequence:
+  - {fileID: 6431376}
+  - {fileID: 5256131186589745744}
+  - {fileID: 2020998243}
+  enforceSequence: 1
+  allowSkipStations: 0
+  currentStation: {fileID: 6431376}
 --- !u!1 &1990799534
 GameObject:
   m_ObjectHideFlags: 0
@@ -5693,7 +5859,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2020998240}
   - component: {fileID: 2020998242}
-  - component: {fileID: 2020998241}
+  - component: {fileID: 2020998243}
   m_Layer: 0
   m_Name: StorageOut
   m_TagString: Environment
@@ -5723,26 +5889,6 @@ Transform:
   - {fileID: 988191224}
   m_Father: {fileID: 7855338788870070611}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
---- !u!114 &2020998241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2020998239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 838b346bd4b38d349a759d7cb965d2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stationName: StorageOut
-  stationIndex: 2
-  stationColor: {r: 0, g: 0, b: 1, a: 1}
-  partDetectionLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  detectionDelay: 0.1
-  autoConfigureForProcessFlow: 1
 --- !u!65 &2020998242
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5764,6 +5910,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2020998243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020998239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ed9c85a05c44e83be89991b8534225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Station
+  stationName: 
+  stationIndex: 0
+  stationColor: {r: 0, g: 0, b: 1, a: 1}
+  partDetectionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  autoConfigureForProcessFlow: 1
 --- !u!1 &2044863722
 GameObject:
   m_ObjectHideFlags: 0
@@ -7677,15 +7842,15 @@ GameObject:
   - component: {fileID: 8862533932727204979}
   - component: {fileID: 8862533932727204976}
   - component: {fileID: 1289395368}
-  - component: {fileID: 8862533932727204972}
-  - component: {fileID: 8862533932727204974}
-  - component: {fileID: 8862533932727204975}
-  - component: {fileID: 8862533932727204977}
-  - component: {fileID: 8862533932727204978}
-  - component: {fileID: 8862533932727204980}
-  - component: {fileID: 8862533932727204981}
+  - component: {fileID: 8862533932727204988}
+  - component: {fileID: 8862533932727204987}
+  - component: {fileID: 8862533932727204986}
+  - component: {fileID: 8862533932727204985}
+  - component: {fileID: 8862533932727204984}
   - component: {fileID: 8862533932727204983}
   - component: {fileID: 8862533932727204982}
+  - component: {fileID: 8862533932727204981}
+  - component: {fileID: 8862533932727204980}
   m_Layer: 0
   m_Name: ABB IRB 6700 235
   m_TagString: Untagged
@@ -12644,7 +12809,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5256131186589745741}
   - component: {fileID: 5256131186589745743}
-  - component: {fileID: 5256131186589745742}
+  - component: {fileID: 5256131186589745744}
   m_Layer: 0
   m_Name: UMC-750_Reboot_SS_PP_CT_HSK_STEP_2021-06
   m_TagString: Machine
@@ -13178,26 +13343,6 @@ Transform:
   - {fileID: 108536146}
   m_Father: {fileID: 7855338788870070611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
---- !u!114 &5256131186589745742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4880309747929618679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 838b346bd4b38d349a759d7cb965d2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stationName: Machine
-  stationIndex: 1
-  stationColor: {r: 0, g: 0, b: 1, a: 1}
-  partDetectionLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  detectionDelay: 0.1
-  autoConfigureForProcessFlow: 1
 --- !u!65 &5256131186589745743
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13219,6 +13364,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.5, z: 1.2}
   m_Center: {x: 0, y: -0.2, z: -0.7}
+--- !u!114 &5256131186589745744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4880309747929618679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ed9c85a05c44e83be89991b8534225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.Station
+  stationName: 
+  stationIndex: 0
+  stationColor: {r: 0, g: 0, b: 1, a: 1}
+  partDetectionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  autoConfigureForProcessFlow: 1
 --- !u!4 &5267697418586330323
 Transform:
   m_ObjectHideFlags: 0
@@ -17357,93 +17521,6 @@ Transform:
   - {fileID: 2337893159674458594}
   m_Father: {fileID: 4602463413692834493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8862533932727204972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208597800256411322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c5587906f3ddcd41a71cefd9315f4c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  robotIP: 127.0.0.1
-  username: Default User
-  password: robotics
-  enableMotionData: 1
-  enableMetadata: 1
-  motionPollingIntervalMs: 50
-  robName: ROB_1
-  startConnection: 1
-  stopConnection: 0
-  robotState:
-    robotType: 
-    robotIP: 
-    isRunning: 0
-    motorState: unknown
-    executionCycle: 
-    currentModule: 
-    currentRoutine: 
-    currentLine: 0
-    currentColumn: 0
-    jointAngles:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    jointVelocities:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    hasValidJointData: 0
-    motionUpdateFrequencyHz: 0
-    controllerState: 
---- !u!114 &8862533932727204974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208597800256411322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d30097af4eb53ae449415245a9e142f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  connectorComponent: {fileID: 8862533932727204972}
-  visualizationComponents:
-  - {fileID: 8862533932727204975}
-  isConnected: 0
-  currentProgram: 
-  gripperOpen: 0
-  currentJointAngles:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  motionUpdateFreq: 0
---- !u!114 &8862533932727204975
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208597800256411322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad84b2467c663bd4fbc94fbc71676ce2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerComponent: {fileID: 1289395368}
 --- !u!114 &8862533932727204976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17500,50 +17577,6 @@ MonoBehaviour:
     _linearAcc: 0
     _rotationSpeed: 0
     _rotationAcc: 0
---- !u!114 &8862533932727204977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208597800256411322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efebf88d7d8f0104888d3b1316ed9388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  safetyMonitorComponents:
-  - {fileID: 8862533932727204978}
-  - {fileID: 8862533932727204980}
-  - {fileID: 8862533932727204981}
-  - {fileID: 8862533932727204983}
-  enableJsonLogging: 1
-  logOnlyWhenProgramRunning: 1
-  logDirectory: SafetyLogs
-  minimumLogLevel: 1
---- !u!114 &8862533932727204978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208597800256411322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f40977db79a2da1419ac2bf8c1bfbc7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collisionLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  excludeProcessFlowLayer: 1
-  useExistingCollidersOnly: 0
-  cooldownTime: 1
-  criticalCollisionTags:
-  - Obstacles
-  robotLinks: []
-  autoFindRobotParts: 1
-  debugLogging: 0
 --- !u!54 &8862533932727204979
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17580,17 +17613,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1208597800256411322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8519458bf5c52294c94d9becdd012b2e, type: 3}
+  m_Script: {fileID: 11500000, guid: afb9fc40956eb45978053a2d65c3b7f3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  wristSingularityThreshold: 5
-  elbowSingularityThreshold: 5
-  shoulderSingularityThreshold: 0.1
-  checkWristSingularity: 1
-  checkShoulderSingularity: 1
-  checkElbowSingularity: 1
-  autoFindFrames: 1
-  debugLogging: 1
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.RapidTargetGenerator
+  robot6R: {fileID: 8862533932727204976}
+  autoFindRobot: 1
+  enableAutoUpdate: 1
+  currentJoinTarget: '[[-45.00,-45.00,35.00,0.00,10.00,0.00],[9E9,9E9,9E9,9E9,9E9,9E9]]'
+  currentRobTarget: '[[599.09,599.09,1984.87],[-0.270598,0.653282,0.270598,0.653281],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]]'
+  logUpdates: 0
 --- !u!114 &8862533932727204981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17600,17 +17631,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 1208597800256411322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f886fb80a12ce454a9dcdc9661fcbdb2, type: 3}
+  m_Script: {fileID: 11500000, guid: a47a42e65ec1a4947b48fe8c3399b640, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  monitorAllParts: 1
-  specificParts: []
-  autoDiscoverParts: 1
-  autoDiscoverStations: 1
-  treatSkippedStationsAsWarning: 1
-  treatWrongSequenceAsCritical: 1
-  violationCooldownTime: 1
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Safety.JointDynamicsMonitor
+  isActive: 1
+  monitorName: Joint Dynamics Monitor
+  useFlangeLimits: 1
+  limitSafetyFactor: 0.8
+  maxJointAngles:
+  - 170
+  - 85
+  - 70
+  - 300
+  - 130
+  - 360
+  minJointAngles:
+  - -170
+  - -65
+  - -180
+  - -300
+  - -130
+  - -360
+  maxJointVelocities:
+  - 110
+  - 110
+  - 110
+  - 190
+  - 150
+  - 210
+  maxJointAccelerations:
+  - 800
+  - 800
+  - 800
+  - 1500
+  - 1200
+  - 1800
+  checkEveryNthUpdate: 2
+  historyBufferSize: 15
+  enableSmoothing: 1
   debugLogging: 0
+  smoothingAlpha: 0.2
+  smoothingWindowSize: 8
+  velocityOutlierThreshold: 0.2
+  accelerationOutlierThreshold: 0.15
 --- !u!114 &8862533932727204982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17620,16 +17683,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1208597800256411322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 950f24aae7ddd9d409082e217c83948c, type: 3}
+  m_Script: {fileID: 11500000, guid: f879f9718c7764a148203919a4b82051, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  robot6R: {fileID: 8862533932727204976}
-  autoFindRobot: 1
-  enableAutoUpdate: 1
-  currentJoinTarget: '[[-45.00,-45.00,35.00,0.00,10.00,0.00],[9E9,9E9,9E9,9E9,9E9,9E9]]'
-  currentRobTarget: '[[599.09,599.09,1984.87],[-0.270598,0.653282,0.270598,0.653281],[0,0,0,0],[9E9,9E9,9E9,9E9,9E9,9E9]]'
-  showInInspector: 1
-  logUpdates: 0
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Safety.ProcessFlowMonitor
+  monitorAllParts: 1
+  specificParts: []
+  autoDiscoverParts: 1
+  autoDiscoverStations: 1
+  treatSkippedStationsAsWarning: 1
+  treatWrongSequenceAsCritical: 1
+  violationCooldownTime: 1
+  debugLogging: 0
 --- !u!114 &8862533932727204983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17639,51 +17703,144 @@ MonoBehaviour:
   m_GameObject: {fileID: 1208597800256411322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a654281a5800a8b4a84f4f1dc50f2c90, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e8b82500350742378dcd956d6985229, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 1
-  monitorName: Joint Dynamics Monitor
-  useFlangeLimits: 1
-  limitSafetyFactor: 1
-  maxJointAngles:
-  - 180
-  - 110
-  - 60
-  - 200
-  - 120
-  - 400
-  minJointAngles:
-  - -180
-  - -110
-  - -60
-  - -200
-  - -120
-  - -400
-  maxJointVelocities:
-  - 150
-  - 150
-  - 180
-  - 320
-  - 400
-  - 460
-  maxJointAccelerations:
-  - 1000
-  - 1000
-  - 1200
-  - 2000
-  - 2500
-  - 3000
-  onlyMonitorWhenPartAttached: 1
-  partDetectionRadius: 0.2
-  checkEveryNthUpdate: 2
-  historyBufferSize: 15
-  enableSmoothing: 1
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Safety.SingularityDetectionMonitor
+  wristSingularityThreshold: 5
+  elbowSingularityThreshold: 5
+  shoulderSingularityThreshold: 0.1
+  checkWristSingularity: 1
+  checkShoulderSingularity: 1
+  checkElbowSingularity: 1
+  autoFindFrames: 1
   debugLogging: 0
-  smoothingAlpha: 0.2
-  smoothingWindowSize: 8
-  velocityOutlierThreshold: 0.2
-  accelerationOutlierThreshold: 0.15
+--- !u!114 &8862533932727204984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208597800256411322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb4614e967e048679cdfae35b8bbb5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Safety.CollisionDetectionMonitor
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  excludeProcessFlowLayer: 1
+  useExistingCollidersOnly: 0
+  cooldownTime: 1
+  criticalCollisionTags:
+  - Machine
+  - Obstacles
+  robotLinks: []
+  autoFindRobotParts: 1
+  debugLogging: 0
+--- !u!114 &8862533932727204985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208597800256411322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20787743571f04fa5a92776a2a975a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.RobotSafetyManager
+  safetyMonitorComponents: []
+  enableJsonLogging: 1
+  logOnlyWhenProgramRunning: 1
+  logDirectory: Logs
+  minimumLogLevel: 2
+--- !u!114 &8862533932727204986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208597800256411322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb12e844b5944e5187acff360a9293a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.ABB.ABBFlangeAdapter
+  controllerComponent: {fileID: 1289395368}
+--- !u!114 &8862533932727204987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208597800256411322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ceca8d4387243a587954b949849a77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.RobotManager
+  connectorComponent: {fileID: 0}
+  visualizationComponents: []
+  isConnected: 0
+  currentProgram: 
+  gripperOpen: 0
+  currentJointAngles:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  motionUpdateFreq: 0
+--- !u!114 &8862533932727204988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208597800256411322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc376b7beca6340c3806edb2e41a7928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.ABB.RWS.ABBRWSConnectionClient
+  robotIP: 127.0.0.1
+  username: Default User
+  password: robotics
+  enableMotionData: 1
+  enableMetadata: 0
+  motionPollingIntervalMs: 50
+  robName: ROB_1
+  startConnection: 0
+  stopConnection: 0
+  robotState:
+    robotType: 
+    robotIP: 
+    isRunning: 0
+    motorState: unknown
+    executionCycle: 
+    currentModule: 
+    currentRoutine: 
+    currentLine: 0
+    currentColumn: 0
+    jointAngles:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    jointVelocities:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    hasValidJointData: 0
+    motionUpdateFrequencyHz: 0
+    controllerState: 
 --- !u!33 &8867322562868257563
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -18110,17 +18267,17 @@ MonoBehaviour:
   _showName: 0
   _offset:
     e00: 1
-    e01: 5.0977744e-10
-    e02: -0.0000000022195212
-    e03: 0.00000006043199
-    e10: 0.0000000014539379
+    e01: -1.1426273e-14
+    e02: -1.36236e-21
+    e03: 0.00000018687062
+    e10: 1.1425865e-14
     e11: 1
-    e12: 0.00000011854611
-    e13: 0.31669977
-    e20: -0.0000000013706664
-    e21: 0.00000002145263
-    e22: 0.99999994
-    e23: 0.000000085199105
+    e12: -5.963112e-19
+    e13: 0.31669965
+    e20: 7.423222e-21
+    e21: 4.3029274e-19
+    e22: 1
+    e23: -0.0000003489001
     e30: 0
     e31: 0
     e32: 0

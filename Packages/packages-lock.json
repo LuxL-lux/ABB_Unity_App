@@ -17,11 +17,10 @@
       }
     },
     "com.preliy.flange": {
-      "version": "https://github.com/Preliy/Flange.git#upm",
+      "version": "file:com.preliy.flange",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "34040b32179a1eaa6655731511bc637b560ca6a8"
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.unity.ai.navigation": {
       "version": "2.0.8",
