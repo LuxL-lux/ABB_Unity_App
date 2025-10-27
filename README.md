@@ -17,6 +17,3 @@ For more details, please refer to the full documentation in the `docs` folder.
 - **[Overview](docs/index.md)**
 - **[Usage Guide](docs/usage.md)**
 - **[API Reference](docs/api-reference.md)**
-- **[Installation & Setup Guide](docs/installation-setup.md)**
-- **[Implemented Components](docs/implemented-components.md)**
-- **[Protocols & Data Formats](docs/protocols-data-formats.md)**
