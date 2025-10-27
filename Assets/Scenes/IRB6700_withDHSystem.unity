@@ -7842,8 +7842,9 @@ GameObject:
   - component: {fileID: 8862533932727204979}
   - component: {fileID: 8862533932727204976}
   - component: {fileID: 1289395368}
-  - component: {fileID: 8862533932727204988}
+  - component: {fileID: 8862533932727204989}
   - component: {fileID: 8862533932727204987}
+  - component: {fileID: 8862533932727204988}
   - component: {fileID: 8862533932727204986}
   - component: {fileID: 8862533932727204985}
   - component: {fileID: 8862533932727204984}
@@ -17780,8 +17781,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ceca8d4387243a587954b949849a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.Core.RobotManager
-  connectorComponent: {fileID: 0}
-  visualizationComponents: []
+  connectorComponent: {fileID: 8862533932727204988}
+  visualizationComponents:
+  - {fileID: 8862533932727204989}
   isConnected: 0
   currentProgram: 
   gripperOpen: 0
@@ -17809,7 +17811,7 @@ MonoBehaviour:
   username: Default User
   password: robotics
   enableMotionData: 1
-  enableMetadata: 0
+  enableMetadata: 1
   motionPollingIntervalMs: 50
   robName: ROB_1
   startConnection: 0
@@ -17841,6 +17843,19 @@ MonoBehaviour:
     hasValidJointData: 0
     motionUpdateFrequencyHz: 0
     controllerState: 
+--- !u!114 &8862533932727204989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208597800256411322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb12e844b5944e5187acff360a9293a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.lukaslux.abbcontrol::RobotSystem.ABB.ABBFlangeAdapter
+  controllerComponent: {fileID: 1289395368}
 --- !u!33 &8867322562868257563
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -18267,17 +18282,17 @@ MonoBehaviour:
   _showName: 0
   _offset:
     e00: 1
-    e01: -6.712077e-14
-    e02: -1.7763255e-14
-    e03: 0.00000017355302
-    e10: -1.7372529e-14
-    e11: 0.9999999
-    e12: 1.1805557e-12
-    e13: 0.31669968
-    e20: 1.2252695e-14
-    e21: -1.1536327e-12
-    e22: 0.99999994
-    e23: -0.00000016260516
+    e01: -1.1426273e-14
+    e02: -1.36236e-21
+    e03: 0.00000018687062
+    e10: 1.1425865e-14
+    e11: 1
+    e12: -5.963112e-19
+    e13: 0.31669965
+    e20: 7.423222e-21
+    e21: 4.3029274e-19
+    e22: 1
+    e23: -0.0000003489001
     e30: 0
     e31: 0
     e32: 0
