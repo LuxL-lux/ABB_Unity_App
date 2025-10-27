@@ -7,9 +7,8 @@ This guide provides detailed instructions on how to set up and configure the dif
 Before you begin, ensure you have met the following requirements:
 
 - **Unity Editor**: 2023.2.20f1 or later (Unity 6000.0.32f1 recommended).
-- **Preliy Flange Package**: The visualization of the robot is based on the Preliy Flange package. Make sure you have it installed in your project.
+- **Preliy Flange Package**: The visualization of the robot is based on the Preliy Flange package. Make sure you have it installed in your project. To use the example, make sure its included locally inside packages as is per default.
 - **ABB Robot Controller**: An IRC5 or OmniCore controller with RobotWare 6.0 or later.
-- **Robot Web Services (RWS)**: RWS 1.0+ must be installed and enabled on the controller.
 
 For detailed installation instructions, please refer to the [Installation & Setup Guide](installation-setup.md).
 
@@ -23,7 +22,11 @@ The `RobotManager` component is the central coordinator of the robot system. It 
 2. Add the `RobotManager` component to the GameObject.
 3. In the Inspector, you will see the following properties:
    - **Connector Component**: This is a reference to the component that implements the `IRobotConnector` interface. In this case, it should be the `ABBRWSConnectionClient` component.
-   - **Visualization Components**: This is a list of components that implement the `IRobotVisualization` interface. You can add the `ABBFlangeAdapter` here.
+   - **Visualization Components**: This is a list of components that implement the `IRobotVisualization` interface. You can add the `ABBFlangeAdapter` here, to use the flange framework to specify a robot, its joints and movements.
+
+### Robot Model
+
+The Model of the Robot you want to visualize should be included per joint below the GameObject withe the RobotManager. Look at the example scene inside Assets/Scenes/ for an example layout of an IRB 6700 to understand the hierachy.
 
 ### Robot Connection
 

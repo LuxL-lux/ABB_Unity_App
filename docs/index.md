@@ -62,11 +62,3 @@
 │                   (IRC5 / OmniCore)                       │
 └─────────────────────────────────────────────────────────────┘
 ```
-
-## Documentation
-
-- **[Usage Guide](usage.md)**
-- **[API Reference](api-reference.md)**
-- **[Installation & Setup Guide](installation-setup.md)**
-- **[Implemented Components](implemented-components.md)**
-- **[Protocols & Data Formats](protocols-data-formats.md)**
